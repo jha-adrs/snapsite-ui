@@ -110,7 +110,7 @@ model User {
   isEmailVerified Boolean       @default(false)
   createdAt       DateTime      @default(now())
   updatedAt       DateTime
-  imageUrl        String?
+  image        String?
   isActive        Boolean       @default(true)
   organization    organization?
   token           token[]
