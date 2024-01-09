@@ -1,11 +1,11 @@
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
 import { UserAuthForm } from "../_components/user-auth-form"
 import { ModeToggle } from "@/components/mode-toggle"
+import Logo from "../_components/logo"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import HeadLine from "../_components/headline"
 
 export const metadata: Metadata = {
     title: "Authentication",
@@ -13,70 +13,57 @@ export const metadata: Metadata = {
 }
 
 export default function AuthenticationPage() {
+    // TODO: Fix , hide scrollbar
     return (
-        <>
-            <div className="hidden lg:flex">
-                <div className="w-full h-full bg-black" />
-                <ModeToggle className="absolute bottom-8 right-8" />
-            </div>
-            <div className="container relative h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+        <div className="grid grid-cols-1 lg:grid-cols-5 w-screen h-screen no-scrollbar">
+            <div className=" hidden lg:flex lg:col-span-3 ">
 
-                <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
-                    <div className="absolute inset-0 bg-zinc-900" />
-                    <div className="relative z-20 flex items-center text-lg font-medium">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="mr-2 h-6 w-6"
-                        >
-                            <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-                        </svg>
-                        Snap Site
-                    </div>
-                    <div className="relative z-20 mt-auto">
-                        <blockquote className="space-y-2">
-                            <p className="text-lg">
-                                &ldquo;Easy to use website history tool&rdquo;
-                            </p>
-                        </blockquote>
-                    </div>
-                </div>
-                <div className="lg:p-8">
-                    <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-                        <div className="flex flex-col space-y-2 text-center">
-                            <h1 className="text-2xl font-semibold tracking-tight">
-                                Get Started! 🚀
-                            </h1>
-                            <p className="text-sm text-muted-foreground">
-                                Login seamlessly with your Google account.
-                            </p>
-                        </div>
-                        <UserAuthForm />
-                        <p className="px-8 text-center text-sm text-muted-foreground">
-                            By clicking continue, you agree to our{" "}
-                            <Link
-                                href="/terms"
-                                className="underline underline-offset-4 hover:text-primary"
-                            >
-                                Terms of Service
-                            </Link>{" "}
-                            and{" "}
-                            <Link
-                                href="/privacy"
-                                className="underline underline-offset-4 hover:text-primary"
-                            >
-                                Privacy Policy
-                            </Link>
-                            .
-                        </p>
-                    </div>
+                <div className=" w-full h-full left-0 top-0">
+                    <HeadLine />
                 </div>
             </div>
-        </>
+            <div className="col-span-2 lg:border-l lg:border-muted-foreground">
+                <div className="absolute right-5 top-5">
+                    <ModeToggle />
+                </div>
+                <div className="flex flex-col w-full h-full items-center justify-center bg-background">
+                    <Card className=" h-auto w-[50%] lg:w-[80%] backdrop-blur-sm bg-zinc-500/10 border-none">
+                        <CardHeader className=" items-center">
+                            <CardTitle className="flex flex-col justify-center items-center">
+                                <Logo />
+                                <p className="text-3xl font-semibold mt-4">
+                                    Get Started
+                                </p>
+                            </CardTitle>
+                            <CardDescription>Sign-In to start snapping!</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <UserAuthForm />
+
+                        </CardContent>
+                        <CardFooter>
+                            <p className="px-8 text-center text-sm text-muted-foreground">
+                                By clicking continue, you agree to our{" "}
+                                <Link
+                                    href="/terms"
+                                    className="underline underline-offset-4 hover:text-primary"
+                                >
+                                    Terms of Service
+                                </Link>{" "}
+                                and{" "}
+                                <Link
+                                    href="/privacy"
+                                    className="underline underline-offset-4 hover:text-primary"
+                                >
+                                    Privacy Policy
+                                </Link>
+                                .
+                            </p>
+                        </CardFooter>
+                    </Card>
+                </div>
+            </div>
+        </div>
+
     )
 }

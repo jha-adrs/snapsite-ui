@@ -20,6 +20,7 @@ if (!envVars.success) {
     throw new Error(`Config validation error: ${envVars.error.message}`);
 }
 
+
 export const config = {
     env: envVars.data.NODE_ENV,
     port: envVars.data.PORT,
@@ -29,3 +30,4 @@ export const config = {
     googleClientId: envVars.data.GOOGLE_CLIENT_ID,
     googleClientSecret: envVars.data.GOOGLE_CLIENT_SECRET,
 };
+

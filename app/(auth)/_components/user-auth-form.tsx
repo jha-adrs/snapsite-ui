@@ -4,9 +4,6 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { Loader2 } from 'lucide-react';
-import { GitHubLogoIcon } from "@radix-ui/react-icons"
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
 import { toast } from "sonner";
@@ -26,7 +23,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             setIsLoading(false);
         }
     }
-
+    const handleMicrosoft = () => {
+        return toast.error(
+            "Microsoft login is not yet supported"
+        )
+    }
     return (
         <div className={cn("grid gap-6", className)} {...props}>
             <div className="relative">
@@ -34,7 +35,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                     <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs ">
-                    <span className="bg-background px-2 text-muted-foreground">
+                    <span className=" px-2 text-muted-foreground">
                         Preferred login methods
                     </span>
                 </div>
@@ -46,6 +47,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                     <Icons.google className="mr-2 h-4 w-4" />
                 )}{" "}
                 Google
+            </Button>
+            <Button variant="outline" type="button" disabled={isLoading || true} onClick={handleMicrosoft} >
+                {isLoading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                    <Icons.microsoft className="mr-2 h-4 w-4" />
+                )}{" "}
+                Microsoft
             </Button>
         </div>
     )
