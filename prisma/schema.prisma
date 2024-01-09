@@ -84,46 +84,31 @@ model organization {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime
-  creatorId Int      @unique(map: "Organization_creatorId_key")
+  creatorId String   @unique(map: "Organization_creatorId_key")
   user      User     @relation(fields: [creatorId], references: [id], map: "Organization_creatorId_fkey")
 }
 
-model token {
-  id          Int        @id @default(autoincrement())
-  token       String
-  type        token_type
-  expires     DateTime
-  blacklisted Boolean
-  createdAt   DateTime   @default(now())
-  userId      Int
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Token_userId_fkey")
-
-  @@index([userId], map: "Token_userId_fkey")
-}
-
 model User {
-  id              Int           @id @default(autoincrement())
-  email           String        @unique(map: "User_email_key")
+  id              String        @id @default(cuid())
   name            String?
-  password        String
-  role            user_role     @default(USER)
-  isEmailVerified Boolean       @default(false)
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime
-  image        String?
-  isActive        Boolean       @default(true)
-  organization    organization?
-  token           token[]
-  userlinkmap     userlinkmap[]
+  email           String?       @unique
+  emailVerified   DateTime?
+  image           String?
   accounts        Account[]
   sessions        Session[]
+  password        String?
+  role            user_role     @default(USER)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  organization    organization?
+  userlinkmap     userlinkmap[]
 }
 
 model userlinkmap {
   id           Int                @id @default(autoincrement())
   assignedName String?
   tags         String?
-  userId       Int
+  userId       String
   linkId       Int
   timing       userlinkmap_timing @default(WEEKLY)
   createdAt    DateTime           @default(now())
@@ -195,30 +180,30 @@ enum links_timing {
 }
 
 model Account {
-  id                 String    @id @default(cuid())
-  userId             Int
-  providerType       String
-  providerId         String
-  providerAccountId  String
-  refreshToken       String?
-  accessToken        String?
-  accessTokenExpires DateTime?
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
-  user               User      @relation(fields: [userId], references: [id])
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
-  @@unique([providerId, providerAccountId])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
   id           String   @id @default(cuid())
-  userId       Int
-  expires      DateTime
   sessionToken String   @unique
-  accessToken  String   @unique
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationRequest {
@@ -228,6 +213,14 @@ model VerificationRequest {
   expires    DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, token])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
   @@unique([identifier, token])
 }
