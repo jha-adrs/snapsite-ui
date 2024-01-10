@@ -13,7 +13,8 @@ export const authOptions: NextAuthOptions = {
         // TODO :Decide expiry and database or JWT
     },
     pages: {
-        signIn: "/auth/signin",
+        signIn: "/sign-in",
+        error: "/error",
         //signOut: "/auth/signout",
     },
     providers: [
