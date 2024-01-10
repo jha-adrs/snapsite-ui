@@ -15,6 +15,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import NotificationItem from './notification-item';
 import { Separator } from '@/components/ui/separator';
 import { useWindowSize } from 'usehooks-ts';
+import { Notification_Priority } from '@prisma/client';
 interface NotificationTabProps {
 
 }
@@ -43,10 +44,14 @@ export const NotificationTab = ({ }: NotificationTabProps) => {
                             <>
                                 <NotificationItem
                                     key={i}
-                                    title={`Notification ${i}`}
+                                    id={i}
+                                    userId="as"
+                                    message={`Notification ${i}`}
                                     description={`This is a  tracking is stopped sign in again or contact support `}
-                                    date={"2021-09-01"}
-                                    read={i % 2 === 0}
+                                    createdAt={new Date()}
+                                    readStatus={i % 2 === 0}
+                                    priority={Notification_Priority.LOW}
+                                    updatedAt={new Date()}
                                 />
                                 <Separator className="my-2" /></>
                         ))

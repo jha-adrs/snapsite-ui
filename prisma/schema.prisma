@@ -102,6 +102,7 @@ model User {
   updatedAt       DateTime      @updatedAt
   organization    organization?
   userlinkmap     userlinkmap[]
+  Notifications   Notifications[]
 }
 
 model userlinkmap {
@@ -119,6 +120,23 @@ model userlinkmap {
   @@unique([userId, linkId], map: "UserLinkMap_userId_linkId_key")
   @@index([linkId], map: "UserLinkMap_linkId_fkey")
   @@index([userId, linkId], map: "UserLinkMap_userId_linkId_idx")
+}
+
+model Notifications {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  message   String
+  description String?
+  readStatus Boolean  @default(false)
+  priority  Notification_Priority @default(MEDIUM)
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  user      User     @relation(fields: [userId], references: [id], map: "Notifications_userId_fkey")
+}
+enum Notification_Priority {
+  HIGH
+  MEDIUM
+  LOW
 }
 
 enum cron_timing {

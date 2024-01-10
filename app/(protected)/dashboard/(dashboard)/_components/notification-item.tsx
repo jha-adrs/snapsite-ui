@@ -1,40 +1,39 @@
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { cn, duration } from '@/lib/utils';
+import { Notifications } from '@prisma/client';
 import React from 'react';
-
-interface NotificationItemProps {
-    read: boolean;
-    title: string;
-    description: string;
-    date: string;
-
-}
-
 const NotificationItem = ({
-    read,
-    title,
+    id,
+    userId,
+    message,
     description,
-    date
-}: NotificationItemProps) => {
-    if (!title || !description || !date) return null;
+    readStatus,
+    priority,
+    createdAt,
+}: Notifications) => {
     return (
-        <Button variant={"ghost"} className="flex flex-row w-full h-12 my-2">
+        <Button variant={"ghost"} className="flex flex-row w-9/10 h-12 my-2 mr-2">
             <div>
-                {!read ? (
+                {!readStatus ? (
                     <div className="bg-primary mr-2 w-2 h-2 rounded-full" />
                 ) : (
-                    null
+                    <div className="bg-muted-foreground mr-2 w-2 h-2 rounded-full" />
 
                 )}
             </div>
             <div className="flex flex-col ">
-                <p className={cn(
-                    "text-md text-start",
-                    read ? "text-muted-foreground" : "text-foreground"
-                )}>
-                    {title}
-                </p>
-                <p className="text-xs text-start text-muted-foreground break-words overflow-x-clip">{description.slice(0, 50)}</p>
+                <div className="inline-flex justify-between">
+                    <p className={cn(
+                        "text-md text-start",
+                        readStatus ? "text-muted-foreground" : "text-foreground"
+                    )}>
+                        {message}
+                    </p>
+                    <p className='text-xs text-muted-foreground'>
+                        {duration(createdAt)}
+                    </p>
+                </div>
+                <p className="text-xs text-start text-muted-foreground break-words overflow-x-clip">{description?.slice(0, 50)}</p>
             </div>
 
         </Button>
