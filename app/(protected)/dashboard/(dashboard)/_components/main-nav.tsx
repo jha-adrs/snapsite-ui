@@ -6,6 +6,9 @@ import Logo from './logo';
 import { ModeToggle } from '@/components/mode-toggle';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { AreaChartIcon, HistoryIcon, HomeIcon, LibraryBigIcon, SettingsIcon } from 'lucide-react';
+import { NavItems } from './nav-items';
+import { NotificationTab } from './notification-tab';
 
 
 interface DashboardProps {
@@ -13,47 +16,19 @@ interface DashboardProps {
 }
 
 const MainNav = ({ }: DashboardProps) => {
-
+    // TODO: Add support for mobile view
     return (
-        <div className="flex flex-row border-b">
+        <div className="flex flex-row border-b h-16">
 
-            <div className="flex h-16 items-center px-4">
-                <Logo className="" />
+            <div className="hidden lg:flex  items-center px-4">
+                <Logo/>
             </div>
-
-
-            <nav
-                className={cn("flex items-center space-x-4 lg:space-x-6")}
-
-            >
-                <Link
-                    href="/examples/dashboard"
-                    className="text-sm font-medium transition-colors hover:text-primary"
-                >
-                    Overview
-                </Link>
-                <Link
-                    href="/examples/dashboard"
-                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-                >
-                    Customers
-                </Link>
-                <Link
-                    href="/examples/dashboard"
-                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-                >
-                    Products
-                </Link>
-                <Link
-                    href="/examples/dashboard"
-                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-                >
-                    Settings
-                </Link>
-            </nav>
+            
+            <NavItems/>
 
             <div className="ml-auto mr-2 flex items-center space-x-4">
                 <Search />
+                <NotificationTab />
                 <UserNav />
                 <ModeToggle />
             </div>
