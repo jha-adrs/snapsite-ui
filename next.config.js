@@ -2,7 +2,10 @@
 const nextConfig = {}
 
 nextConfig.images = {
-    domains: ['utfs.io']
+    domains: [
+        'utfs.io',
+        'avatar.iran.liara.run'
+    ]
 }
 
 module.exports = nextConfig
