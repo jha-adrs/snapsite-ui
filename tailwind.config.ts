@@ -71,6 +71,7 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "border-pulse": "border-pulse 2s ease-out infinite",
       },
       fontFamily: {
         sans: ["Inter", ...fontFamily.sans],

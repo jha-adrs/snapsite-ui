@@ -16,7 +16,7 @@ export const NavItems = ({ }: NavItemProps) => {
     return (
 
         <nav
-            className={cn("flex items-center space-x-4 ml-4 lg:space-x-6")}
+            className={cn("flex items-center space-x-4 mx-4 lg:space-x-6")}
 
         >
             <Link

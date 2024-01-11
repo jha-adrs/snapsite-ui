@@ -128,14 +128,13 @@ model Notifications {
   message   String
   description String?
   readStatus Boolean  @default(false)
-  priority  Notification_Priority @default(MEDIUM)
+  priority  Notification_Priority @default(LOW)
   createdAt DateTime @default(now())
   updatedAt DateTime
   user      User     @relation(fields: [userId], references: [id], map: "Notifications_userId_fkey")
 }
 enum Notification_Priority {
   HIGH
-  MEDIUM
   LOW
 }
 

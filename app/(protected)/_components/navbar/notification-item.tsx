@@ -12,7 +12,8 @@ const NotificationItem = ({
     createdAt,
 }: Notifications) => {
     return (
-        <Button variant={"ghost"} className="flex flex-row w-9/10 h-12 my-2 mr-2">
+        <Button variant={"ghost"} className={cn("flex flex-row w-9/10 h-12 my-2 mr-1",
+        )}>
             <div>
                 {!readStatus ? (
                     <div className="bg-primary mr-2 w-2 h-2 rounded-full" />
