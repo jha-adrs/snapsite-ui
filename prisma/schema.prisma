@@ -11,7 +11,7 @@ model cron {
   id        Int         @id @default(autoincrement())
   timing    cron_timing @default(WEEKLY)
   createdAt DateTime    @default(now())
-  updatedAt DateTime
+  updatedAt DateTime    @updatedAt
 }
 
 model cronhistory {
@@ -23,7 +23,7 @@ model cronhistory {
   endTime       DateTime?
   failureReason String?
   createdAt     DateTime           @default(now())
-  updatedAt     DateTime
+  updatedAt     DateTime           @updatedAt
 }
 
 model domains {
@@ -33,10 +33,10 @@ model domains {
   isActive           Boolean                    @default(false)
   status             domains_status             @default(NOT_CONFIGURED)
   storeImages        Boolean                    @default(false)
-  priceElement       Json
+  priceElement       Json                       @default("{}")
   priceElementStatus domains_priceElementStatus @default(NOT_FOUND)
   createdAt          DateTime                   @default(now())
-  updatedAt          DateTime
+  updatedAt          DateTime                   @updatedAt
   links              links[]
 
   @@index([domain], map: "Domains_domain_idx")
@@ -47,7 +47,7 @@ model linkdata {
   status       linkdata_status @default(PENDING)
   images       Json
   createdAt    DateTime        @default(now())
-  updatedAt    DateTime
+  updatedAt    DateTime        @updatedAt
   failedReason String?
   hashedUrl    String
   metadata     Json
@@ -70,7 +70,7 @@ model links {
   timing           links_timing  @default(WEEKLY)
   domainId         Int
   createdAt        DateTime      @default(now())
-  updatedAt        DateTime
+  updatedAt        DateTime      @updatedAt
   domains          domains       @relation(fields: [domainId], references: [id], map: "Links_domainId_fkey")
   userlinkmap      userlinkmap[]
 
@@ -83,26 +83,26 @@ model organization {
   id        Int      @id @default(autoincrement())
   name      String
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
   creatorId String   @unique(map: "Organization_creatorId_key")
   user      User     @relation(fields: [creatorId], references: [id], map: "Organization_creatorId_fkey")
 }
 
 model User {
-  id              String        @id @default(cuid())
-  name            String?
-  email           String?       @unique
-  emailVerified   DateTime?
-  image           String?
-  accounts        Account[]
-  sessions        Session[]
-  password        String?
-  role            user_role     @default(USER)
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  organization    organization?
-  userlinkmap     userlinkmap[]
-  Notifications   Notifications[]
+  id            String          @id @default(cuid())
+  name          String?
+  email         String        @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  password      String?
+  role          user_role       @default(USER)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  organization  organization?
+  userlinkmap   userlinkmap[]
+  Notifications Notifications[]
 }
 
 model userlinkmap {
@@ -113,7 +113,7 @@ model userlinkmap {
   linkId       Int
   timing       userlinkmap_timing @default(WEEKLY)
   createdAt    DateTime           @default(now())
-  updatedAt    DateTime
+  updatedAt    DateTime           @updatedAt
   links        links              @relation(fields: [linkId], references: [id], map: "UserLinkMap_linkId_fkey")
   user         User               @relation(fields: [userId], references: [id], map: "UserLinkMap_userId_fkey")
 
@@ -123,16 +123,17 @@ model userlinkmap {
 }
 
 model Notifications {
-  id        Int      @id @default(autoincrement())
-  userId    String
-  message   String
+  id          Int                   @id @default(autoincrement())
+  userId      String
+  message     String
   description String?
-  readStatus Boolean  @default(false)
-  priority  Notification_Priority @default(LOW)
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-  user      User     @relation(fields: [userId], references: [id], map: "Notifications_userId_fkey")
+  readStatus  Boolean               @default(false)
+  priority    Notification_Priority @default(LOW)
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+  user        User                  @relation(fields: [userId], references: [id], map: "Notifications_userId_fkey")
 }
+
 enum Notification_Priority {
   HIGH
   LOW

@@ -4,3 +4,11 @@ export const constants = {
 
     }
 }
+
+export const link_tags = [
+    "Priority",
+    "Urgent",
+    "Important",
+    "Normal",
+    "Low",
+]
