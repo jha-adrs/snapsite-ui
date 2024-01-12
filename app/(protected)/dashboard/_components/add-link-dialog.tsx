@@ -47,6 +47,11 @@ export const AddLinkDialog = ({ }: AddLinkDialogProps) => {
             addLink({url:link, timing, tags, assignedName}).then((res) => {
                 if (res === true) {
                     toast.success("Link added successfully");
+                    setAssignedName("");
+                    setLink("");
+                    setTags([]);
+                    setTiming("WEEKLY");
+                    
                 } else {
                     toast.error("Failed to add link");
                 }

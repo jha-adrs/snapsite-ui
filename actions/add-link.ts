@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { getHash } from "@/lib/links";
 import logger from "@/lib/logger";
 import { links_timing } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 // Add a link to the database for the 
 
@@ -43,9 +44,11 @@ export const addLink = async ({
             id: true,
         }
     });
-    const hash = getHash(url);
     const urlObj = new URL(url);
     const domain = urlObj.hostname;
+    const params = urlObj.search
+    const urlWithoutParams = urlObj.origin + urlObj.pathname;
+    const hash = getHash(urlWithoutParams);
 
 
     const createRes = await db.$transaction(async (db) => {
@@ -69,13 +72,14 @@ export const addLink = async ({
                 hashedUrl: hash,
             },
             update: {
-                url: urlObj.href,
+                url: urlWithoutParams,
+                params: params,
                 hashedUrl: hash,
                 timing,
                 domainId: domainRes.id,
             },
             create: {
-                url: urlObj.href,
+                url: urlWithoutParams,
                 hashedUrl: hash,
                 timing,
                 domainId: domainRes.id,
@@ -114,6 +118,7 @@ export const addLink = async ({
                 id: true,
             }
         });
+        //revalidatePath("/dashboard");
         return {
             link: linkRes,
             userLink: userLinkRes,

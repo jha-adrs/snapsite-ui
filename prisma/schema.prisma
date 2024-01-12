@@ -62,7 +62,8 @@ model links {
   id               Int           @id @default(autoincrement())
   name             String?
   url              String        @db.LongText
-  hashedUrl        String        @unique(map: "Links_hashedUrl_key")
+  hashedUrl        String        @unique(map: "Links_hashedUrl_key") //Without query params
+  params           String?
   isActive         Boolean       @default(false)
   trackingImage    Boolean       @default(false)
   imageUrl         String?
@@ -91,7 +92,7 @@ model organization {
 model User {
   id            String          @id @default(cuid())
   name          String?
-  email         String        @unique
+  email         String          @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
