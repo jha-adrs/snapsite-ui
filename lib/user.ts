@@ -13,7 +13,6 @@ export const getUserByEmailPublic = async (email: string) => {
             select: {
                 id: true,
                 email: true,
-                image: true,
             }
         });
         return user;
@@ -22,11 +21,12 @@ export const getUserByEmailPublic = async (email: string) => {
     }
 }
 
+// To get counts of links, domains, notifications etc.
 export const getUserCountData = async () => {
     try {
         const session = await getAuthSession();
         if (!session || !session.user || !session.user.email) {
-            return 0;
+            throw new Error("No session found");
         }
         const user = await db.user.findUnique({
             where: {
@@ -38,25 +38,34 @@ export const getUserCountData = async () => {
             }
         });
         if (!user) {
-            return 0;
+            logger.error("No user found in getUserCountData fn [user.ts]");
+            throw new Error("No user found in getUserCountData fn [user.ts]");
         }
-        const linksCount = await db.userlinkmap.count({
+        // Prisma queries work only when awaited or then catched
+        const linkCount = db.userlinkmap.count({
             where: {
                 userId: user.id,
             },
         });
-        const domainCount = await db.userlinkmap.count({
+        const domainCount = db.userdomainmap.count({
             where: {
                 userId: user.id,
-                links: {
-                    domains: {
-
-                    }
-                }
             }
-        })
-        return linksCount;
+        });
+        const notificationCount = db.notifications.count({
+            where: {
+                userId: user.id,
+            }
+        });
+        const [links, domains, notifications] = await Promise.all([linkCount, domainCount, notificationCount]);
+        logger.info("getUserCountData fn [user.ts]", { links, domains, notifications });
+        return { links, domains, notifications };
     } catch (error) {
-
+        logger.error("Error in getUserCountData fn [user.ts]", error);
+        throw new Error("Error in getUserCountData fn [user.ts]");
     }
 }
+
+// TODO: Needs review
+export type PromiseType< T extends Promise<any>> = T extends Promise<infer U> ? U : never;
+export type UserCountDataType = PromiseType<ReturnType<typeof getUserCountData>>;

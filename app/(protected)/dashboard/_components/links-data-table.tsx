@@ -4,7 +4,6 @@ import { Link2OffIcon } from "lucide-react";
 
 interface DashboardDataTableProps {
     links: UserLinksType;
-
 }
 
 export function DashboardDataTable({ links = [] }: DashboardDataTableProps) {
@@ -17,11 +16,13 @@ export function DashboardDataTable({ links = [] }: DashboardDataTableProps) {
                         <div className="ml-4 space-y-1">
                             <p className="text-sm font-medium leading-none">
                                 {
-                                    data.links.domains.domain
+                                    data.assignedName
                                 }
                             </p>
                             <p className="text-sm text-muted-foreground">
-                                {data.timing.toLowerCase()}
+                                {
+                                    data.links.domains.domain
+                                }
 
                             </p>
                         </div>

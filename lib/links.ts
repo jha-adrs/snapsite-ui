@@ -25,7 +25,7 @@ export const getUserLinks = async (
         logger.info("getUserLinks fn [links.ts]");
         const session = await getAuthSession();
         if (!session || !session.user || !session.user.email) {
-            return [];
+            throw new Error("No session found");
         }
         const user = await db.user.findUnique({
             where: {
@@ -37,7 +37,8 @@ export const getUserLinks = async (
             }
         });
         if (!user) {
-            return [];
+            logger.error("No user found in getUserLinks fn [links.ts]");
+            throw new Error("No user found in getUserLinks fn [links.ts]");
         }
         const links = await db.userlinkmap.findMany({
             where: {
@@ -57,6 +58,7 @@ export const getUserLinks = async (
                     select: {
                         hashedUrl: true,
                         url: true,
+                        isActive: true,
                         domains: {
                             select:{
                                 domain: true,

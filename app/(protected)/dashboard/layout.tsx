@@ -4,6 +4,7 @@ import React from 'react';
 import { AddLinkDialog } from './_components/add-link-dialog';
 import { DashboardCards } from './_components/dashboard-cards';
 import { getUserLinks } from '@/lib/links';
+import { getUserCountData } from '@/lib/user';
 
 interface DashboardLayoutProps {
     children: React.ReactNode;
@@ -11,6 +12,7 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
     const links = await getUserLinks();
+    const countData = await getUserCountData();
     return (
         <div className="flex-1 w-full h-full p-8 pt-6 space-y-4">
             <div className="flex items-center justify-between space-y-2">
@@ -21,7 +23,7 @@ const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
                     <AddLinkDialog />
                 </div>
             </div>
-            <DashboardCards data={links} />
+            <DashboardCards data={links} countData={countData} />
             {children}
         </div>
     )

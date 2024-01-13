@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
     Card,
     CardContent,
@@ -12,12 +12,33 @@ import { ArrowUpRight, ArrowUpRightSquareIcon, Bell, BellIcon, GlobeIcon, Link2,
 import Link from 'next/link';
 import { ToolTipWrapper } from '@/components/tooltip-wrapper';
 import { UserLinksType } from '@/lib/links';
+import { UserCountDataType } from '@/lib/user';
 interface DashboardCardsProps {
     data: UserLinksType;
+    countData: UserCountDataType;
 }
 export const DashboardCards = ({
-    data = []
+    data,
+    countData
 }: DashboardCardsProps) => {
+    const { activeLinks, inactiveLinks } = useMemo(() => {
+        let activeLinks = 0;
+        let inactiveLinks = 0;
+        data.forEach((link => {
+            if (link.links.isActive) {
+                activeLinks++;
+            } else {
+                inactiveLinks++;
+            }
+
+        }))
+
+        return {
+            activeLinks,
+            inactiveLinks,
+
+        }
+    }, [data])
     return (
         <>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -34,7 +55,7 @@ export const DashboardCards = ({
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
-                            77
+                            {activeLinks}
                         </div>
                         <p className="text-xs text-muted-foreground">
                             Number of links in your bucket
@@ -50,7 +71,7 @@ export const DashboardCards = ({
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
-                            77
+                            {countData.domains}
                         </div>
                         <p className="text-xs text-muted-foreground">
                             Number of unique domains in your bucket
@@ -65,7 +86,9 @@ export const DashboardCards = ({
                         <Link2OffIcon className='h-4 w-4 text-muted-foreground' />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">77</div>
+                        <div className="text-2xl font-bold">
+                            {inactiveLinks}
+                        </div>
                         <p className="text-xs text-muted-foreground">
                             Number of inactive links in your bucket
                         </p>
@@ -80,7 +103,9 @@ export const DashboardCards = ({
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
-                            77
+                            {
+                                countData.notifications
+                            }
                         </div>
                         <p className="text-xs text-muted-foreground">
                             Check out your notifications on the navbar tab
@@ -101,7 +126,7 @@ export const DashboardCards = ({
                     <CardHeader>
                         <CardTitle>Recently added </CardTitle>
                         <CardDescription>
-                            You have a total of 77 links in your bucket
+                            You have a total of {countData.links} links in your bucket
                         </CardDescription>
                     </CardHeader>
                     <CardContent>

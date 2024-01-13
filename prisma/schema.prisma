@@ -38,7 +38,7 @@ model domains {
   createdAt          DateTime                   @default(now())
   updatedAt          DateTime                   @updatedAt
   links              links[]
-
+  userdomainmap      userdomainmap[]
   @@index([domain], map: "Domains_domain_idx")
 }
 
@@ -103,6 +103,7 @@ model User {
   updatedAt     DateTime        @updatedAt
   organization  organization?
   userlinkmap   userlinkmap[]
+  userdomainmap userdomainmap[]
   Notifications Notifications[]
 }
 
@@ -242,4 +243,18 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model userdomainmap {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  domainId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], map: "UserDomainMap_userId_fkey")
+  domains   domains  @relation(fields: [domainId], references: [id], map: "UserDomainMap_domainId_fkey")
+
+  @@unique([userId, domainId], map: "UserDomainMap_userId_domainId_key")
+  @@index([domainId], map: "UserDomainMap_domainId_fkey")
+  @@index([userId, domainId], map: "UserDomainMap_userId_domainId_idx")
 }
