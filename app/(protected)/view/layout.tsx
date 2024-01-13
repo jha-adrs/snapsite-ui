@@ -7,7 +7,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
     return (
         <>
-            Viewer Carousel
+            Viewer 
             {children}
         </>
     )

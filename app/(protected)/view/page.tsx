@@ -1,15 +1,15 @@
 import React from 'react';
 
-interface ViewPageProps {
+interface UserViewPageProps {
 
 }
 
-const ViewPage = ({ }: ViewPageProps) => {
-    return (
-        <div>
-            View
-        </div>
-    )
+const UserViewPage = ({}:UserViewPageProps)  => {
+return (
+<div>
+    User view
+</div>
+)
 }
 
-export default ViewPage;
+export default UserViewPage;
