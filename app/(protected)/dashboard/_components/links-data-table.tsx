@@ -4,10 +4,30 @@ import { UserLinksType } from "@/lib/links";
 import { cn } from "@/lib/utils";
 import { Link2OffIcon } from "lucide-react";
 import Link from "next/link";
-
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+} from "@/components/ui/avatar";
 interface DashboardDataTableProps {
     links: UserLinksType;
 }
+
+const getFallback = (domain: string) => {
+    try {
+        const [first, second] = domain.split(".");
+        const faviconUrl = `http://${domain}/favicon.ico`;
+        return {
+            src: faviconUrl,
+            alt: `${first[0]}${first[1]}`.toUpperCase(),
+        }
+    } catch (error) {
+        return {
+            src: "",
+            alt: "?",
+        }
+    }
+};
 
 export function DashboardDataTable({ links = [] }: DashboardDataTableProps) {
     return (
@@ -15,9 +35,18 @@ export function DashboardDataTable({ links = [] }: DashboardDataTableProps) {
             {
                 links.map((data) => (
                     <div key={data.links.hashedUrl} className={cn(
-                        buttonVariants({variant:'ghost'}),
+                        buttonVariants({ variant: 'ghost' }),
                         "flex items-center h-12"
                     )}>
+                        <Avatar className="h-9 w-9">
+                            <AvatarImage src={getFallback(data.links.domains.domain).src} alt="Avatar" />
+                            <AvatarFallback>
+                                {
+                                    getFallback(data.links.domains.domain).alt
+                                }
+                            </AvatarFallback>
+                        </Avatar>
+
 
                         <Link href={`/view/${data.links.domains.domain}/${data.links.hashedUrl}`} className="ml-4 space-y-1">
                             <p className="text-sm font-medium leading-none">

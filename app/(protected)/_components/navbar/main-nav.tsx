@@ -18,7 +18,7 @@ interface DashboardProps {
 const MainNav = ({ }: DashboardProps) => {
     // TODO: Add support for mobile view
     return (
-        <div className="flex flex-row w-full border-b h-16">
+        <div className="flex flex-row w-full border-b h-16 justify-between">
 
             <div className="hidden lg:flex  items-center px-4">
                 <Logo/>
@@ -27,7 +27,7 @@ const MainNav = ({ }: DashboardProps) => {
             <NavItems/>
 
             <div className="ml-auto mr-2 flex items-center space-x-4">
-                <Search />
+                {/* <Search /> */}
                 <NotificationTab />
                 <UserNav />
                 <ModeToggle />

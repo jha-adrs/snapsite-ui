@@ -4,12 +4,12 @@ interface UserViewPageProps {
 
 }
 
-const UserViewPage = ({}:UserViewPageProps)  => {
-return (
-<div>
-    User view
-</div>
-)
+const UserViewPage = ({ }: UserViewPageProps) => {
+    return (
+        <div>
+            User view
+        </div>
+    )
 }
 
 export default UserViewPage;

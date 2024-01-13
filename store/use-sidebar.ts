@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-interface SidebarState {
+export interface SidebarState {
     collapsed: boolean;
     onExpand: ()=>void;
     onCollapse: ()=>void;

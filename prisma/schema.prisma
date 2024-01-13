@@ -37,6 +37,7 @@ model domains {
   priceElementStatus domains_priceElementStatus @default(NOT_FOUND)
   createdAt          DateTime                   @default(now())
   updatedAt          DateTime                   @updatedAt
+  domainImage        String?
   links              links[]
   userdomainmap      userdomainmap[]
   @@index([domain], map: "Domains_domain_idx")
