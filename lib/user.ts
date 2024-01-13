@@ -45,7 +45,7 @@ export const getUserCountData = async () => {
         const linkCount = db.userlinkmap.count({
             where: {
                 userId: user.id,
-            },
+            }
         });
         const domainCount = db.userdomainmap.count({
             where: {
@@ -57,6 +57,7 @@ export const getUserCountData = async () => {
                 userId: user.id,
             }
         });
+        
         const [links, domains, notifications] = await Promise.all([linkCount, domainCount, notificationCount]);
         logger.info("getUserCountData fn [user.ts]", { links, domains, notifications });
         return { links, domains, notifications };

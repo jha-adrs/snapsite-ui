@@ -21,31 +21,14 @@ export const DashboardCards = ({
     data,
     countData
 }: DashboardCardsProps) => {
-    const { activeLinks, inactiveLinks } = useMemo(() => {
-        let activeLinks = 0;
-        let inactiveLinks = 0;
-        data.forEach((link => {
-            if (link.links.isActive) {
-                activeLinks++;
-            } else {
-                inactiveLinks++;
-            }
-
-        }))
-
-        return {
-            activeLinks,
-            inactiveLinks,
-
-        }
-    }, [data])
+    
     return (
         <>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
-                            Active Links
+                             Links
                         </CardTitle>
                         <ToolTipWrapper text='Viewer'>
                             <Link href={"/view"} className="hover:bg-accent rounded-md">
@@ -55,7 +38,7 @@ export const DashboardCards = ({
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
-                            {activeLinks}
+                            {countData.links}
                         </div>
                         <p className="text-xs text-muted-foreground">
                             Number of links in your bucket
@@ -87,7 +70,7 @@ export const DashboardCards = ({
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
-                            {inactiveLinks}
+                            0{/* 0 Need to add */}
                         </div>
                         <p className="text-xs text-muted-foreground">
                             Number of inactive links in your bucket

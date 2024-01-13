@@ -1,6 +1,7 @@
 import { CopyCustomIcon } from "@/components/copy-icon";
 import { UserLinksType } from "@/lib/links";
 import { Link2OffIcon } from "lucide-react";
+import Link from "next/link";
 
 interface DashboardDataTableProps {
     links: UserLinksType;
@@ -13,7 +14,7 @@ export function DashboardDataTable({ links = [] }: DashboardDataTableProps) {
                 links.map((data) => (
                     <div key={data.links.hashedUrl} className="flex items-center">
 
-                        <div className="ml-4 space-y-1">
+                        <Link href={`/view/${data.links.domains.domain}/${data.links.hashedUrl}`} className="ml-4 space-y-1">
                             <p className="text-sm font-medium leading-none">
                                 {
                                     data.assignedName
@@ -25,7 +26,7 @@ export function DashboardDataTable({ links = [] }: DashboardDataTableProps) {
                                 }
 
                             </p>
-                        </div>
+                        </Link>
                         <div className="ml-auto font-sm flex items-center gap-x-2">
                             {
                                 data.links.url.slice(0, 25)

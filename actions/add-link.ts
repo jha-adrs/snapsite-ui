@@ -122,14 +122,36 @@ export const addLink = async ({
                 id: true,
             }
         });
-        revalidatePath("/dashboard");
+        const userDomainRes = await db.userdomainmap.upsert({
+            where: {
+                userId_domainId: {
+                    userId: user.id,
+                    domainId: domainRes.id,
+                }
+            },
+            update: {
+                userId: user.id,
+                domainId: domainRes.id,
+            },
+            create: {
+                userId: user.id,
+                domainId: domainRes.id,
+            },
+            select: {
+                id: true,
+            }
+        });
+
         return {
             link: linkRes,
             userLink: userLinkRes,
             domain: domainRes,
+            userDomain: userDomainRes,
         }
 
     });
+    
+    revalidatePath("/dashboard");
     logger.info("Created link", { createRes })
     if (createRes.userLink.id) {
         return true;
