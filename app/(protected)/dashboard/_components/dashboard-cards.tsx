@@ -133,6 +133,7 @@ export const DashboardCards = ({
                         <DashboardDataTable links={data} />
                     </CardContent>
                 </Card>
-            </div></>
+            </div>
+            </>
     )
 }

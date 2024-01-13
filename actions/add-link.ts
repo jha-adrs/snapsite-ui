@@ -44,6 +44,10 @@ export const addLink = async ({
             id: true,
         }
     });
+    // Reformat url to inclde http if not present
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "https://" + url;
+    }
     const urlObj = new URL(url);
     const domain = urlObj.hostname;
     const params = urlObj.search
@@ -118,7 +122,7 @@ export const addLink = async ({
                 id: true,
             }
         });
-        //revalidatePath("/dashboard");
+        revalidatePath("/dashboard");
         return {
             link: linkRes,
             userLink: userLinkRes,

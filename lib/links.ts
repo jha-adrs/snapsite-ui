@@ -18,7 +18,7 @@ export const getHash = (url: string) => {
 
 
 export const getUserLinks = async (
-    takeLinks: number = 10,
+    takeLinks: number = 5,
     skipLinks: number = 0
 ) => {
     try {
