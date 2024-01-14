@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
+import { ColumnDef, SortingState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
 
 import {
   Table,
@@ -13,6 +13,8 @@ import {
 import { ArrowUpRightSquare, GlobeIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useDomainSortOrder } from '@/store/sort-order';
+import { Input } from '@/components/ui/input';
 
 type DomainInfo = {
   domain: string;
@@ -30,12 +32,39 @@ interface DomainTableProps {
 const columns: ColumnDef<DomainInfo>[] = [
   {
     accessorKey: "domain",
-    header: () => <div className='items-center inline-flex'><GlobeIcon className='w-4 h-4 mx-2' />Domains</div>,
+    header: ({ column }) => <div onClick={() => {
+      column.toggleSorting(column.getIsSorted() === "asc")
+    }}
+      className='items-center inline-flex'><GlobeIcon className='w-4 h-4 mx-2' />Domains</div>,
+    cell(props) {
+      // Only domain name and root domain name
+      const domain = props.row.original.domain;
+      const domainName = domain.split(".")[0] === "www" ? domain.split(".")[1] : domain.split(".")[0];
+      const rootDomainName = domain.split(".")[0] === "www" ? domain.split(".")[2] : domain.split(".")[1];
+      return (
+        <div className='flex items-center space-x-2'>
+          <span className='font-semibold'>{domainName}</span>
+          <span className='text-xs text-gray-500'>.{rootDomainName}</span>
+        </div>
+      )
+    },
+    sortingFn: (a, b, sortOrder) => {
+      const domainNameA = a.original.domain.split(".")[0] === "www" ? a.original.domain.split(".")[1] : a.original.domain.split(".")[0];
+      const domainNameB = b.original.domain.split(".")[0] === "www" ? b.original.domain.split(".")[1] : b.original.domain.split(".")[0];
+      if (domainNameA < domainNameB) {
+        return sortOrder === "asc" ? -1 : 1;
+      }
+      if (domainNameA > domainNameB) {
+        return sortOrder === "asc" ? 1 : -1;
+      }
+      return 0;
+    }
 
   },
   {
     accessorKey: "linksCount",
     header: "Links",
+
   },
   {
     accessorKey: "createdAt",
@@ -63,19 +92,40 @@ const columns: ColumnDef<DomainInfo>[] = [
 export const DomainTable = ({
   domains
 }: DomainTableProps) => {
+  const { setSortOrder, sortOrder } = useDomainSortOrder((state) => state);
+  const [globalFilter, setGlobalFilter] = React.useState<string>("");
+  const [sortOrderState, setSortOrderState] = React.useState<SortingState>([]);
   const table = useReactTable({
     data: domains,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSortOrderState,
+    getSortedRowModel: getSortedRowModel(),
     initialState: {
-      pagination :{
+      pagination: {
         pageSize: 10
       }
-    }
+    },
+    state: {
+      sorting: sortOrderState,
+      globalFilter,
+    },
+    onGlobalFilterChange: setGlobalFilter,
+    getFilteredRowModel: getFilteredRowModel(),
   })
   return (
     <>
+    <div className="flex items-center py-4">
+            <Input
+                type='search'
+                placeholder='Search domains...'
+                value={globalFilter}
+                onChange={(e) => setGlobalFilter(e.target.value)}
+                className='w-2/6 my-2'
+            />
+            
+          </div>
       <div className=" rounded-md border">
         <Table className=''>
           <TableHeader>

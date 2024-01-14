@@ -17,3 +17,8 @@ export const useDomainSortOrder = create<SortOrderState>((set)=> ({
     sortOrder: SortOrderType.Newest,
     setSortOrder: (sortOrder)=> set({sortOrder})
 }))
+
+export const useLinkSortOrder = create<SortOrderState>((set)=> ({
+    sortOrder: SortOrderType.Newest,
+    setSortOrder: (sortOrder)=> set({sortOrder})
+}))

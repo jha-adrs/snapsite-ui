@@ -15,7 +15,7 @@ const UserViewPage = async ({ }: UserViewPageProps) => {
     const domainTableData = domains.map((domain) => {
         return {
             domain: domain.domains.domain,
-            isActive: domain.domains.isActive? "Yes" : "No",
+            isActive: domain.domains.isActive ? "Yes" : "No",
             createdAt: duration(domain.createdAt),
             linksCount: domain.domains._count.links
         }
@@ -34,11 +34,10 @@ const UserViewPage = async ({ }: UserViewPageProps) => {
         }
     });
     return (
-        <Tabs defaultValue="links" className="w-full">
+        <Tabs defaultValue="domains" className="w-full">
             <TabsList>
-                <TabsTrigger value="links">Links</TabsTrigger>
                 <TabsTrigger value="domains">Domains</TabsTrigger>
-
+                <TabsTrigger value="links">Links</TabsTrigger>
             </TabsList>
             <TabsContent value="domains">
                 <DomainTable domains={domainTableData} />

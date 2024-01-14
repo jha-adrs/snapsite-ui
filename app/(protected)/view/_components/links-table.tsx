@@ -2,7 +2,7 @@
 import { UserDomainsType } from '@/lib/links';
 import { capitalize, slice } from 'lodash'
 import React from 'react';
-import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
+import { CellContext, ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
 
 import {
     Table,
@@ -12,13 +12,28 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { AArrowDownIcon, ArrowUpRightSquare, GlobeIcon, HistoryIcon } from 'lucide-react';
+import { AArrowDownIcon, ArrowUpRightSquare, GlobeIcon, HistoryIcon, Trash2Icon } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { CaretDownIcon, Link2Icon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { userlinkmap_timing } from '@prisma/client';
 import { CopyCustomIcon } from '@/components/copy-icon';
+import { Input } from '@/components/ui/input';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { deleteLink } from '@/actions/delete-link';
+import { toast } from 'sonner';
+
 
 type LinkInfo = {
     url: string;
@@ -44,7 +59,7 @@ const columns: ColumnDef<LinkInfo>[] = [
         cell(props) {
             return (
                 <div className='flex items-center space-x-2'>
-                    <span>{props.row.original.assignedName || "-"}</span>
+                    <span className='font-semibold'>{props.row.original.assignedName || "-"}</span>
                 </div>
             )
         }
@@ -55,9 +70,9 @@ const columns: ColumnDef<LinkInfo>[] = [
         cell(props) {
             return (
                 <div className='flex items-center space-x-2'>
-                    
+
                     <CopyCustomIcon data={props.row.original.url} hideToolTip={true} />
-                    <span>
+                    <span className='font-semibold'>
                         {
                             slice(props.row.original.url, 0, 15)
                         }...
@@ -72,7 +87,7 @@ const columns: ColumnDef<LinkInfo>[] = [
         cell(props) {
             return (
                 <div className='flex items-center space-x-2'>
-                    <span>{capitalize(props.row.original.timing)}</span>
+                    <span className=''>{capitalize(props.row.original.timing)}</span>
                 </div>
             )
         }
@@ -85,12 +100,12 @@ const columns: ColumnDef<LinkInfo>[] = [
             return (
                 <div className='flex items-center space-x-2'>
                     <span>
-                        {(tagsStr && tagsStr.length>0) ? JSON.parse(tagsStr) : "-"}
+                        {(tagsStr && tagsStr.length > 0) ? JSON.parse(tagsStr) : "-"}
                     </span>
                 </div>
             )
         },
-        
+
     },
     {
         accessorKey: "actions",
@@ -124,12 +139,21 @@ const columns: ColumnDef<LinkInfo>[] = [
         cell(props) {
             return (
                 <Link href={`/view/${props.row.original.domain}/${props.row.original.hash}`} className={
-                    buttonVariants({variant: 'outline', size: 'sm'})
+                    buttonVariants({ variant: 'outline', size: 'sm' })
                 }>
 
-                   View <ArrowUpRightSquare className='w-4 h-4 mx-1' />
+                    View <ArrowUpRightSquare className='w-4 h-4 mx-1' />
 
                 </Link>
+            )
+        },
+    },
+    {
+        accessorKey: "delete",
+        header: "Delete",
+        cell(props) {
+            return (
+                <DeleteAlertDialog props={props} />
             )
         },
     }
@@ -138,6 +162,8 @@ const columns: ColumnDef<LinkInfo>[] = [
 export const LinksTable = ({
     links
 }: LinkTableProps) => {
+    const [globalFilter, setGlobalFilter] = React.useState("");
+
     const table = useReactTable({
         data: links,
         columns,
@@ -148,10 +174,27 @@ export const LinksTable = ({
                 pageSize: 10
             }
         },
+        state: {
+            globalFilter,
+        },
+        onGlobalFilterChange: setGlobalFilter,
+        getFilteredRowModel: getFilteredRowModel(),
+
     })
     return (
         <>
+            <div className="flex items-center py-4">
+                <Input
+                    type='search'
+                    placeholder='Search links...'
+                    value={globalFilter}
+                    onChange={(e) => setGlobalFilter(e.target.value)}
+                    className='w-2/6 my-2'
+                />
+
+            </div>
             <div className=" rounded-md border">
+
                 <Table className=''>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -214,5 +257,41 @@ export const LinksTable = ({
                 </Button>
             </div>
         </>
+    )
+}
+
+const DeleteAlertDialog = ({ props }: { props: CellContext<LinkInfo, unknown>; }) => {
+    return (
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <Button variant={"ghost"} size={"icon"}>
+                    <Trash2Icon className='w-4 h-4 mx-1 text-muted-foreground' />
+                </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        This action cannot be undone. This will remove the link from your bucket.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                    onClick={() => {
+                        deleteLink(props.row.original.hash).then((res) => {
+                            if(res){
+                                toast.success("Link deleted successfully.")
+                            }else{
+                                toast.error("Link deletion failed.")
+                            }
+                        }).catch((err) => {
+                            toast.error("Something went wrong.")
+                        })
+                    }}
+                    >Continue</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     )
 }
