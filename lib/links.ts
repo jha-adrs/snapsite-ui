@@ -18,7 +18,7 @@ export const getHash = (url: string) => {
 
 
 export const getUserLinks = async (
-    takeLinks: number = 5,
+    takeLinks?: number,
     skipLinks: number = 0
 ) => {
     try {
@@ -81,7 +81,7 @@ export const getUserLinks = async (
 export type PromiseType<T extends Promise<any>> = T extends Promise<infer U> ? U : never;
 export type UserLinksType = PromiseType<ReturnType<typeof getUserLinks>>;
 
-export const getUserDomains = async () => {
+export const getUserDomains = async (take?:number, skip?:number) => {
     const session = await getAuthSession();
     if (!session || !session.user || !session.user.email) {
         throw new Error("No session found");
@@ -104,6 +104,8 @@ export const getUserDomains = async () => {
         where: {
             userId: user.id,
         },
+        take: take,
+        skip: skip,
         select: {
             domains: {
                 select:{

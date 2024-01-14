@@ -11,7 +11,7 @@ interface DashboardLayoutProps {
 }
 
 const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
-    const links = await getUserLinks();
+    const links = await getUserLinks(5);
     const countData = await getUserCountData();
     return (
         <div className="flex-1 w-full h-full p-8 pt-6 space-y-4">
