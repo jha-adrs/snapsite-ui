@@ -114,7 +114,7 @@ const columns: ColumnDef<LinkInfo>[] = [
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" disabled>
                             Actions <CaretDownIcon className="w-4 h-4 ml-1" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -138,7 +138,7 @@ const columns: ColumnDef<LinkInfo>[] = [
         header: "Details",
         cell(props) {
             return (
-                <Link href={`/view/${props.row.original.domain}/${props.row.original.hash}`} className={
+                <Link target='_blank' href={`/view/${props.row.original.domain}/${props.row.original.hash}`} className={
                     buttonVariants({ variant: 'outline', size: 'sm' })
                 }>
 

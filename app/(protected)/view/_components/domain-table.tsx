@@ -30,6 +30,12 @@ interface DomainTableProps {
 
 
 const columns: ColumnDef<DomainInfo>[] = [
+  
+  {
+    accessorKey: "linksCount",
+    header: "Links",
+
+  },
   {
     accessorKey: "domain",
     header: ({ column }) => <div onClick={() => {
@@ -62,13 +68,8 @@ const columns: ColumnDef<DomainInfo>[] = [
 
   },
   {
-    accessorKey: "linksCount",
-    header: "Links",
-
-  },
-  {
     accessorKey: "createdAt",
-    header: "Date Created"
+    header: "Created"
   },
   {
     accessorKey: "isActive",
@@ -79,7 +80,7 @@ const columns: ColumnDef<DomainInfo>[] = [
     header: "Actions",
     cell(props) {
       return (
-        <Link href={`/view/${props.row.original.domain}`}>
+        <Link target="_blank" href={`/view/${props.row.original.domain}`}>
           <Button size='sm' variant='outline'>
             Manage <ArrowUpRightSquare className='w-4 h-4 mx-1 text-muted-foreground' />
           </Button>
