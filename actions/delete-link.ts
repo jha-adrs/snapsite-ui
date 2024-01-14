@@ -82,7 +82,17 @@ export const deleteLink = async (hashedUrl: string) => {
                     }
                 });
             }
+
+            const deleteDomain = await db.userdomainmap.delete({
+                where: {
+                    userId_domainId: {
+                        userId: user.id,
+                        domainId: linkDomainId,
+                    }
+                }
+            });
             //Check if the domain is used by any other link
+
             const domainUserMapRes = await db.userdomainmap.count({
                 where: {
                     domainId: linkDomainId,
@@ -91,15 +101,18 @@ export const deleteLink = async (hashedUrl: string) => {
             });
             if (domainUserMapRes === 0) {
                 // Delete domain
-                const deleteDomain = await db.userdomainmap.delete({
+                const deleteDomain = await db.domains.update({
                     where: {
-                        userId_domainId: {
-                            userId: user.id,
-                            domainId: linkDomainId,
-                        }
+                        id: linkDomainId,
+                    },
+                    data: {
+                        isActive: false,
                     }
-                });
+
+                })
+
             }
+            logger.info("Link deleted", deleteUserLinkMap, linkUserLinkMap, domainUserMapRes);
             return {
                 deleteUserLinkMap,
                 linkUserLinkMap,
@@ -109,8 +122,8 @@ export const deleteLink = async (hashedUrl: string) => {
         revalidatePath('/view');
         revalidatePath('/dashboard');
         revalidatePath(`/view/${linkDomain}/${hashedUrl}`);
-        
-        logger.info("Link deleted", { deleteRes });
+
+        logger.info("Link deleted");
         return true;
     } catch (error) {
         logger.error("Error while deleting link", { error });

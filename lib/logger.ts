@@ -15,9 +15,9 @@ const logger = winston.createLogger({
         config.env === 'development' ? winston.format.colorize() : winston.format.uncolorize(),
         winston.format.splat(),
         winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-        winston.format.printf(({ timestamp, level, message }) => {
-            return `${timestamp} ${level}: ${message}`;
-        }),
+        winston.format.printf(({ timestamp, level, message, metadata }) => {
+            return `${timestamp} ${level}: ${message} ${metadata? JSON.stringify(metadata) : ''}`;
+          }),
     ),
     transports: [
         new winston.transports.Console({

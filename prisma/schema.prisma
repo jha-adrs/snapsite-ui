@@ -30,7 +30,7 @@ model domains {
   id                 Int                        @id @default(autoincrement())
   name               String?
   domain             String                     @unique(map: "Domains_domain_key")
-  isActive           Boolean                    @default(false)
+  isActive           Boolean                    @default(true)
   status             domains_status             @default(NOT_CONFIGURED)
   storeImages        Boolean                    @default(false)
   priceElement       Json                       @default("{}")
@@ -65,7 +65,7 @@ model links {
   url              String        @db.LongText
   hashedUrl        String        @unique(map: "Links_hashedUrl_key") //Without query params
   params           String?
-  isActive         Boolean       @default(false)
+  isActive         Boolean       @default(true)
   trackingImage    Boolean       @default(false)
   imageUrl         String?
   hasConfigChanged Boolean       @default(false)
