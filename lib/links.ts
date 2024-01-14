@@ -60,9 +60,9 @@ export const getUserLinks = async (
                         url: true,
                         isActive: true,
                         domains: {
-                            select:{
+                            select: {
                                 domain: true,
-                            
+
                             }
                         }
                     }
@@ -81,7 +81,7 @@ export const getUserLinks = async (
 export type PromiseType<T extends Promise<any>> = T extends Promise<infer U> ? U : never;
 export type UserLinksType = PromiseType<ReturnType<typeof getUserLinks>>;
 
-export const getUserDomains = async (take?:number, skip?:number) => {
+export const getUserDomains = async (take?: number, skip?: number) => {
     const session = await getAuthSession();
     if (!session || !session.user || !session.user.email) {
         throw new Error("No session found");
@@ -108,16 +108,16 @@ export const getUserDomains = async (take?:number, skip?:number) => {
         skip: skip,
         select: {
             domains: {
-                select:{
+                select: {
                     id: true,
                     domain: true,
                     isActive: true,
-                    _count  : true,
+                    _count: true,
                 }
             },
             createdAt: true,
-            
-            
+
+
         }
     });
     logger.info("getUserDomains fn [links.ts]", domains);
@@ -126,3 +126,56 @@ export const getUserDomains = async (take?:number, skip?:number) => {
 };
 
 export type UserDomainsType = PromiseType<ReturnType<typeof getUserDomains>>;
+
+interface GetUserDomainLinks {
+    domainId?: number,
+    take?: number,
+    skip?: number,
+}
+// Get links for a given domain for the user
+export const getUserDomainLinks = async ({ domainId, take, skip }: GetUserDomainLinks) => {
+    if (!domainId) {
+        return [];
+    }
+    const session = await getAuthSession();
+    if (!session || !session.user || !session.user.email) {
+        throw new Error("No session found");
+    }
+    const user = await db.user.findUnique({
+        where: {
+            email: session.user.email,
+        },
+        select: {
+            id: true,
+            email: true,
+        }
+    });
+    if (!user) {
+        logger.error("No user found in getUserDomainLinks fn [links.ts]");
+        throw new Error("No user found in getUserDomainLinks fn [links.ts]");
+    }
+    const links = await db.userlinkmap.findMany({
+        where: {
+            userId: user.id,
+            links: {
+                domainId: domainId,
+            }
+        },
+        select: {
+            assignedName: true,
+            tags: true,
+            createdAt: true,
+            timing: true,
+            links: {
+                select: {
+                    hashedUrl: true,
+                    url: true,
+                    isActive: true,
+                }
+            }
+        },
+    });
+    return links;
+}
+
+export type UserDomainLinksType = PromiseType<ReturnType<typeof getUserDomainLinks>>;

@@ -16,7 +16,7 @@ interface DashboardDataTableProps {
 const getFallback = (domain: string) => {
     try {
         const [first, second] = domain.split(".");
-        const faviconUrl = `http://${domain}/favicon.ico`;
+        const faviconUrl = `https://logo.clearbit.com/${domain}`;
         return {
             src: faviconUrl,
             alt: `${first[0]}${first[1]}`.toUpperCase(),

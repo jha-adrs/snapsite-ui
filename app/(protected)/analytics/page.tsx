@@ -1,3 +1,4 @@
+import { UnderConstruction } from '@/components/under-construction';
 import React from 'react';
 
 interface AnalyticsPageProps {
@@ -6,8 +7,8 @@ interface AnalyticsPageProps {
 
 const AnalyticsPage = ({ }: AnalyticsPageProps) => {
     return (
-        <div>
-            Analytics
+        <div className='flex-1 w-full h-full'>
+            <UnderConstruction />
         </div>
     )
 }

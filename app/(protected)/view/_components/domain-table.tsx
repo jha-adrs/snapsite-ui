@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useDomainSortOrder } from '@/store/sort-order';
 import { Input } from '@/components/ui/input';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 type DomainInfo = {
   domain: string;
@@ -30,12 +31,7 @@ interface DomainTableProps {
 
 
 const columns: ColumnDef<DomainInfo>[] = [
-  
-  {
-    accessorKey: "linksCount",
-    header: "Links",
 
-  },
   {
     accessorKey: "domain",
     header: ({ column }) => <div onClick={() => {
@@ -49,6 +45,10 @@ const columns: ColumnDef<DomainInfo>[] = [
       const rootDomainName = domain.split(".")[0] === "www" ? domain.split(".")[2] : domain.split(".")[1];
       return (
         <div className='flex items-center space-x-2'>
+          <Avatar className="h-9 w-9 border-2 border-primary">
+            <AvatarImage src={`https://logo.clearbit.com/${domain}`} alt="Avatar" />
+            <AvatarFallback>?</AvatarFallback>
+          </Avatar>
           <span className='font-semibold'>{domainName}</span>
           <span className='text-xs text-gray-500'>.{rootDomainName}</span>
         </div>
@@ -65,6 +65,12 @@ const columns: ColumnDef<DomainInfo>[] = [
       }
       return 0;
     }
+
+  },
+
+  {
+    accessorKey: "linksCount",
+    header: "Links",
 
   },
   {
@@ -117,16 +123,16 @@ export const DomainTable = ({
   })
   return (
     <>
-    <div className="flex items-center py-4">
-            <Input
-                type='search'
-                placeholder='Search domains...'
-                value={globalFilter}
-                onChange={(e) => setGlobalFilter(e.target.value)}
-                className='w-2/6 my-2'
-            />
-            
-          </div>
+      <div className="flex items-center py-4">
+        <Input
+          type='search'
+          placeholder='Search domains...'
+          value={globalFilter}
+          onChange={(e) => setGlobalFilter(e.target.value)}
+          className='w-2/6 my-2'
+        />
+
+      </div>
       <div className=" rounded-md border">
         <Table className=''>
           <TableHeader>
