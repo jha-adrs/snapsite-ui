@@ -1,5 +1,6 @@
 import React from 'react';
 import { SortButton } from './_components/sort-button';
+import { AddLinkDialog } from '../dashboard/_components/add-link-dialog';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -11,14 +12,14 @@ const Layout = ({ children }: LayoutProps) => {
             <div className="flex items-center justify-between space-y-2">
                 <div className="flex flex-col gap-y-2">
                     <h2 className="text-3xl font-bold tracking-tight">
-                        Your Domains
+                        Your Bucket
                     </h2>
                     <h3 className='text-muted-foreground text-sm font-medium'>
-                        List of domains you have added
+                        List of all your domains and links.
                     </h3>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <SortButton />
+                    <AddLinkDialog />
                 </div>
             </div>
 

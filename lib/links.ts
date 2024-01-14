@@ -80,3 +80,47 @@ export const getUserLinks = async (
 
 export type PromiseType<T extends Promise<any>> = T extends Promise<infer U> ? U : never;
 export type UserLinksType = PromiseType<ReturnType<typeof getUserLinks>>;
+
+export const getUserDomains = async () => {
+    const session = await getAuthSession();
+    if (!session || !session.user || !session.user.email) {
+        throw new Error("No session found");
+    }
+    const user = await db.user.findUnique({
+        where: {
+            email: session.user.email,
+        },
+        select: {
+            id: true,
+            email: true,
+        }
+    });
+    if (!user) {
+        logger.error("No user found in getUserDomains fn [links.ts]");
+        throw new Error("No user found in getUserDomains fn [links.ts]");
+    }
+    // We are getting all the domains, and number of links in each domain
+    const domains = await db.userdomainmap.findMany({
+        where: {
+            userId: user.id,
+        },
+        select: {
+            domains: {
+                select:{
+                    id: true,
+                    domain: true,
+                    isActive: true,
+                    _count  : true,
+                }
+            },
+            createdAt: true,
+            
+            
+        }
+    });
+    logger.info("getUserDomains fn [links.ts]", domains);
+    console.log(JSON.stringify(domains));
+    return domains;
+};
+
+export type UserDomainsType = PromiseType<ReturnType<typeof getUserDomains>>;
