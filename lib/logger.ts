@@ -9,21 +9,23 @@ const enumerateErrorFormat = winston.format((info) => {
 });
 
 const logger = winston.createLogger({
-    level: 'info',
+    level: config.env === 'development' ? 'debug' : 'info',
     format: winston.format.combine(
         enumerateErrorFormat(),
+        winston.format.metadata(),
         config.env === 'development' ? winston.format.colorize() : winston.format.uncolorize(),
         winston.format.splat(),
         winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-        winston.format.printf(({ timestamp, level, message, metadata }) => {
-            return `${timestamp} ${level}: ${message} ${metadata? JSON.stringify(metadata) : ''}`;
-          }),
+        winston.format.printf(
+            ({ level, message, timestamp, metadata }) =>
+                `${timestamp} ${level}: ${message} ${Object.keys(metadata).length > 0 ? JSON.stringify(metadata) : ''}`
+        )
     ),
     transports: [
         new winston.transports.Console({
             stderrLevels: ['error'],
-        })
-    ]
-})
+        }),
+    ],
+});
 
 export default logger;

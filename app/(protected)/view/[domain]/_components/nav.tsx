@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/tooltip"
 import { UserDomainLinksType } from "@/lib/links"
 import { capitalize, slice } from "lodash"
+import { useSelectLink } from "@/store/selected"
 
 interface NavProps {
     isCollapsed: boolean
@@ -19,6 +20,7 @@ interface NavProps {
 }
 
 export function Nav({ links, isCollapsed }: NavProps) {
+    const {onLinkChange} = useSelectLink((state) => state)
     return (
         <div
             data-collapsed={isCollapsed}
@@ -36,6 +38,11 @@ export function Nav({ links, isCollapsed }: NavProps) {
                                         "h-9 w-9",
                                         "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
                                     )}
+                                    onClick={
+                                        () => {
+                                            onLinkChange(link.links.hashedUrl)
+                                        }
+                                    }
                                 >
                                     {slice(link.assignedName, 0, 4)}
                                 </Link>
@@ -52,6 +59,11 @@ export function Nav({ links, isCollapsed }: NavProps) {
                                 buttonVariants({ variant: "outline", size: "sm" }),
                                 "justify-between flex items-center gap-4"
                             )}
+                            onClick={
+                                () => {
+                                    onLinkChange(link.links.hashedUrl)
+                                }
+                            }
                         >
                             <p>
                                 {link.assignedName}

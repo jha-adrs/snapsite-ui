@@ -37,7 +37,7 @@ export const NavItems = ({ }: NavItemProps) => {
                 className={
                     cn(
                         "inline-flex items-center gap-x-1 text-sm font-medium transition-colors hover:text-primary",
-                        pathname==='/view'? "text-primary": "text-foreground"
+                        pathname.startsWith('/view') ? "text-primary": "text-foreground"
                     )
                 }
             >

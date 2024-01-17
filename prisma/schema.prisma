@@ -52,8 +52,9 @@ model linkdata {
   failedReason String?
   hashedUrl    String
   metadata     Json
-  objectKey    String          @db.LongText
-
+  htmlObjectKey    String          @db.LongText
+  screenshotKey    String          @db.LongText
+  timing       links_timing    
   @@unique([hashedUrl, createdAt], map: "LinkData_hashedUrl_createdAt_key")
   @@index([createdAt], map: "LinkData_createdAt_idx")
   @@index([hashedUrl], map: "LinkData_hashedUrl_idx")

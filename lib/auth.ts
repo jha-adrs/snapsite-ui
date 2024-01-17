@@ -25,29 +25,29 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async session({ token, session }) {
-            if (token && session && session.user) {
+            if (token && session && session.user && token.email) {
                 session.user.name = token.name
                 session.user.email = token.email
-                session.user.image = token.picture
+                session.user.image = token.image as string
             }
 
             return session
         },
-        async jwt({token, user}){
-            if(!user || !token){
+        async jwt({ token, user }) {
+            if (!user || !token) {
                 return token
             }
             const dbUser = await db.user.findUnique({
                 where: {
                     email: token.email || user.email || ""
-                } 
+                }
             });
-            if(!dbUser){
+            if (!dbUser) {
                 token.id = user!.id
                 return token
             }
             // TODO: Add more fields
-            if(!dbUser.role){
+            if (!dbUser.role) {
                 await db.user.update({
                     where: {
                         id: dbUser.id
@@ -66,7 +66,7 @@ export const authOptions: NextAuthOptions = {
             }
 
         },
-        redirect(){
+        redirect() {
             return "/"
         }
     }
