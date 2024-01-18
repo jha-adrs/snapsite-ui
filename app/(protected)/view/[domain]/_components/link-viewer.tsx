@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@radix-ui/react-dropdown-menu';
 import { useSelectLink } from '@/store/selected';
 import { CalendarDateRangePicker } from '@/components/date-picker';
+import { ImageCarousel } from './image-carousel';
 interface LinkViewerProps {
 }
 
@@ -21,7 +22,9 @@ export const LinkViewer = ({ }: LinkViewerProps) => {
                 <form>
                     <div className="relative">
                         Timeline {
-                            selectedLink? `for ${selectedLink}`: 'Select a link to continue'
+                            selectedLink? (
+                                <ImageCarousel selectedLink={selectedLink}/>
+                            ): 'Select a link to continue'
                         }
                     </div>
                 </form>

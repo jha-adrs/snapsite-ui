@@ -35,7 +35,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                                     href="#"
                                     className={cn(
                                         buttonVariants({ variant: "ghost", size: "icon" }),
-                                        "h-9 w-9",
+                                        "h-7 w-9",
                                         "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
                                     )}
                                     onClick={

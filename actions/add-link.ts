@@ -30,7 +30,7 @@ export const addLink = async ({
     // Inorder to avoid links pointing to the server itself 
     if (url.startsWith('http://localhost') || url.startsWith('https://localhost')) {
         throw new Error('Cannot add links that start with localhost');
-        
+
     }
     const session = await getAuthSession();
     if (!session || !session?.user || !session?.user?.email) {
@@ -51,9 +51,7 @@ export const addLink = async ({
     const urlObj = new URL(url);
     const domain = urlObj.hostname;
     const params = urlObj.search
-    const urlWithoutParams = urlObj.origin + urlObj.pathname;
-    const hash = getHash(urlWithoutParams);
-
+    const hash = getHash(url);
 
     const createRes = await db.$transaction(async (db) => {
         const domainRes = await db.domains.upsert({
@@ -71,23 +69,24 @@ export const addLink = async ({
                 domain: true,
             }
         });
+
         const linkRes = await db.links.upsert({
             where: {
                 hashedUrl: hash,
             },
             update: {
-                url: urlWithoutParams,
+                url: url,
                 params: params,
                 hashedUrl: hash,
                 timing,
                 domainId: domainRes.id,
             },
             create: {
-                url: urlWithoutParams,
+                url: url,
                 hashedUrl: hash,
                 timing,
                 domainId: domainRes.id,
-
+                params: params,
             },
             select: {
                 id: true,
@@ -150,8 +149,10 @@ export const addLink = async ({
         }
 
     });
-    
+
     revalidatePath("/dashboard");
+    revalidatePath("/view");
+    revalidatePath(`/view/${domain}`);
     logger.info("Created link", { createRes })
     if (createRes.userLink.id) {
         return true;

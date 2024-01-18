@@ -38,6 +38,7 @@ model domains {
   createdAt          DateTime                   @default(now())
   updatedAt          DateTime                   @updatedAt
   domainImage        String?
+  includeParams      Boolean                    @default(true)
   links              links[]
   userdomainmap      userdomainmap[]
   @@index([domain], map: "Domains_domain_idx")
@@ -54,6 +55,7 @@ model linkdata {
   metadata     Json
   htmlObjectKey    String          @db.LongText
   screenshotKey    String          @db.LongText
+  thumbnailKey     String          @db.LongText
   timing       links_timing    
   @@unique([hashedUrl, createdAt], map: "LinkData_hashedUrl_createdAt_key")
   @@index([createdAt], map: "LinkData_createdAt_idx")
@@ -62,9 +64,8 @@ model linkdata {
 
 model links {
   id               Int           @id @default(autoincrement())
-  name             String?
   url              String        @db.LongText
-  hashedUrl        String        @unique(map: "Links_hashedUrl_key") //Without query params
+  hashedUrl        String        @unique(map: "Links_hashedUrl_key") //With params
   params           String?
   isActive         Boolean       @default(true)
   trackingImage    Boolean       @default(false)
@@ -79,7 +80,7 @@ model links {
 
   @@index([domainId], map: "Links_domainId_idx")
   @@index([hashedUrl], map: "Links_hashedUrl_idx")
-  @@index([name], map: "Links_name_idx")
+  @@index([isActive])
 }
 
 model organization {
