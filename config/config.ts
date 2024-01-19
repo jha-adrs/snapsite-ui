@@ -12,6 +12,7 @@ const envVarsSchema = z.object({
     PORT: z.coerce.number().default(3000),
     GOOGLE_CLIENT_ID: z.string().min(1),
     GOOGLE_CLIENT_SECRET: z.string().min(1),
+    EXTERNAL_API_ENDPOINT: z.string().url().default("http://localhost:5000"),
 });
 
 const envVars = envVarsSchema.safeParse(process.env);
@@ -29,5 +30,6 @@ export const config = {
     isTest: envVars.data.NODE_ENV === 'test',
     googleClientId: envVars.data.GOOGLE_CLIENT_ID,
     googleClientSecret: envVars.data.GOOGLE_CLIENT_SECRET,
+    apiEndpoint: envVars.data.EXTERNAL_API_ENDPOINT,
 };
 

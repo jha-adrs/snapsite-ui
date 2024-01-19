@@ -120,8 +120,7 @@ export const getUserDomains = async (take?: number, skip?: number) => {
 
         }
     });
-    logger.info("getUserDomains fn [links.ts]", domains);
-    console.log(JSON.stringify(domains));
+    logger.info("getUserDomains fn [links.ts]");
     return domains;
 };
 

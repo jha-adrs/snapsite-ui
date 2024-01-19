@@ -59,7 +59,7 @@ export const getUserCountData = async () => {
         });
         
         const [links, domains, notifications] = await Promise.all([linkCount, domainCount, notificationCount]);
-        logger.info("getUserCountData fn [user.ts]", { links, domains, notifications });
+        logger.info("getUserCountData fn [user.ts]");
         return { links, domains, notifications };
     } catch (error) {
         logger.error("Error in getUserCountData fn [user.ts]", error);
