@@ -3,52 +3,34 @@ import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSelectLink } from '@/store/selected';
 import { CalendarDateRangePicker } from '@/components/date-picker';
-import { ImageCarousel } from './image-carousel';
+import { ImageCarousel } from './info/image-carousel';
 import { HistoryIcon } from 'lucide-react';
-import { TimeLineComponent } from './links-timeline-component';
+import { TimeLineComponent } from './timeline/links-timeline-component';
 import { Separator } from '@/components/ui/separator';
+import { MainTimeline } from './timeline/main-timeline';
+import { MainImagesTab } from './info/main-images-tab';
 interface LinkViewerProps {
 }
 
 export const LinkViewer = ({ }: LinkViewerProps) => {
     const { selectedDomain, selectedLink } = useSelectLink((state) => state);
     return (
-        <Tabs defaultValue="timeline">
+        <Tabs defaultValue="images">
             <div className="flex items-center px-4 py-4">
                 <h1 className="text-2xl font-bold inline-flex items-center"> History</h1>
                 {/* <CalendarDateRangePicker className="ml-auto" /> */}
                 <TabsList className="ml-auto">
+
+                    <TabsTrigger value='images'>Info</TabsTrigger>
                     <TabsTrigger value='timeline'>Timeline</TabsTrigger>
-                    <TabsTrigger value='images'>Images</TabsTrigger>
                 </TabsList>
             </div>
-            <Separator/>
+            <Separator />
             <TabsContent value='timeline'>
-                <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-
-                    <div className="relative">
-                        {
-                            selectedLink ? (
-
-                                <TimeLineComponent selectedLink={selectedLink} />
-                            ) : 'Select a link to continue'
-                        }
-                    </div>
-
-                </div>
+                <MainTimeline selectedLink={selectedLink} />
             </TabsContent>
             <TabsContent value='images'>
-                <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-
-                    <div className="relative">
-                        {
-                            selectedLink ? (
-                                <ImageCarousel selectedLink={selectedLink} />
-                            ) : 'Select a link to continue'
-                        }
-                    </div>
-
-                </div>
+                <MainImagesTab selectedLink={selectedLink} />
             </TabsContent>
 
         </Tabs>
