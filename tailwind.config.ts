@@ -18,6 +18,7 @@ const config = {
       },
     },
     extend: {
+      alignItems: ['even'],
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

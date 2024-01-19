@@ -18,6 +18,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { FullscreenIcon } from "lucide-react";
 import { ToolTipWrapper } from "@/components/tooltip-wrapper";
 import { ZoomOutIcon, ZoomInIcon } from "@radix-ui/react-icons";
+import { ImageDialog } from "@/components/image-dialog";
 
 export function ImageCarousel({ selectedLink }: ImageCarouselProps) {
     const { width, height } = useWindowSize();
@@ -25,20 +26,7 @@ export function ImageCarousel({ selectedLink }: ImageCarouselProps) {
         console.log(width, height);
     }, [width, height]);
 
-    const data = {
-        "success": 1,
-        "message": "OK",
-        "data": [
-            {
-                "key": "DAILY/ui.shadcn.com/34ea1f6d8d89539b5a95/1705526797137/34ea1f6d8d89539b5a95.png",
-                "url": "https://snapsite-domains.s3.ap-south-1.amazonaws.com/DAILY/ui.shadcn.com/34ea1f6d8d89539b5a95/1705526797137/34ea1f6d8d89539b5a95.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA6DLDFCXX73MIKIMS%2F20240117%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240117T212756Z&X-Amz-Expires=86400&X-Amz-Signature=37702efb1b9c7ac994848a4c175f864cae2f1519c99c262cc9767316a0659bc5&X-Amz-SignedHeaders=host&x-id=GetObject"
-            },
-            {
-                "key": "DAILY/ui.shadcn.com/34ea1f6d8d89539b5a95/1705526797137/34ea1f6d8d89539b5a95-small.png",
-                "url": "https://snapsite-domains.s3.ap-south-1.amazonaws.com/DAILY/ui.shadcn.com/34ea1f6d8d89539b5a95/1705526797137/34ea1f6d8d89539b5a95-small.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA6DLDFCXX73MIKIMS%2F20240117%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240117T212756Z&X-Amz-Expires=86400&X-Amz-Signature=98069d85873f95429914296600c6f67dcd20b417b5e9bfedba76e55b841ebf41&X-Amz-SignedHeaders=host&x-id=GetObject"
-            }
-        ]
-    }
+    const data = { "success": 1, "message": "OK", "data": [{ "key": "DAILY/ui.shadcn.com/34ea1f6d8d89539b5a95/1705526797137/34ea1f6d8d89539b5a95.png", "url": "https://snapsite-domains.s3.ap-south-1.amazonaws.com/DAILY/ui.shadcn.com/34ea1f6d8d89539b5a95/1705526797137/34ea1f6d8d89539b5a95.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA6DLDFCXX73MIKIMS%2F20240118%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240118T165545Z&X-Amz-Expires=86400&X-Amz-Signature=8f17655b96a8ad33f0b6b8bc7cff05985047328f4202f200e3bd3c7e1063291b&X-Amz-SignedHeaders=host&x-id=GetObject" }, { "key": "DAILY/ui.shadcn.com/34ea1f6d8d89539b5a95/1705526797137/34ea1f6d8d89539b5a95-small.png", "url": "https://snapsite-domains.s3.ap-south-1.amazonaws.com/DAILY/ui.shadcn.com/34ea1f6d8d89539b5a95/1705526797137/34ea1f6d8d89539b5a95-small.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA6DLDFCXX73MIKIMS%2F20240118%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240118T165545Z&X-Amz-Expires=86400&X-Amz-Signature=bea5173891858d455c3f1c5db3e8c69c437d1e3f77c769b68ab2b165425deffa&X-Amz-SignedHeaders=host&x-id=GetObject" }] }
     return (
         <div className="flex items-center justify-center">
             <Carousel
@@ -51,44 +39,8 @@ export function ImageCarousel({ selectedLink }: ImageCarouselProps) {
                     {Array.from({ length: 5 }).map((_, index) => (
                         <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                             <div className="p-1">
-                                <Card>
-                                    <CardContent className="flex items-center justify-center p-1">
-                                        <Dialog>
-                                            <DialogTrigger>
-                                                <Image src={data.data[1].url} width={500} alt='Image' height={500} />
-                                            </DialogTrigger>
-                                            <DialogContent className="flex w-full h-full max-w-xl md:max-w-3xl lg:max-w-7xl  focus-visible:ring-0 focus:ring-0 focus-visible:border-0">
-                                                <DialogHeader>
-                                                    <DialogTitle>
-                                                        <div className="absolute hidden top-0 h-12 w-full max-w-xl md:max-w-3xl lg:max-w-7xl bg-accent z-50 opacity-25 hover:opacity-70 transition-all rounded-md justify-start">
-                                                            <div className="flex items-center w-full">
-                                                                <ToolTipWrapper text="Zoom In" delay={0} side="bottom">
-                                                                    <ZoomInIcon className="w-6 h-6 text-muted-foreground hover:text-primary" />
-                                                                </ToolTipWrapper>
-                                                                <ToolTipWrapper text="Zoom Out" delay={0} side="bottom">
-                                                                    <ZoomOutIcon className="w-6 h-6 text-muted-foreground hover:text-primary" />
-                                                                </ToolTipWrapper>
-                                                            </div>
-                                                        </div>
-                                                    </DialogTitle>
-                                                    <DialogDescription className=" p-1">
+                                <ImageDialog thumbnailUrl={data.data[1].url} imageUrl={data.data[0].url} />
 
-                                                        <ScrollArea className="w-full rounded-md h-[92.5vh]">
-
-                                                            <Image
-                                                                src={data.data[0].url}
-                                                                width={width}
-                                                                height={height}
-                                                                className="w-full"
-                                                                alt="Image"
-                                                            />
-                                                        </ScrollArea>
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                            </DialogContent>
-                                        </Dialog>
-                                    </CardContent>
-                                </Card>
                             </div>
                         </CarouselItem>
                     ))}
