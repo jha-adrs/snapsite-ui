@@ -31,3 +31,19 @@ export function duration(date: Date) {
   }
 
 }
+
+type tag = 'Priority' | 'Important' | 'Urgent' | 'Low' | 'Normal' ;
+export function getBadgeColor(tag:tag){
+  switch(tag){
+    case 'Priority':
+      return 'tomato';
+    case 'Important':
+      return 'plum';
+    case 'Urgent':
+      return 'iris';
+    case 'Low':
+      return 'jade';
+    case 'Normal':
+      return 'gray';
+  }
+}

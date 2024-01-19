@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { LucideIcon } from "lucide-react"
 
-import { cn } from "@/lib/utils"
+import { cn, getBadgeColor } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import {
     Tooltip,
@@ -13,6 +13,8 @@ import {
 import { UserDomainLinksType } from "@/lib/links"
 import { capitalize, slice } from "lodash"
 import { useSelectLink } from "@/store/selected"
+import { ToolTipWrapper } from "@/components/tooltip-wrapper"
+import { Badge } from "@/components/ui/badge"
 
 interface NavProps {
     isCollapsed: boolean
@@ -20,37 +22,32 @@ interface NavProps {
 }
 
 export function Nav({ links, isCollapsed }: NavProps) {
-    const {onLinkChange} = useSelectLink((state) => state)
+    const { onLinkChange } = useSelectLink((state) => state)
     return (
         <div
             data-collapsed={isCollapsed}
-            className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
+            className="group pt-6 flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
         >
             <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
                 {links.map((link, index) =>
                     isCollapsed ? (
-                        <Tooltip key={index} delayDuration={0}>
-                            <TooltipTrigger asChild>
-                                <Link
-                                    href="#"
-                                    className={cn(
-                                        buttonVariants({ variant: "ghost", size: "icon" }),
-                                        "h-7 w-9",
-                                        "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
-                                    )}
-                                    onClick={
-                                        () => {
-                                            onLinkChange(link.links.hashedUrl)
-                                        }
+                        <ToolTipWrapper side="right" text={link.assignedName} key={index}>
+                            <Link
+                                href="#"
+                                className={cn(
+                                    buttonVariants({ variant: "outline", size: "icon" }),
+                                    "h-7 w-9",
+                                    "dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
+                                )}
+                                onClick={
+                                    () => {
+                                        onLinkChange(link.links.hashedUrl)
                                     }
-                                >
-                                    {slice(link.assignedName, 0, 4)}
-                                </Link>
-                            </TooltipTrigger>
-                            <TooltipContent side="right" className="flex items-center gap-4">
-                                {link.assignedName}
-                            </TooltipContent>
-                        </Tooltip>
+                                }
+                            >
+                                {index+1}
+                            </Link>
+                        </ToolTipWrapper>
                     ) : (
                         <Link
                             key={index}
@@ -66,12 +63,16 @@ export function Nav({ links, isCollapsed }: NavProps) {
                             }
                         >
                             <p>
-                                {link.assignedName}
+                               {index+1}.{" "} {link.assignedName}
                             </p>
                             <p>
-                                ({
-                                    link.tags ? (JSON.parse(link.tags)) : null
-                                })
+                                {
+                                    link.tags ? <Badge variant={"outline"}>
+                                        {
+                                            JSON.parse(link.tags)
+                                        }
+                                    </Badge> : null
+                                }
                             </p>
                         </Link>
                     )

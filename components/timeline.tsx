@@ -45,7 +45,7 @@ export const TimelineItem = ({imageUrl,children,thumbnailUrl}:TimelineItemProps)
 
 
       <div className="flex w-full max-w-[500px] h-full">
-       <ToolTipWrapper text='Maximize' delay={500} color='background' bgColor='foreground'>
+       <ToolTipWrapper text='Maximize' delay={700} color='background' bgColor='foreground'>
        <ImageDialog thumbnailUrl={thumbnailUrl} imageUrl={imageUrl} className='ml-4' />
        </ToolTipWrapper>
       </div>

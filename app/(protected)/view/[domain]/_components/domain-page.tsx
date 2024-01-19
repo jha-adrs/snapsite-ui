@@ -67,7 +67,7 @@ export const DomainPage = ({
                         )}`
                     }
                 }
-                className={cn(isCollapsed && "min-w-[50px] transition-all duration-300 ease-in-out")}
+                className={cn(isCollapsed && "min-w-[50px] transition-all duration-300 ease-in-out",)}
             >
                 <div className={cn("flex h-[52px] items-center justify-center", isCollapsed ? 'h-[52px]' : 'px-2')}>
                     <DomainSwitcher isCollapsed={collapsed} domains={domains} currentDomain={currentDomain} />
@@ -84,7 +84,7 @@ export const DomainPage = ({
             <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
                 <LinkViewer />
             </ResizablePanel>
-            <ResizableHandle withHandle />
+            <ResizableHandle />
         </ResizablePanelGroup>
     )
 }

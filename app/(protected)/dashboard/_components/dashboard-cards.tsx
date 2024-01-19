@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { ToolTipWrapper } from '@/components/tooltip-wrapper';
 import { UserLinksType } from '@/lib/links';
 import { UserCountDataType } from '@/lib/user';
+import { Overview } from './overview';
 interface DashboardCardsProps {
     data: UserLinksType;
     countData: UserCountDataType;
@@ -102,7 +103,7 @@ export const DashboardCards = ({
                         <CardTitle>Overview</CardTitle>
                     </CardHeader>
                     <CardContent className="pl-2">
-                        {/* <Overview /> */}
+                        <Overview />
                     </CardContent>
                 </Card>
                 <Card className="col-span-3">

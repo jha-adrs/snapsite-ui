@@ -24,7 +24,7 @@ const TimeStampCard = ({ timestamp }: TimeStampCardProps) => {
                         <CameraIcon className='w-6 h-6' />
                         {dateString}
                     </div>
-                    <ToolTipWrapper text='Save snap' side='top' align='end'>
+                    <ToolTipWrapper delay={700} text='Save snap' side='top' align='center'>
                         <Button variant='secondary' size='sm'>
                             {bookmarked ? <BookmarkFilledIcon className='w-4 h-4 mr-1' /> : <BookmarkIcon className='w-4 h-4 mr-1' />} Save
                         </Button>
