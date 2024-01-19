@@ -113,7 +113,7 @@ export const DashboardCards = ({
                             You have a total of {countData.links} links in your bucket
                         </CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className=' flex w-full h-4/6'>
                         <DashboardDataTable links={data} />
                     </CardContent>
                 </Card>

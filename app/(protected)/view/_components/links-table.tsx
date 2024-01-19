@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { deleteLink } from '@/actions/delete-link';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
 
 
 type LinkInfo = {
@@ -94,15 +95,17 @@ const columns: ColumnDef<LinkInfo>[] = [
     },
     {
         accessorKey: "tags",
-        header: "Tags",
+        header: "Tag",
         cell(props) {
             const tagsStr = props.row.original.tags;
             return (
-                <div className='flex items-center space-x-2'>
-                    <span>
-                        {(tagsStr && tagsStr.length > 0) ? JSON.parse(tagsStr) : "-"}
-                    </span>
-                </div>
+                <Badge variant={"outline"}>
+                    <div className='flex items-center space-x-2'>
+                        <span>
+                            {(tagsStr && tagsStr.length > 0) ? JSON.parse(tagsStr) : "-"}
+                        </span>
+                    </div>
+                </Badge>
             )
         },
 
@@ -114,11 +117,11 @@ const columns: ColumnDef<LinkInfo>[] = [
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="sm" disabled>
+                        <Button variant="outline" size="sm">
                             Actions <CaretDownIcon className="w-4 h-4 ml-1" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
+                    <DropdownMenuContent  align="start">
                         <DropdownMenuItem onClick={() => { }}>
                             Light
                         </DropdownMenuItem>
@@ -138,7 +141,7 @@ const columns: ColumnDef<LinkInfo>[] = [
         header: "Details",
         cell(props) {
             return (
-                <Link target='_blank' href={`/view/${props.row.original.domain}/${props.row.original.hash}`} className={
+                <Link target='_blank' href={`/view/${props.row.original.domain}?link=${props.row.original.hash}`} className={
                     buttonVariants({ variant: 'outline', size: 'sm' })
                 }>
 
@@ -278,17 +281,17 @@ const DeleteAlertDialog = ({ props }: { props: CellContext<LinkInfo, unknown>; }
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction
-                    onClick={() => {
-                        deleteLink(props.row.original.hash).then((res) => {
-                            if(res){
-                                toast.success("Link deleted successfully.")
-                            }else{
-                                toast.error("Link deletion failed.")
-                            }
-                        }).catch((err) => {
-                            toast.error("Something went wrong.")
-                        })
-                    }}
+                        onClick={() => {
+                            deleteLink(props.row.original.hash).then((res) => {
+                                if (res) {
+                                    toast.success("Link deleted successfully.")
+                                } else {
+                                    toast.error("Link deletion failed.")
+                                }
+                            }).catch((err) => {
+                                toast.error("Something went wrong.")
+                            })
+                        }}
                     >Continue</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

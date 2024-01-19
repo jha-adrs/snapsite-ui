@@ -16,9 +16,9 @@ const TimeStampCard = ({ timestamp }: TimeStampCardProps) => {
     const timeDiff = duration(date);
     const bookmarked = true;
     return (
-        <Card className='w-full max-w-[400px] md:h-24 mr-4'>
+        <Card className='w-full max-w-[400px] my-2 h-36 sm:h-24 mr-4'>
             <CardHeader>
-                <CardTitle className='flex flex-col md:flex-row w-full gap-y-2 justify-between'>
+                <CardTitle className='flex flex-col sm:flex-row w-full gap-y-2 justify-between'>
 
                     <div className='inline-flex gap-x-2 items-center'>
                         <CameraIcon className='w-6 h-6' />

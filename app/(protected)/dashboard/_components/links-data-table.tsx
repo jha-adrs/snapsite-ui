@@ -31,7 +31,7 @@ const getFallback = (domain: string) => {
 
 export function DashboardDataTable({ links = [] }: DashboardDataTableProps) {
     return (
-        <div className="space-y-4">
+        <div className="space-y-4 w-full h-full">
             {
                 links.map((data) => (
                     <div key={data.links.hashedUrl} className={cn(
@@ -48,7 +48,7 @@ export function DashboardDataTable({ links = [] }: DashboardDataTableProps) {
                         </Avatar>
 
 
-                        <Link href={`/view/${data.links.domains.domain}/${data.links.hashedUrl}`} className="ml-4 space-y-1">
+                        <Link href={`/view/${data.links.domains.domain}?link=${data.links.hashedUrl}`} className="ml-4 space-y-1">
                             <p className="text-sm font-medium leading-none">
                                 {
                                     data.assignedName
@@ -73,7 +73,7 @@ export function DashboardDataTable({ links = [] }: DashboardDataTableProps) {
             }
             {
                 links.length === 0 && (
-                    <div className="flex items-center justify-center p-4">
+                    <div className="flex w-full h-full items-center justify-center p-4">
                         <Link2OffIcon className="text-muted-foreground h-12 w-12" />
                     </div>
                 )

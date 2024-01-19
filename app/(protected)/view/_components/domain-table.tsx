@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { ArrowUpRightSquare, GlobeIcon } from 'lucide-react';
+import { ArrowUpRightSquare, GlobeIcon, ListFilter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useDomainSortOrder } from '@/store/sort-order';
@@ -131,6 +131,9 @@ export const DomainTable = ({
           onChange={(e) => setGlobalFilter(e.target.value)}
           className='w-2/6 my-2'
         />
+        <Button className='ml-2' variant={"secondary"} size={'default'}>
+          <ListFilter className='w-4 h-4 mr-1'/> Filters
+        </Button>
 
       </div>
       <div className=" rounded-md border">

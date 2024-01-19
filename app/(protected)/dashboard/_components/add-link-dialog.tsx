@@ -1,6 +1,6 @@
 "use client"
 import { Button } from '@/components/ui/button';
-import { PlusCircleIcon } from 'lucide-react';
+import { PlusCircle, PlusCircleIcon } from 'lucide-react';
 import React, { useTransition } from 'react';
 import {
     Dialog,

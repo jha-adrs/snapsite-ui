@@ -23,8 +23,6 @@ const MainDomainPage =async ({params}: DomainPageProps) => {
         }
     });
     const links = await getUserDomainLinks({domainId: currentDomainId});
-
-    
     return (
         <>
             <DomainPage domains={domainData} currentDomain={params.domain} links={links}/>
