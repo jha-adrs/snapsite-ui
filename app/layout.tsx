@@ -40,51 +40,52 @@ export default function RootLayout({
             </TooltipProvider>
           </ThemeProvider>
         </Providers>
+        <footer className=''>
+          <div className="flex flex-col w-full items-start h-12 justify-start ">
+
+            <Separator />
+
+            <div className="flex w-full p-2 gap-x-2 items-center justify-center">
+              <Link href="/" className={cn(
+                buttonVariants({ variant: "link" }),
+                'text-muted-foreground'
+              )}>Home</Link>
+              <Link href="/about" className={cn(
+                buttonVariants({ variant: "link" }),
+                'text-muted-foreground'
+              )}>About</Link>
+              <Link href="/contact" className={cn(
+                buttonVariants({ variant: "link" }),
+                'text-muted-foreground'
+              )}>Contact</Link>
+              <Link href="/privacy" className={cn(
+                buttonVariants({ variant: "link" }),
+                'text-muted-foreground'
+              )}>Privacy</Link>
+
+            </div>
+            <div className='flex w-full p-2 gap-x-2 items-center justify-center'>
+              <Link href="https://clearbit.com" className={cn(
+                buttonVariants({ variant: "link" }),
+                'text-muted-foreground'
+              )}>
+                <p className='text-sm'>
+                  Logos provided by Clearbit
+                </p>
+              </Link>
+
+
+
+            </div>
+            <div className="flex w-full p-2 gap-x-2 items-center justify-center">
+              <p className="text-xs text-muted-foreground">
+                Made with ❤️ by PlatinumJ
+              </p>
+            </div>
+          </div>
+        </footer>
       </body>
-      <footer className=''>
-                    <div className="flex flex-col w-full items-start h-12 justify-start ">
 
-                        <Separator />
-
-                        <div className="flex w-full p-2 gap-x-2 items-center justify-center">
-                            <Link href="/" className={cn(
-                                buttonVariants({ variant: "link" }),
-                                'text-muted-foreground'
-                            )}>Home</Link>
-                            <Link href="/about" className={cn(
-                                buttonVariants({ variant: "link" }),
-                                'text-muted-foreground'
-                            )}>About</Link>
-                            <Link href="/contact" className={cn(
-                                buttonVariants({ variant: "link" }),
-                                'text-muted-foreground'
-                            )}>Contact</Link>
-                            <Link href="/privacy" className={cn(
-                                buttonVariants({ variant: "link" }),
-                                'text-muted-foreground'
-                            )}>Privacy</Link>
-
-                        </div>
-                        <div className='flex w-full p-2 gap-x-2 items-center justify-center'>
-                            <Link href="https://clearbit.com" className={cn(
-                                buttonVariants({ variant: "link" }),
-                                'text-muted-foreground'
-                            )}>
-                                <p className='text-sm'>
-                                    Logos provided by Clearbit
-                                </p>
-                            </Link>
-
-                            
-
-                        </div>
-                        <div className="flex w-full p-2 gap-x-2 items-center justify-center">
-                            <p className="text-xs text-muted-foreground">
-                                Made with ❤️ by PlatinumJ
-                            </p>
-                        </div>
-                    </div>
-                </footer>
     </html>
   )
 }

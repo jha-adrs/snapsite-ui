@@ -1,13 +1,7 @@
-
 import React from 'react';
-import { Search } from './search';
 import { UserNav } from './user-nav';
 import Logo from './logo';
-import { ModeToggle } from '@/components/mode-toggle';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { AreaChartIcon, HistoryIcon, HomeIcon, LibraryBigIcon, SettingsIcon } from 'lucide-react';
-import { NavItems } from './nav-items';
+import { ModeToggle } from '@/components/mode-toggle';import { NavItems } from './nav-items';
 import { NotificationTab } from './notification-tab';
 
 
@@ -27,7 +21,6 @@ const MainNav = ({ }: DashboardProps) => {
             <NavItems/>
 
             <div className="ml-auto mr-2 flex items-center space-x-4">
-                {/* <Search /> */}
                 <NotificationTab />
                 <UserNav />
                 <ModeToggle />

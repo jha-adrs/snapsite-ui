@@ -1,5 +1,5 @@
 "use client"
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { BellIcon } from 'lucide-react';
 import React from 'react';
 import {
@@ -16,6 +16,7 @@ import NotificationItem from './notification-item';
 import { Separator } from '@/components/ui/separator';
 import { useWindowSize } from 'usehooks-ts';
 import { Notification_Priority, Notifications } from '@prisma/client';
+import { cn } from '@/lib/utils';
 interface NotificationTabProps {
     notifications?: Notifications[];
 }
@@ -28,9 +29,12 @@ export const NotificationTab = ({
 
         <Sheet>
             <SheetTrigger>
-                <Button variant={"ghost"} className='p-1.5 '>
+                <div className={cn(
+                    'p-1.5',
+                    buttonVariants({variant: 'ghost',size: "icon"})
+                )}>
                     <BellIcon className="w-6 h-6" />
-                </Button>
+                </div>
             </SheetTrigger>
             <SheetContent>
                 <SheetHeader>

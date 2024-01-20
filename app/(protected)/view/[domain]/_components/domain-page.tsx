@@ -1,6 +1,6 @@
 "use client"
 import { Separator } from '@radix-ui/react-dropdown-menu';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable"
 import { DomainSwitcher } from './domain-switcher';
 import { cn } from '@/lib/utils';

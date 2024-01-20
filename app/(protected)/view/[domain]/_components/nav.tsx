@@ -1,17 +1,8 @@
 "use client"
-
 import Link from "next/link"
-import { LucideIcon } from "lucide-react"
-
-import { cn, getBadgeColor } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { UserDomainLinksType } from "@/lib/links"
-import { capitalize, slice } from "lodash"
 import { useSelectLink } from "@/store/selected"
 import { ToolTipWrapper } from "@/components/tooltip-wrapper"
 import { Badge } from "@/components/ui/badge"
@@ -24,15 +15,15 @@ interface NavProps {
 }
 
 export function Nav({ links, isCollapsed }: NavProps) {
-    const { onLinkChange,selectedLink,selectedDomain } = useSelectLink((state) => state)
+    const { onLinkChange, selectedLink, selectedDomain } = useSelectLink((state) => state)
     const path = usePathname();
     const searchParams = useSearchParams();
     const router = useRouter();
     useEffect(() => {
-        if(searchParams.get('link')) {
+        if (searchParams.get('link')) {
             onLinkChange(searchParams.get('link') as string)
         }
-    }, [path,router, onLinkChange,searchParams])
+    }, [path, router, onLinkChange, searchParams])
     return (
         <div
             data-collapsed={isCollapsed}
@@ -50,13 +41,9 @@ export function Nav({ links, isCollapsed }: NavProps) {
                                     "dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white",
                                     searchParams.get('link') === link.links.hashedUrl ? "bg-primary text-white" : "bg-transparent text-muted-foreground"
                                 )}
-                                onClick={
-                                    () => {
-                                        onLinkChange(link.links.hashedUrl)
-                                    }
-                                }
+
                             >
-                                {index+1}
+                                {index + 1}
                             </Link>
                         </ToolTipWrapper>
                     ) : (
@@ -65,28 +52,19 @@ export function Nav({ links, isCollapsed }: NavProps) {
                             href={`?link=${link.links.hashedUrl}`}
                             className={cn(
                                 buttonVariants({ variant: "outline", size: "sm" }),
-                                "justify-between flex items-center gap-4",
+                                "justify-between w-full flex items-center gap-4",
                                 searchParams.get('link') === link.links.hashedUrl ? "bg-primary text-white" : "bg-transparent text-muted-foreground"
                             )}
-                            onClick={
-                                () => {
-                                    onLinkChange(link.links.hashedUrl)
 
-                                }
-                            }
                         >
                             <p>
-                               {index+1}.{" "} {link.assignedName}
+                                {index + 1}.{" "} {link.assignedName}
                             </p>
-                            <p>
+                            <Badge variant={"outline"}>
                                 {
-                                    link.tags ? <Badge variant={"outline"}>
-                                        {
-                                            JSON.parse(link.tags)
-                                        }
-                                    </Badge> : null
+                                   (link.tags && link.tags.length > 0) ? JSON.parse(link.tags) : " "
                                 }
-                            </p>
+                            </Badge>
                         </Link>
                     )
                 )}

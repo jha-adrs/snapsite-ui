@@ -24,7 +24,7 @@ export const ToolTipWrapper = ({
  }: TootipWrapperProps) => {
     return (
         <Tooltip delayDuration={delay}>
-            <TooltipTrigger>
+            <TooltipTrigger asChild>
                 {children}
             </TooltipTrigger>
             <TooltipContent side={side} align={align}
