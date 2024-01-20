@@ -1,20 +1,52 @@
-import React from 'react';
+import React, { useEffect, useTransition } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { BookmarkFilledIcon, BookmarkIcon, CameraIcon } from '@radix-ui/react-icons';
 import { duration } from '@/lib/utils';
 import { Button } from './ui/button';
 import { ToolTipWrapper } from './tooltip-wrapper';
+import { addBookmark } from '@/actions/add-bookmark';
+import { toast } from 'sonner';
 
 interface TimeStampCardProps {
     timestamp: Date;
+    hashedUrl: string;
+    linkDataId: number;
+    bookmarked: boolean;
 }
 
-const TimeStampCard = ({ timestamp }: TimeStampCardProps) => {
+const TimeStampCard = ({ timestamp, linkDataId, hashedUrl,bookmarked }: TimeStampCardProps) => {
+    const [isPending, startTransition] = useTransition();
+    const [isBookmarked, setIsBookmarked] = React.useState<boolean>(bookmarked);
+    // Using optimistic updates
     const date = new Date(timestamp);
     const time = date.toLocaleTimeString();
     const dateString = date.toLocaleDateString();
     const timeDiff = duration(date);
-    const bookmarked = true;
+
+    const handleBookmark = async () => {
+        startTransition(() => {
+            addBookmark(hashedUrl, linkDataId).then((res) => {
+                setIsBookmarked(
+                    res.operationPerformed === 'added' ? true : false || res.operationPerformed === 'removed' ? false : true || 'error'
+                );
+                if (res.success) {
+                    toast.success(res.message || 'Bookmark added');
+                } else {
+                    toast.error('Error adding bookmark');
+                    setIsBookmarked(bookmarked);
+                }
+            }).catch((err) => {
+                toast.error('Error adding bookmark');
+                console.log(err);
+                setIsBookmarked(bookmarked);
+            });
+        })
+    }
+
+    useEffect(() => {
+        setIsBookmarked(bookmarked);
+    }, [bookmarked])
+
     return (
         <Card className='w-full max-w-[400px] my-2 h-36 sm:h-24 mr-4'>
             <CardHeader>
@@ -25,8 +57,8 @@ const TimeStampCard = ({ timestamp }: TimeStampCardProps) => {
                         {dateString}
                     </div>
                     <ToolTipWrapper delay={700} text='Save snap' side='top' align='center'>
-                        <Button variant='secondary' size='sm'>
-                            {bookmarked ? <BookmarkFilledIcon className='w-4 h-4 mr-1' /> : <BookmarkIcon className='w-4 h-4 mr-1' />} Save
+                        <Button variant='secondary' size='sm' onClick={handleBookmark}>
+                            {isBookmarked ? <BookmarkFilledIcon className='w-4 h-4 mr-1' /> : <BookmarkIcon className='w-4 h-4 mr-1' />} Save
                         </Button>
                     </ToolTipWrapper>
                 </CardTitle>

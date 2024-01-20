@@ -1,37 +1,91 @@
 "use client"
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSelectLink } from '@/store/selected';
 import { CalendarDateRangePicker } from '@/components/date-picker';
 import { ImageCarousel } from './info/image-carousel';
-import { HistoryIcon } from 'lucide-react';
+import { HistoryIcon, Loader2Icon } from 'lucide-react';
 import { TimeLineComponent } from './timeline/links-timeline-component';
 import { Separator } from '@/components/ui/separator';
-import { MainTimeline } from './timeline/main-timeline';
+import { MainTimeline, MainTimelineSkeleton } from './timeline/main-timeline';
 import { MainImagesTab } from './info/main-images-tab';
+import { useMutation } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
+import axios from 'axios';
+import { toast } from 'sonner';
+import { Skeleton } from '@/components/ui/skeleton';
+import { LinkDataType } from '@/app/api/linkdata/route';
 interface LinkViewerProps {
 }
 
 export const LinkViewer = ({ }: LinkViewerProps) => {
+    const params = useSearchParams();
+    const paramLink = params.get('link');
+    const [linkData, setLinkData] = React.useState<LinkDataType>();
+    const { mutate: fetchData, isPending } = useMutation({
+        mutationFn: async () => {
+            const { data } = await axios.post('/api/linkdata', {
+                hashedUrl: params.get('link'),
+                period: 'DAILY'
+            })
+            setLinkData(data);
+        },
+        onError: () => {
+            toast.error('Error while fetching data')
+        },
+        onSuccess: () => {
+        },
+    });
+
+    React.useEffect(() => {
+        if (paramLink) {
+            fetchData();
+        }
+    }, [paramLink, fetchData])
+
     return (
-        <Tabs defaultValue="images">
-            <div className="flex items-center px-4 py-4">
-                <h1 className="text-2xl font-bold inline-flex items-center"> History</h1>
-                {/* <CalendarDateRangePicker className="ml-auto" /> */}
-                <TabsList className="ml-auto">
+        <>
+            {
+                (linkData && paramLink) ? (
+                    <Tabs defaultValue="images">
+                        <div className="flex items-center px-4 py-4">
+                            <h1 className="text-2xl font-bold inline-flex items-center"> History</h1>
 
-                    <TabsTrigger value='images'>Info</TabsTrigger>
-                    <TabsTrigger value='timeline'>Timeline</TabsTrigger>
-                </TabsList>
+                            {/* <CalendarDateRangePicker className="ml-auto" /> */}
+                            <TabsList className="ml-auto">
+                                <TabsTrigger value='images'>Info</TabsTrigger>
+                                <TabsTrigger value='timeline'>Timeline</TabsTrigger>
+                            </TabsList>
+                        </div>
+                        <Separator />
+                        <TabsContent value='timeline'>
+                            <MainTimeline linkData={linkData} />
+                        </TabsContent>
+                        <TabsContent value='images'>
+                            {JSON.stringify(linkData)}
+                            <MainImagesTab />
+                        </TabsContent>
+
+                    </Tabs>
+                ) : (null)
+            }
+            {
+                (!paramLink && !linkData) ? (
+                    "Select a link to view history"
+                ) : (
+                    <LinkViewerSkeleton />
+                )
+            }
+        </>
+    )
+}
+
+export const LinkViewerSkeleton = () => {
+    return (
+        <div className='flex flex-col h-full w-full'>
+            <div className="flex items-center justify-center w-full h-full">
+                <Loader2Icon className="animate-spin w-8 h-8 text-primary-500" />
             </div>
-            <Separator />
-            <TabsContent value='timeline'>
-                <MainTimeline  />
-            </TabsContent>
-            <TabsContent value='images'>
-                <MainImagesTab />
-            </TabsContent>
-
-        </Tabs>
+        </div>
     )
 }

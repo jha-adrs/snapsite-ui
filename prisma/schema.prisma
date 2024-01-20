@@ -41,23 +41,26 @@ model domains {
   includeParams      Boolean                    @default(true)
   links              links[]
   userdomainmap      userdomainmap[]
+
   @@index([domain], map: "Domains_domain_idx")
 }
 
 model linkdata {
-  id           Int             @id @default(autoincrement())
-  status       linkdata_status @default(PENDING)
-  images       Json
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
-  failedReason String?
-  hashedUrl    String
-  metadata     Json
-  htmlObjectKey    String          @db.LongText
-  screenshotKey    String          @db.LongText
-  thumbnailKey     String          @db.LongText
-  timing       links_timing    
-  bookmarks    Bookmarks[]
+  id            Int             @id @default(autoincrement())
+  status        linkdata_status @default(PENDING)
+  images        Json
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  failedReason  String?
+  hashedUrl     String
+  metadata      Json
+  htmlObjectKey String          @db.LongText
+  screenshotKey String          @db.LongText
+  thumbnailKey  String          @db.LongText
+  timing        links_timing
+  bookmarks     Bookmarks[]
+  links         links           @relation(fields: [hashedUrl], references: [hashedUrl], map: "LinkData_linkId_fkey")
+
   @@unique([hashedUrl, createdAt], map: "LinkData_hashedUrl_createdAt_key")
   @@index([createdAt], map: "LinkData_createdAt_idx")
   @@index([hashedUrl], map: "LinkData_hashedUrl_idx")
@@ -78,6 +81,7 @@ model links {
   updatedAt        DateTime      @updatedAt
   domains          domains       @relation(fields: [domainId], references: [id], map: "Links_domainId_fkey")
   userlinkmap      userlinkmap[]
+  linkdata         linkdata[]
 
   @@index([domainId], map: "Links_domainId_idx")
   @@index([hashedUrl], map: "Links_hashedUrl_idx")
@@ -263,18 +267,17 @@ model userdomainmap {
   @@index([domainId], map: "UserDomainMap_domainId_fkey")
   @@index([userId, domainId], map: "UserDomainMap_userId_domainId_idx")
 }
-model Bookmarks {
-  id       Int      @id @default(autoincrement())
-  userId   String
-  linkDataId Int
-  linkdata linkdata @relation(fields: [linkDataId], references: [id], map: "Bookmarks_linkDataId_fkey")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user     User     @relation(fields: [userId], references: [id], map: "Bookmarks_userId_fkey")
 
+model Bookmarks {
+  id         Int      @id @default(autoincrement())
+  userId     String
+  linkDataId Int
+  linkdata   linkdata @relation(fields: [linkDataId], references: [id], map: "Bookmarks_linkDataId_fkey")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], map: "Bookmarks_userId_fkey")
+  isDeleted Boolean  @default(false)
   @@unique([userId, linkDataId], map: "Bookmarks_userId_linkDataId_key")
   @@index([linkDataId], map: "Bookmarks_linkDataId_fkey")
   @@index([userId])
-  
-
 }

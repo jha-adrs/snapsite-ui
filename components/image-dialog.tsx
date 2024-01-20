@@ -9,13 +9,15 @@ import { ScrollArea } from './ui/scroll-area';
 import { useWindowSize } from 'usehooks-ts';
 import { cn } from '@/lib/utils';
 interface ImageDialogProps {
-    thumbnailUrl: string;
-    imageUrl: string;
+    thumbnailUrl?: string;
+    imageUrl?: string;
     className?: string;
 }
 
 export const ImageDialog = ({ thumbnailUrl, imageUrl, className }: ImageDialogProps) => {
     const { width, height } = useWindowSize();
+    if(!imageUrl) imageUrl = "default";
+    if (!thumbnailUrl) thumbnailUrl = "default";
     return (
         <div className={cn(
             className,
