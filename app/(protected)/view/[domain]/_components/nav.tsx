@@ -7,7 +7,7 @@ import { useSelectLink } from "@/store/selected"
 import { ToolTipWrapper } from "@/components/tooltip-wrapper"
 import { Badge } from "@/components/ui/badge"
 import { useEffect } from "react"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 interface NavProps {
     isCollapsed: boolean
@@ -16,14 +16,12 @@ interface NavProps {
 
 export function Nav({ links, isCollapsed }: NavProps) {
     const { onLinkChange, selectedLink, selectedDomain } = useSelectLink((state) => state)
-    const path = usePathname();
     const searchParams = useSearchParams();
-    const router = useRouter();
     useEffect(() => {
         if (searchParams.get('link')) {
             onLinkChange(searchParams.get('link') as string)
         }
-    }, [path, router, onLinkChange, searchParams])
+    }, [ onLinkChange, searchParams])
     return (
         <div
             data-collapsed={isCollapsed}

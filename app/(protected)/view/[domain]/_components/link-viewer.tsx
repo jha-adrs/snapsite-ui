@@ -13,7 +13,6 @@ interface LinkViewerProps {
 }
 
 export const LinkViewer = ({ }: LinkViewerProps) => {
-    const { selectedDomain, selectedLink } = useSelectLink((state) => state);
     return (
         <Tabs defaultValue="images">
             <div className="flex items-center px-4 py-4">
@@ -27,10 +26,10 @@ export const LinkViewer = ({ }: LinkViewerProps) => {
             </div>
             <Separator />
             <TabsContent value='timeline'>
-                <MainTimeline selectedLink={selectedLink} />
+                <MainTimeline  />
             </TabsContent>
             <TabsContent value='images'>
-                <MainImagesTab selectedLink={selectedLink} />
+                <MainImagesTab />
             </TabsContent>
 
         </Tabs>

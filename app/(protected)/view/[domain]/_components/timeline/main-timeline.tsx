@@ -5,13 +5,12 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { useSearchParams } from 'next/navigation';
+import { useSelectLink } from '@/store/selected';
 
-interface MainTimelineProps {
-    selectedLink: string;
-}
 
-export const MainTimeline = ({ selectedLink }: MainTimelineProps) => {
+export const MainTimeline = () => {
     const params = useSearchParams();
+    const {selectedLink} = useSelectLink((state) => state);
     const { mutate: fetchData, isPending } = useMutation({
         mutationFn: async () => {
             const {data} = await axios.post('/api/linkdata',{
@@ -38,8 +37,8 @@ export const MainTimeline = ({ selectedLink }: MainTimelineProps) => {
             <div className="relative">
                 {
                     selectedLink ? (
-
-                        <TimeLineComponent selectedLink={selectedLink} />
+                        selectedLink
+                        // <TimeLineComponent selectedLink={selectedLink} />
                     ) : 'Select a link to continue'
                 }
             </div>

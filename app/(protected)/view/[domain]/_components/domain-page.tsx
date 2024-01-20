@@ -9,11 +9,10 @@ import { Input } from '@/components/ui/input';
 import { UserDomainLinksType } from '@/lib/links';
 import { useSidebar } from '@/store/use-sidebar';
 import { LinkViewer } from './link-viewer';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useSelectLink } from '@/store/selected';
 
 interface DomainPageProps {
-    currentDomain: string
     domains: {
         label: string;
         id: number;
@@ -29,14 +28,14 @@ interface DomainPageProps {
 export const DomainPage = ({
     domains,
     links,
-    currentDomain,
     defaultLayout = [300, 700],
     defaultCollapsed = false,
     navCollapsedSize,
 }: DomainPageProps) => {
     const { collapsed, onCollapse, onExpand } = useSidebar((state) => state)
     const [isCollapsed, setIsCollapsed] = React.useState(collapsed)
-    
+
+
     return (
         <ResizablePanelGroup
             direction="horizontal"
@@ -72,7 +71,7 @@ export const DomainPage = ({
                 className={cn(isCollapsed && "min-w-[50px] transition-all duration-300 ease-in-out",)}
             >
                 <div className={cn("flex h-[52px] items-center justify-center", isCollapsed ? 'h-[52px]' : 'px-2')}>
-                    <DomainSwitcher isCollapsed={collapsed} domains={domains} currentDomain={currentDomain} />
+                    <DomainSwitcher isCollapsed={collapsed} domains={domains} />
                 </div>
                 <Separator className='' />
                 <Nav

@@ -10,17 +10,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { toast } from "sonner"
-import axios from "axios";
-import { useSelectDomain } from "@/store/selected"
-
-
+import { useSelectLink } from "@/store/selected"
 interface DomainSwitcherProps {
     isCollapsed: boolean
-    currentDomain: string
     domains: {
         label: string
         id: number
@@ -32,41 +26,17 @@ interface DomainSwitcherProps {
 export function DomainSwitcher({
     isCollapsed,
     domains,
-    currentDomain
 }: DomainSwitcherProps) {
-    const path = usePathname();
     const router = useRouter();
+    const path = usePathname();
     //const { selectedDomain, onDomainChange } = useSelectDomain((state) => state);
-    const [selectedDomain, onDomainChange] = React.useState(currentDomain);
-    const { mutate: refetchDomain, isPending } = useMutation({
-        mutationFn: async () => {
-            console.log("test");
-            const { data } = await axios.get(`/api/links`,{
-                params: {
-                    domain: selectedDomain
-                }
-            });
-            return data;
-        },
-        onError: (error) => {
-            console.log(error);
-            toast.error(error.message || "Something went wrong");
-        },
-        onSuccess: () => {
-            toast.success("Successfully added domain");
-        }
-    })
-
-
-    React.useEffect(() => {
-        // On domain change, update the current URL
-        if (selectedDomain === '') {
-            onDomainChange(currentDomain);
-        }
-
-    }, [selectedDomain, currentDomain, onDomainChange])
+    const { onDomainChange, onLinkChange } = useSelectLink((state) => state);
+    const domainInPath = React.useMemo(() => {
+        return path.split('/')[2];
+    }, [path]);
     return (
-        <Select defaultValue={currentDomain} onValueChange={(e) => {
+        <Select defaultValue={domainInPath} onValueChange={(e) => {
+            onLinkChange('');
             onDomainChange(e);
             router.replace(`/view/${e}`);
             router.refresh();
@@ -77,16 +47,16 @@ export function DomainSwitcher({
                     isCollapsed &&
                     "flex h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>svg]:hidden"
                 )}
-                aria-label="Select account"
+                aria-label="Select domain"
             >
-                <SelectValue placeholder="Select an account">
+                <SelectValue placeholder="Select a domain">
                     <Avatar className="h-6 w-6 border-2 border-primary">
-                        <AvatarImage src={domains.find((domain) => domain.label === selectedDomain)?.icon} alt="Avatar" />
+                        <AvatarImage src={domains.find((domain) => domain.label === domainInPath)?.icon} alt="Avatar" />
                         <AvatarFallback>?</AvatarFallback>
                     </Avatar>
                     <span className={cn("ml-2", isCollapsed && "hidden")}>
                         {
-                            domains.find((domain) => domain.label === selectedDomain)
+                            domains.find((domain) => domain.label === domainInPath)
                                 ?.label
                         }
                     </span>
