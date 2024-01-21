@@ -39,7 +39,7 @@ export const TimeLineComponent = ({ selectedLink, linkData }: TimeLineComponentP
                             return (
                                 <TimelineItem key={index} thumbnailUrl={key.thumbnail.url} imageUrl={key.screenshot.url}>
                                     
-                                    <TimeStampCard bookmarked={key.bookmarked} hashedUrl={linkData.link.hashedUrl} linkDataId={key.id} timestamp={key.createdAt} />
+                                    <TimeStampCard imageUrl={key.screenshot.url} bookmarked={key.bookmarked} hashedUrl={linkData.link.hashedUrl} linkDataId={key.id} timestamp={key.createdAt} />
                                 </TimelineItem>
                             )
                         })

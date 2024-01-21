@@ -1,4 +1,5 @@
 "use server"
+import { startSingleCron } from "@/lib/api";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getHash } from "@/lib/links";
@@ -94,6 +95,7 @@ export const addLink = async ({
                 hashedUrl: true,
                 timing: true,
                 domainId: true,
+                createdAt: true,
             }
         });
         const userLinkRes = await db.userlinkmap.upsert({
@@ -154,6 +156,15 @@ export const addLink = async ({
     revalidatePath("/view");
     revalidatePath(`/view/${domain}`);
     logger.info("Created link", { createRes })
+    
+    const now = new Date();
+    const timeDiff = createRes.link.createdAt.getTime() - now.getTime();
+    //Start the cron job only if the link was created in the last 2 seconds
+    // if(timeDiff < 2000){
+    //     logger.info("Starting cron job as time is less than 2sec ", {hash, timing, url});
+    //     startSingleCron(hash, timing, url); // Start the cron job for the link
+    // }
+
     if (createRes.userLink.id) {
         return true;
     }

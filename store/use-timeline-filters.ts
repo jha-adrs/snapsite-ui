@@ -13,7 +13,7 @@ interface UseTimelineFiltersState {
 
 // TODO: Add resizable sidebar
 
-export const useSelectDomain = create<UseTimelineFiltersState>((set) => ({
+export const useTimelineFilters = create<UseTimelineFiltersState>((set) => ({
     timing: "DAILY",
     onTimingChange: (timing) => set({ timing }),
     timeRangeStart: new Date(),

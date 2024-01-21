@@ -1,6 +1,7 @@
 "use client"
 interface ImageCarouselProps {
     selectedLink: string;
+    linkData: LinkDataType;
 }
 import * as React from "react"
 import { Card, CardContent } from "@/components/ui/card"
@@ -19,8 +20,9 @@ import { FullscreenIcon } from "lucide-react";
 import { ToolTipWrapper } from "@/components/tooltip-wrapper";
 import { ZoomOutIcon, ZoomInIcon } from "@radix-ui/react-icons";
 import { ImageDialog } from "@/components/image-dialog";
+import { LinkDataType } from "@/app/api/linkdata/route";
 
-export function ImageCarousel({ selectedLink }: ImageCarouselProps) {
+export function ImageCarousel({ selectedLink,linkData }: ImageCarouselProps) {
     const { width, height } = useWindowSize();
     React.useEffect(() => {
         console.log(width, height);
@@ -36,10 +38,10 @@ export function ImageCarousel({ selectedLink }: ImageCarouselProps) {
                 className="w-full max-w-lg md:max-w-3xl lg:max-w-7xl"
             >
                 <CarouselContent className="">
-                    {Array.from({ length: 5 }).map((_, index) => (
+                    {linkData.keys.map((link, index) => (
                         <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                             <div className="p-1">
-                                <ImageDialog thumbnailUrl={data.data[1].url} imageUrl={data.data[0].url} />
+                                <ImageDialog thumbnailUrl={link.thumbnail.url} imageUrl={link.screenshot.url} />
 
                             </div>
                         </CarouselItem>

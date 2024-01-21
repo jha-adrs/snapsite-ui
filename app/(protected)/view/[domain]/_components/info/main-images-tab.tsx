@@ -3,24 +3,30 @@ import React from 'react';
 import { ImageCarousel } from './image-carousel';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useSelectLink } from '@/store/selected';
+import { LinkInfo } from './link-info';
+import { LinkDataType } from '@/app/api/linkdata/route';
+import { LinkHeatmap } from './heatmap';
 
+interface MainImagesTabProps {
+    linkData: LinkDataType;
+}
 
-export const MainImagesTab = () => {
+export const MainImagesTab = ({ linkData }: MainImagesTabProps) => {
     const searchParams = useSearchParams();
     const path = usePathname();
     const { selectedLink } = useSelectLink((state) => state);
     return (
-        <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <h1 className="text-xl font-bold inline-flex items-center"> Link Info</h1>
-            <div className="relative">
-                {
-                    selectedLink ? (
-                        selectedLink
-                        // <ImageCarousel selectedLink={selectedLink} />
-                    ) : 'Select a link to continue'
-                }
-            </div>
+        <>
+            {
+                selectedLink ? (
+                    <div className='item-center'>
+                        <LinkInfo linkData={linkData.link} />
+                        <LinkHeatmap />
 
-        </div>
+                        <ImageCarousel linkData={linkData} selectedLink={selectedLink} />
+                    </div>
+                ) : 'Select a link to continue'
+            }
+        </>
     )
 }

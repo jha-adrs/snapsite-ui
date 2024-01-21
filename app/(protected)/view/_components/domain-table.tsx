@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { useDomainSortOrder } from '@/store/sort-order';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 
 type DomainInfo = {
   domain: string;
@@ -131,7 +132,7 @@ export const DomainTable = ({
           onChange={(e) => setGlobalFilter(e.target.value)}
           className='w-2/6 my-2'
         />
-        <Button className='ml-2' variant={"secondary"} size={'default'}>
+        <Button className='ml-2' variant={"outline"} size={'default'}>
           <ListFilter className='w-4 h-4 mr-1'/> Filters
         </Button>
 
@@ -181,23 +182,26 @@ export const DomainTable = ({
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </div>
+                <p className='font-semibold text-sm'>
+                Page {table.getState().pagination.pageIndex+1} of {table.getPageCount()}
+                </p>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    <ChevronLeftIcon className='w-4 h-4' />
+                </Button>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}
+                >
+                    <ChevronRightIcon className='w-4 h-4' />
+                </Button>
+            </div>
     </>
   )
 }

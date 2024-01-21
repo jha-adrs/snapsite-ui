@@ -12,10 +12,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { AArrowDownIcon, ArrowUpRightSquare, GlobeIcon, HistoryIcon, Trash2Icon } from 'lucide-react';
+import { AArrowDownIcon, ArrowUpRightSquare, ChevronLeft, ChevronRight, GlobeIcon, HistoryIcon, ListFilter, Trash2Icon } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { CaretDownIcon, Link2Icon } from '@radix-ui/react-icons';
+import { CaretDownIcon, ChevronLeftIcon, ChevronRightIcon, Link2Icon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { userlinkmap_timing } from '@prisma/client';
 import { CopyCustomIcon } from '@/components/copy-icon';
@@ -121,7 +121,7 @@ const columns: ColumnDef<LinkInfo>[] = [
                             Actions <CaretDownIcon className="w-4 h-4 ml-1" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent  align="start">
+                    <DropdownMenuContent align="start">
                         <DropdownMenuItem onClick={() => { }}>
                             Light
                         </DropdownMenuItem>
@@ -195,8 +195,12 @@ export const LinksTable = ({
                     className='w-2/6 my-2'
                 />
 
+                <Button className='ml-2' variant={"outline"} size={'default'}>
+                    <ListFilter className='w-4 h-4 mr-1' /> Filters
+                </Button>
+
             </div>
-            <div className=" rounded-md border">
+            <div className=" rounded-md border no-scrollbar">
 
                 <Table className=''>
                     <TableHeader>
@@ -242,21 +246,24 @@ export const LinksTable = ({
                 </Table>
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
+                <p className='font-semibold text-sm'>
+                    Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+                </p>
                 <Button
                     variant="outline"
-                    size="sm"
+                    size="icon"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
-                    Previous
+                    <ChevronLeftIcon className='w-4 h-4' />
                 </Button>
                 <Button
                     variant="outline"
-                    size="sm"
+                    size="icon"
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
                 >
-                    Next
+                    <ChevronRightIcon className='w-4 h-4' />
                 </Button>
             </div>
         </>

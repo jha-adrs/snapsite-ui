@@ -1,20 +1,23 @@
 import React, { useEffect, useTransition } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { BookmarkFilledIcon, BookmarkIcon, CameraIcon } from '@radix-ui/react-icons';
+import { BookmarkFilledIcon, BookmarkIcon, CameraIcon, DownloadIcon } from '@radix-ui/react-icons';
 import { duration } from '@/lib/utils';
 import { Button } from './ui/button';
 import { ToolTipWrapper } from './tooltip-wrapper';
 import { addBookmark } from '@/actions/add-bookmark';
 import { toast } from 'sonner';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 interface TimeStampCardProps {
     timestamp: Date;
     hashedUrl: string;
     linkDataId: number;
     bookmarked: boolean;
+    imageUrl?: string;
 }
 
-const TimeStampCard = ({ timestamp, linkDataId, hashedUrl,bookmarked }: TimeStampCardProps) => {
+const TimeStampCard = ({ timestamp, linkDataId, hashedUrl, bookmarked, imageUrl }: TimeStampCardProps) => {
     const [isPending, startTransition] = useTransition();
     const [isBookmarked, setIsBookmarked] = React.useState<boolean>(bookmarked);
     // Using optimistic updates
@@ -56,11 +59,27 @@ const TimeStampCard = ({ timestamp, linkDataId, hashedUrl,bookmarked }: TimeStam
                         <CameraIcon className='w-6 h-6' />
                         {dateString}
                     </div>
-                    <ToolTipWrapper delay={700} text='Save snap' side='top' align='center'>
-                        <Button variant='secondary' size='sm' onClick={handleBookmark}>
-                            {isBookmarked ? <BookmarkFilledIcon className='w-4 h-4 mr-1' /> : <BookmarkIcon className='w-4 h-4 mr-1' />} Save
-                        </Button>
-                    </ToolTipWrapper>
+                    <div className=''>
+                        <ToolTipWrapper delay={700} text='Save snap' side='top' align='center'>
+                            <Button variant='secondary' size='sm' onClick={handleBookmark}>
+                                {isBookmarked ? <BookmarkFilledIcon className='w-4 h-4 mr-1' /> : <BookmarkIcon className='w-4 h-4 mr-1' />} Save
+                            </Button>
+                        </ToolTipWrapper>
+                        <ToolTipWrapper delay={700} text='Download Image'>
+                            <Button className='mx-1' variant={"secondary"} size={"sm"} disabled={!imageUrl}
+                                onClick={
+                                    //Download Image
+                                    () => imageUrl ? redirect(imageUrl) : (
+                                        toast.error('No image found')
+                                    )
+                                }
+                            >
+                                <Link href={imageUrl || ""} target='_blank'>
+                                    <DownloadIcon className='w-4 h-4' />
+                                </Link>
+                            </Button>
+                        </ToolTipWrapper>
+                    </div>
                 </CardTitle>
                 <CardDescription className='relative inline-flex justify-between items-center'>
                     <p className="text-muted-foreground">
@@ -69,6 +88,7 @@ const TimeStampCard = ({ timestamp, linkDataId, hashedUrl,bookmarked }: TimeStam
                     <p>
                         {timeDiff} ago
                     </p>
+
                 </CardDescription>
 
             </CardHeader>

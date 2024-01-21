@@ -49,7 +49,9 @@ export const LinkViewer = ({ }: LinkViewerProps) => {
                 (linkData && paramLink) ? (
                     <Tabs defaultValue="images">
                         <div className="flex items-center px-4 py-4">
-                            <h1 className="text-2xl font-bold inline-flex items-center"> History</h1>
+                            <h1 className="text-2xl font-bold inline-flex items-center">
+                                Link History
+                            </h1>
 
                             {/* <CalendarDateRangePicker className="ml-auto" /> */}
                             <TabsList className="ml-auto">
@@ -62,20 +64,14 @@ export const LinkViewer = ({ }: LinkViewerProps) => {
                             <MainTimeline linkData={linkData} />
                         </TabsContent>
                         <TabsContent value='images'>
-                            {JSON.stringify(linkData)}
-                            <MainImagesTab />
+                            <MainImagesTab  linkData={linkData}/>
+                    
                         </TabsContent>
 
                     </Tabs>
                 ) : (null)
             }
-            {
-                (!paramLink && !linkData) ? (
-                    "Select a link to view history"
-                ) : (
-                    <LinkViewerSkeleton />
-                )
-            }
+            
         </>
     )
 }

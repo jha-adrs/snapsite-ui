@@ -9,6 +9,10 @@ import { TimeLineComponent } from './links-timeline-component';
 import { CalendarDateRangePicker } from '@/components/date-picker';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { MixerHorizontalIcon } from '@radix-ui/react-icons';
+import { useTimelineFilters } from '@/store/use-timeline-filters';
+import { links_timing } from '@prisma/client';
 
 interface MainTimelineProps {
     linkData: LinkDataType;
@@ -17,15 +21,65 @@ interface MainTimelineProps {
 export const MainTimeline = ({ linkData }: MainTimelineProps) => {
     const params = useSearchParams();
     const { selectedLink } = useSelectLink((state) => state);
-
+    const {
+        timing,
+        onTimingChange,
+    } = useTimelineFilters((state) => state);
+    const [selectTiming, setSelectTiming] = React.useState<links_timing>(timing);
     return (
         <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 
             <div className="w-full justify-end mb-8 inline-flex gap-x-2 items-center">
-              <Button variant={"outline"}>
-                <PlusCircleIcon className='w-4 h-4 mr-2'/> Timing
-              </Button>
-              <CalendarDateRangePicker />
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline">
+                        <MixerHorizontalIcon className='w-4 h-4 mr-1'/> Timing
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent side='top' className="w-56">
+                        <DropdownMenuLabel>Timing</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuCheckboxItem
+                            checked={selectTiming === 'DAILY' ? true : false}
+                            onCheckedChange={
+                                () => {
+                                    setSelectTiming('DAILY');
+                                    onTimingChange('DAILY');
+                                }
+                            }
+                        >
+                            Day
+                        </DropdownMenuCheckboxItem>
+                        <DropdownMenuCheckboxItem
+                            checked={
+                                selectTiming === 'WEEKLY' ? true : false
+                            }
+                            onCheckedChange={
+                                () => {
+                                    setSelectTiming('WEEKLY');
+                                    onTimingChange('WEEKLY');
+                                }
+                            }
+                            
+                        >
+                            Week
+                        </DropdownMenuCheckboxItem>
+                        <DropdownMenuCheckboxItem
+                            checked={
+                                selectTiming === 'MONTHLY' ? true : false
+                            }
+                            onCheckedChange={
+                                () => {
+                                    setSelectTiming('MONTHLY');
+                                    onTimingChange('MONTHLY');
+                                }
+                            }
+                        >
+                            Month
+                        </DropdownMenuCheckboxItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+                <CalendarDateRangePicker />
             </div>
             <div className="relative">
                 {
