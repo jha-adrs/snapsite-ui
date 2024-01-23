@@ -7,6 +7,7 @@ import { getUserLinks } from '@/lib/links';
 import { getUserCountData } from '@/lib/user';
 import { DownloadIcon, UploadIcon } from '@radix-ui/react-icons';
 import { ToolTipWrapper } from '@/components/tooltip-wrapper';
+import { UploadCSVDialog } from '@/components/upload-csv-dialog';
 
 interface DashboardLayoutProps {
     children: React.ReactNode;
@@ -23,11 +24,7 @@ const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
                 </h2>
                 <div className="flex items-center space-x-2">
                     <AddLinkDialog />
-                    <ToolTipWrapper text='Download'>
-                        <Button variant={"outline"} size={"icon"} disabled>
-                            <DownloadIcon className='w-4 h-4' />
-                        </Button>
-                    </ToolTipWrapper>
+                    <UploadCSVDialog />
                 </div>
             </div>
             <DashboardCards data={links} countData={countData} />

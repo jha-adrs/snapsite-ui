@@ -1,3 +1,4 @@
+
 import { getAuthSession } from "./auth";
 import { db } from "./db";
 import logger from "./logger";
@@ -75,3 +76,30 @@ export const getUserCountData = async () => {
 // TODO: Needs review
 export type PromiseType<T extends Promise<any>> = T extends Promise<infer U> ? U : never;
 export type UserCountDataType = PromiseType<ReturnType<typeof getUserCountData>>;
+
+export const getCurrentUser = async () => {
+    try {
+        const session = await getAuthSession();
+        if (!session || !session.user || !session.user.email) {
+            throw new Error("No session found");
+        }
+        const user = await db.user.findUnique({
+            where: {
+                email: session.user.email,
+            },
+            select: {
+                id: true,
+                email: true,
+            }
+        });
+        if (!user) {
+            logger.error("No user found in getCurrentUser fn [user.ts]");
+            throw new Error("No user found in getCurrentUser fn [user.ts]");
+        }
+        logger.info("getCurrentUser fn [user.ts]");
+        return user;
+    } catch (error) {
+        logger.error("Error in getCurrentUser fn [user.ts]", error);
+        throw new Error("Error in getCurrentUser fn [user.ts]");
+    }
+}
