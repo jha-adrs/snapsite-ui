@@ -7,6 +7,7 @@ import {
     ChevronDownIcon,
     CircleIcon,
     CountdownTimerIcon,
+    GlobeIcon,
     Pencil1Icon,
     PlusIcon,
     StarIcon,
@@ -32,6 +33,7 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { EditLinkDialog } from '../edit-link';
 import { TimerIcon } from 'lucide-react';
+import { LinkHeatmap } from './heatmap';
 interface LinkInfoProps {
     linkData: LinkDataType["link"];
 }
@@ -39,21 +41,36 @@ interface LinkInfoProps {
 export const LinkInfo = ({ linkData }: LinkInfoProps) => {
     return (
         <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <div className="relative">
+            <div className="relative grid grid-cols-1 md:grid-cols-2">
 
                 <Card>
-                    <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
-                        <div className="space-y-1">
-                            <CardTitle>Link Info</CardTitle>
-                            <CardDescription>
-                                <ul>
-                                    <li>Assigned name -
-                                        STC
-                                    </li>
-                                </ul>
-                            </CardDescription>
+                    <CardHeader className="flex  items-start space-y-2">
+                        <CardTitle>Assigned Name</CardTitle>
+                        <CardDescription>
+                            Summarized description of the link
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className='gap-y-2'>
+                        <div>
+                            <p className='inline-flex items-center gap-x-2'>
+                               <GlobeIcon className='w-4 h-4'/> {linkData.domains.domain}
+                            </p>
+                            <div className="flex space-x-4 text-sm font-semibold">
+                                <div className="flex items-center">
+                                    <TimerIcon className="mr-1 h-4 w-4 " />
+                                    {linkData.timing}
+                                </div>
+                                <div className="flex items-center">
+                                    <CountdownTimerIcon className="mr-1 h-4 w-4" />
+                                    20
+                                </div>
+                                <div className='flex items-center'>
+                                    <CalendarIcon className="mr-1 h-4 w-4" />
+                                    11/11/11
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex items-center space-x-1 rounded-md bg-secondary text-secondary-foreground">
+                        <div className="flex w-fit items-center space-x-1 rounded-md bg-secondary text-secondary-foreground">
                             <EditLinkDialog>
                                 <Button variant="secondary" className="px-3 shadow-none">
                                     <Pencil1Icon className="mr-2 h-4 w-4" />
@@ -87,24 +104,9 @@ export const LinkInfo = ({ linkData }: LinkInfoProps) => {
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="flex space-x-4 text-sm text-muted-foreground">
-                            <div className="flex items-center">
-                                <TimerIcon className="mr-1 h-4 w-4 " />
-                                {linkData.timing}
-                            </div>
-                            <div className="flex items-center">
-                                <CountdownTimerIcon className="mr-1 h-4 w-4" />
-                                20
-                            </div>
-                            <div className='flex items-center'>
-                            <CalendarIcon className="mr-1 h-4 w-4" />
-                                11/11/11
-                            </div>
-                        </div>
                     </CardContent>
                 </Card>
+                <LinkHeatmap />
             </div>
 
         </div>

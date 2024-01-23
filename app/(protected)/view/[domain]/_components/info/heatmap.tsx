@@ -19,7 +19,7 @@ export const LinkHeatmap = () => {
                 <HeatMap
                     value={value}
                     width={600}
-                    style={{ color: '#ffffff', '--rhm-rect-active': 'green' }}
+                    style={{ color: 'var(--foreground)'}}
                     startDate={new Date('2016/01/01')}
                     rectProps={{
                         rx: 2,

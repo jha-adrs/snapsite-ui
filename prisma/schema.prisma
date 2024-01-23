@@ -14,6 +14,18 @@ model cron {
   updatedAt DateTime    @updatedAt
 }
 
+model failedCronLinks {
+  id       Int      @id @default(autoincrement())
+  linkId   Int
+  hashedUrl String
+  timing   links_timing
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  links    links    @relation(fields: [linkId], references: [id], map: "FailedCronLinks_linkId_fkey")
+  @@index([linkId], map: "FailedCronLinks_linkId_fkey")
+  @@index([hashedUrl], map: "FailedCronLinks_hashedUrl_idx")
+  
+}
 model cronhistory {
   id            Int                @id @default(autoincrement())
   links         Json
@@ -67,22 +79,23 @@ model linkdata {
 }
 
 model links {
-  id               Int           @id @default(autoincrement())
-  url              String        @db.LongText
-  hashedUrl        String        @unique(map: "Links_hashedUrl_key") //With params
-  params           String?
-  isActive         Boolean       @default(true)
-  trackingImage    Boolean       @default(false)
-  imageUrl         String?
-  hasConfigChanged Boolean       @default(false)
-  timing           links_timing  @default(WEEKLY)
-  domainId         Int
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
-  domains          domains       @relation(fields: [domainId], references: [id], map: "Links_domainId_fkey")
-  userlinkmap      userlinkmap[]
-  linkdata         linkdata[]
-
+  id                 Int           @id @default(autoincrement())
+  url                String        @db.LongText
+  hashedUrl          String        @unique(map: "Links_hashedUrl_key") //With params
+  params             String?
+  isActive           Boolean       @default(true)
+  trackingImage      Boolean       @default(false)
+  imageUrl           String?
+  hasConfigChanged   Boolean       @default(false)
+  timing             links_timing  @default(WEEKLY)
+  domainId           Int
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  enablePriceTracker Boolean       @default(false)
+  domains            domains       @relation(fields: [domainId], references: [id], map: "Links_domainId_fkey")
+  userlinkmap        userlinkmap[]
+  linkdata           linkdata[]
+  failedCronLinks    failedCronLinks[]
   @@index([domainId], map: "Links_domainId_idx")
   @@index([hashedUrl], map: "Links_hashedUrl_idx")
   @@index([isActive])
@@ -276,7 +289,8 @@ model Bookmarks {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   user       User     @relation(fields: [userId], references: [id], map: "Bookmarks_userId_fkey")
-  isDeleted Boolean  @default(false)
+  isDeleted  Boolean  @default(false)
+
   @@unique([userId, linkDataId], map: "Bookmarks_userId_linkDataId_key")
   @@index([linkDataId], map: "Bookmarks_linkDataId_fkey")
   @@index([userId])

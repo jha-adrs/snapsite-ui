@@ -14,6 +14,7 @@ import { ToolTipWrapper } from '@/components/tooltip-wrapper';
 import { UserLinksType } from '@/lib/links';
 import { UserCountDataType } from '@/lib/user';
 import { Overview } from './overview';
+import { BookmarkFilledIcon, BookmarkIcon } from '@radix-ui/react-icons';
 interface DashboardCardsProps {
     data: UserLinksType;
     countData: UserCountDataType;
@@ -65,16 +66,16 @@ export const DashboardCards = ({
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
-                            Inactive Links
+                            Bookmarks
                         </CardTitle>
-                        <Link2OffIcon className='h-4 w-4 text-muted-foreground' />
+                        <BookmarkIcon className='h-4 w-4 text-muted-foreground' />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
-                            0{/* 0 Need to add */}
+                            {countData.bookmarks}
                         </div>
                         <p className="text-xs text-muted-foreground">
-                            Number of inactive links in your bucket
+                            Number of bookmarked snaps
                         </p>
                     </CardContent>
                 </Card>

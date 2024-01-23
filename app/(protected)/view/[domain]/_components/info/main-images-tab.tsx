@@ -19,9 +19,9 @@ export const MainImagesTab = ({ linkData }: MainImagesTabProps) => {
         <>
             {
                 selectedLink ? (
-                    <div className='item-center'>
+                    <div className='items-center'>
                         <LinkInfo linkData={linkData.link} />
-                        <LinkHeatmap />
+                        
 
                         <ImageCarousel linkData={linkData} selectedLink={selectedLink} />
                     </div>

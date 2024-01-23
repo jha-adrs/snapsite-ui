@@ -5,7 +5,7 @@ import logger from "./logger";
 export const getUserByEmailPublic = async (email: string) => {
     try {
         logger.info("getUserByEmail fn [user.ts]");
-        
+
         const user = await db.user.findUnique({
             where: {
                 email
@@ -57,10 +57,15 @@ export const getUserCountData = async () => {
                 userId: user.id,
             }
         });
-        
-        const [links, domains, notifications] = await Promise.all([linkCount, domainCount, notificationCount]);
+        const bookmarkCount = db.bookmarks.count({
+            where: {
+                userId: user.id,
+            }
+        })
+
+        const [links, domains, notifications, bookmarks] = await Promise.all([linkCount, domainCount, notificationCount, bookmarkCount]);
         logger.info("getUserCountData fn [user.ts]");
-        return { links, domains, notifications };
+        return { links, domains, notifications,bookmarks };
     } catch (error) {
         logger.error("Error in getUserCountData fn [user.ts]", error);
         throw new Error("Error in getUserCountData fn [user.ts]");
@@ -68,5 +73,5 @@ export const getUserCountData = async () => {
 }
 
 // TODO: Needs review
-export type PromiseType< T extends Promise<any>> = T extends Promise<infer U> ? U : never;
+export type PromiseType<T extends Promise<any>> = T extends Promise<infer U> ? U : never;
 export type UserCountDataType = PromiseType<ReturnType<typeof getUserCountData>>;

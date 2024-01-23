@@ -3,6 +3,7 @@ import { UserNav } from './user-nav';
 import Logo from './logo';
 import { ModeToggle } from '@/components/mode-toggle';import { NavItems } from './nav-items';
 import { NotificationTab } from './notification-tab';
+import { BookmarksTab } from './bookmarks';
 
 
 interface DashboardProps {

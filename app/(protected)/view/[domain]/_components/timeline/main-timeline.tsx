@@ -13,6 +13,8 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { MixerHorizontalIcon } from '@radix-ui/react-icons';
 import { useTimelineFilters } from '@/store/use-timeline-filters';
 import { links_timing } from '@prisma/client';
+import { SelectLink } from '@/components/select-link';
+import { TimelineActions } from './actions';
 
 interface MainTimelineProps {
     linkData: LinkDataType;
@@ -28,64 +30,13 @@ export const MainTimeline = ({ linkData }: MainTimelineProps) => {
     const [selectTiming, setSelectTiming] = React.useState<links_timing>(timing);
     return (
         <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-
-            <div className="w-full justify-end mb-8 inline-flex gap-x-2 items-center">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline">
-                        <MixerHorizontalIcon className='w-4 h-4 mr-1'/> Timing
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent side='top' className="w-56">
-                        <DropdownMenuLabel>Timing</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuCheckboxItem
-                            checked={selectTiming === 'DAILY' ? true : false}
-                            onCheckedChange={
-                                () => {
-                                    setSelectTiming('DAILY');
-                                    onTimingChange('DAILY');
-                                }
-                            }
-                        >
-                            Day
-                        </DropdownMenuCheckboxItem>
-                        <DropdownMenuCheckboxItem
-                            checked={
-                                selectTiming === 'WEEKLY' ? true : false
-                            }
-                            onCheckedChange={
-                                () => {
-                                    setSelectTiming('WEEKLY');
-                                    onTimingChange('WEEKLY');
-                                }
-                            }
-                            
-                        >
-                            Week
-                        </DropdownMenuCheckboxItem>
-                        <DropdownMenuCheckboxItem
-                            checked={
-                                selectTiming === 'MONTHLY' ? true : false
-                            }
-                            onCheckedChange={
-                                () => {
-                                    setSelectTiming('MONTHLY');
-                                    onTimingChange('MONTHLY');
-                                }
-                            }
-                        >
-                            Month
-                        </DropdownMenuCheckboxItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-                <CalendarDateRangePicker />
-            </div>
+            
+            <TimelineActions/>
             <div className="relative">
                 {
                     selectedLink ? (
                         <TimeLineComponent selectedLink={selectedLink} linkData={linkData} />
-                    ) : 'Select a link to continue'
+                    ) : <SelectLink/>
                 }
             </div>
 

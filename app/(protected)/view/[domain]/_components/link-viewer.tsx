@@ -15,6 +15,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { Skeleton } from '@/components/ui/skeleton';
 import { LinkDataType } from '@/app/api/linkdata/route';
+import { SelectLink } from '@/components/select-link';
 interface LinkViewerProps {
 }
 
@@ -69,6 +70,11 @@ export const LinkViewer = ({ }: LinkViewerProps) => {
                         </TabsContent>
 
                     </Tabs>
+                ) : (null)
+            }
+            {
+                !paramLink ? (
+                   <SelectLink/>
                 ) : (null)
             }
             

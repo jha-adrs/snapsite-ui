@@ -12,7 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { AArrowDownIcon, ArrowUpRightSquare, ChevronLeft, ChevronRight, GlobeIcon, HistoryIcon, ListFilter, Trash2Icon } from 'lucide-react';
+import { AArrowDownIcon, ArrowUpRightSquare, ChevronLeft, ChevronRight, ChevronsLeftIcon, ChevronsRight, GlobeIcon, HistoryIcon, ListFilter, Trash2Icon } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { CaretDownIcon, ChevronLeftIcon, ChevronRightIcon, Link2Icon } from '@radix-ui/react-icons';
@@ -250,6 +250,14 @@ export const LinksTable = ({
                     Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
                 </p>
                 <Button
+                    variant={"outline"}
+                    size="icon"
+                    onClick={() =>table.setPageIndex(0)}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    <ChevronsLeftIcon className='w-4 h-4' />
+                </Button>
+                <Button
                     variant="outline"
                     size="icon"
                     onClick={() => table.previousPage()}
@@ -264,6 +272,14 @@ export const LinksTable = ({
                     disabled={!table.getCanNextPage()}
                 >
                     <ChevronRightIcon className='w-4 h-4' />
+                </Button>
+                <Button
+                    variant={"outline"}
+                    size="icon"
+                    onClick={() =>table.setPageIndex(table.getPageCount() - 1)}
+                    disabled={!table.getCanNextPage()}
+                >
+                    <ChevronsRight className='w-4 h-4' />
                 </Button>
             </div>
         </>

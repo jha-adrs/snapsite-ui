@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { ArrowUpRightSquare, GlobeIcon, ListFilter } from 'lucide-react';
+import { ArrowUpRightSquare, ChevronsLeftIcon, ChevronsRight, GlobeIcon, ListFilter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useDomainSortOrder } from '@/store/sort-order';
@@ -186,6 +186,14 @@ export const DomainTable = ({
                 Page {table.getState().pagination.pageIndex+1} of {table.getPageCount()}
                 </p>
                 <Button
+                    variant={"outline"}
+                    size="icon"
+                    onClick={() =>table.setPageIndex(0)}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    <ChevronsLeftIcon className='w-4 h-4' />
+                </Button>
+                <Button
                     variant="outline"
                     size="icon"
                     onClick={() => table.previousPage()}
@@ -200,6 +208,14 @@ export const DomainTable = ({
                     disabled={!table.getCanNextPage()}
                 >
                     <ChevronRightIcon className='w-4 h-4' />
+                </Button>
+                <Button
+                    variant={"outline"}
+                    size="icon"
+                    onClick={() =>table.setPageIndex(table.getPageCount() - 1)}
+                    disabled={!table.getCanNextPage()}
+                >
+                    <ChevronsRight className='w-4 h-4' />
                 </Button>
             </div>
     </>

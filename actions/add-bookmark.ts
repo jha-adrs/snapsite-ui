@@ -97,6 +97,7 @@ export const addBookmark = async (hashedUrl: string, linkDataId: number) => {
         console.error(error);
         return { success: false, message: "Something went wrong while updating!" };
     }
+    revalidatePath('/dashboard');
     revalidatePath(`/view/${domain}?link=${hashedUrl}`)
     logger.info("addBookmark", { operationPerformed });
     return { success: true, message: `Bookmark ${operationPerformed}`, operationPerformed }
