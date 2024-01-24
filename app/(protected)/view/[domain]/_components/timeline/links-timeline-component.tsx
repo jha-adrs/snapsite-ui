@@ -38,14 +38,18 @@ export const TimeLineComponent = ({ selectedLink, linkData }: TimeLineComponentP
                             //const bookmarked = linkData.linkData.bookmarks.find((bookmark) => bookmark.linkDataId === key.id) ? true : false;
                             return (
                                 <TimelineItem key={index} thumbnailUrl={key.thumbnail.url} imageUrl={key.screenshot.url}>
-                                    
+
                                     <TimeStampCard imageUrl={key.screenshot.url} bookmarked={key.bookmarked} hashedUrl={linkData.link.hashedUrl} linkDataId={key.id} timestamp={key.createdAt} />
                                 </TimelineItem>
                             )
                         })
                     }
                 </Timeline>
+                <p className="text-muted-foreground flex w-full items-center justify-center mt-12">
+                    You have reached the end of the timeline.
+                </p>
             </ScrollArea>
+
         </div>
     )
 }

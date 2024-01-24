@@ -73,7 +73,7 @@ export const DomainPage = ({
                 <div className={cn("flex h-[52px] items-center justify-center", isCollapsed ? 'h-[52px]' : 'px-2')}>
                     <DomainSwitcher isCollapsed={collapsed} domains={domains} />
                 </div>
-                <Separator className='' />
+                <Separator className='h-fit' />
                 <Nav
                     isCollapsed={collapsed}
                     links={links}

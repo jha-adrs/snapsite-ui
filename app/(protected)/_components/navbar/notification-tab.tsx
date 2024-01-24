@@ -47,18 +47,19 @@ export const NotificationTab = ({
                 
                 <ScrollArea className='w-full  rounded-md h-5/6'>
                     {
-                        notifications.length > 0 && notifications.map((_, i) => (
+                        notifications.length > 0 && notifications.map((notif, i) => (
                             <>
                                 <NotificationItem
-                                    key={i + 3 * 5}
+                                    key={i}
                                     id={i}
                                     userId="as"
-                                    message={`Notification ${i}`}
-                                    description={`This is a  tracking is stopped sign in again or contact support `}
-                                    createdAt={new Date()}
-                                    readStatus={i % 2 === 0}
-                                    priority={Notification_Priority.HIGH}
-                                    updatedAt={new Date()}
+                                    message={notif.message}
+                                    description={notif.description}
+                                    createdAt={notif.createdAt}
+                                    readStatus={notif.readStatus}
+                                    priority={notif.priority}
+                                    updatedAt={notif.updatedAt}
+                                    extraData={notif.extraData}
                                 />
                                 <Separator className="my-2" /></>
                         ))

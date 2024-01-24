@@ -52,3 +52,20 @@ export const changeNotificationReadStatus = async ({ id, read }: ChangeNotificat
     });
     logger.info("Updated notification", { notification });
 }
+
+export const getNotifications = async () => {
+    const user = await getCurrentUser();
+    if (!user) {
+        throw new Error("No user found");
+    }
+    const notifications = await db.notifications.findMany({
+        where: {
+            userId: user.id,
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+        take: 10,
+    });
+    return notifications;
+}

@@ -12,7 +12,7 @@ const NotificationItem = ({
     createdAt,
 }: Notifications) => {
     return (
-        <Button variant={"ghost"} className={cn("flex flex-row w-9/10 h-12 my-2 mr-1",
+        <Button variant={"ghost"} className={cn("flex  flex-row w-full h-12 my-2 mr-1",
         )}>
             <div>
                 {!readStatus ? (
@@ -22,8 +22,8 @@ const NotificationItem = ({
 
                 )}
             </div>
-            <div className="flex flex-col ">
-                <div className="inline-flex justify-between">
+            <div className="flex flex-col w-full">
+                <div className="flex  w-full justify-between">
                     <p className={cn(
                         "text-md text-start",
                         readStatus ? "text-muted-foreground" : "text-foreground"
