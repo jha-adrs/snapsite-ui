@@ -16,7 +16,7 @@ const Logo = ({ className, iconClassName, bgClassName }: LogoProps) => {
             "flex flex-row items-center w-auto h-14 space-x-2",
         )}>
             <div className={cn(
-                "rounded-full flex bg-white w-12 h-12 items-center justify-center",
+                "rounded-full flex bg-accent w-12 h-12 items-center justify-center",
                 bgClassName,
                 className,
             )}>

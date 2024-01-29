@@ -23,7 +23,7 @@ export const MainImagesTab = ({ linkData }: MainImagesTabProps) => {
                         <LinkInfo linkData={linkData.link} />
                         
 
-                        <ImageCarousel linkData={linkData} selectedLink={selectedLink} />
+                        {/* <ImageCarousel linkData={linkData} selectedLink={selectedLink} /> */}
                     </div>
                 ) : 'Select a link to continue'
             }

@@ -77,6 +77,10 @@ const config = {
       fontFamily: {
         sans: ["Inter", ...fontFamily.sans],
       },
+      borderWidth: {
+        'dotted': '2px dotted',
+        'dashed': '2px dashed',
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

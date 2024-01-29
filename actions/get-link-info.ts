@@ -27,11 +27,6 @@ export const getLinkInfo = async (hash:string) => {
                     id: true,
                     url: true,
                     enablePriceTracker: true,
-                    linkdata: {
-                        select: {
-                            _count: true,
-                        }
-                    }
                 }
             }
         },
@@ -39,22 +34,30 @@ export const getLinkInfo = async (hash:string) => {
     if(!userLink){
         throw new Error("Link not found");
     }
-    return userLink;
+    //Get count of linkdata
+    const scrapeCount = await db.linkdata.count({
+        where: {
+            hashedUrl: hash,
+        }
+    })
+    return {
+        ...userLink,
+        scrapeCount
+    
+    };
 };
 
 export type LinkInfoType = {
-    id: string;
+    id: number;
     assignedName: string;
-    tags: string;
+    tags: string | null;
     timing: string;
     createdAt: Date;
     updatedAt: Date;
     links: {
-        id: string;
+        id: number;
         url: string;
         enablePriceTracker: boolean;
-        linkdata: {
-            _count: number;
-        }
     }
+    scrapeCount: number;
 }

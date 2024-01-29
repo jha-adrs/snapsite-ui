@@ -58,7 +58,12 @@ export function Nav({ links, isCollapsed }: NavProps) {
                             <p>
                                 {index + 1}.{" "} {link.assignedName}
                             </p>
-                            <Badge variant={"outline"}>
+                            <Badge variant={"outline"}
+                            className={
+                                cn(
+                                    searchParams.get('link') === link.links.hashedUrl ? "bg-primary text-white" : "bg-transparent text-muted-foreground"
+                                )
+                            }>
                                 {
                                    (link.tags && link.tags.length > 0) ? JSON.parse(link.tags) : " "
                                 }

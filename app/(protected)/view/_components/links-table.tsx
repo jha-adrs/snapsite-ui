@@ -12,7 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { AArrowDownIcon, ArrowUpRightSquare, ChevronLeft, ChevronRight, ChevronsLeftIcon, ChevronsRight, GlobeIcon, HistoryIcon, ListFilter, Trash2Icon } from 'lucide-react';
+import { AArrowDownIcon, ArrowUpRightSquare, ChevronLeft, ChevronRight, ChevronsLeftIcon, ChevronsRight, GlobeIcon, HistoryIcon, ListFilter, SortDescIcon, Trash2Icon } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { CaretDownIcon, ChevronLeftIcon, ChevronRightIcon, Link2Icon } from '@radix-ui/react-icons';
@@ -186,20 +186,26 @@ export const LinksTable = ({
     })
     return (
         <>
-            <div className="flex items-center py-4">
-                <Input
-                    type='search'
-                    placeholder='Search links...'
-                    value={globalFilter}
-                    onChange={(e) => setGlobalFilter(e.target.value)}
-                    className='w-2/6 my-2'
-                />
+            <div className='flex justify-between items-center w-full'>
+                <div className="flex items-center py-4 w-3/4">
+                    <Input
+                        type='search'
+                        placeholder='Search links...'
+                        value={globalFilter}
+                        onChange={(e) => setGlobalFilter(e.target.value)}
+                        className='w-2/6 my-2'
+                    />
 
+                    <Button className='ml-2' variant={"outline_dashed"} size={'default'}>
+                        <ListFilter className='w-4 h-4 mr-1' /> Filters
+                    </Button>
+
+                </div>
                 <Button className='ml-2' variant={"outline"} size={'default'}>
-                    <ListFilter className='w-4 h-4 mr-1' /> Filters
+                    <SortDescIcon className='w-4 h-4 mr-1' /> Sort
                 </Button>
-
             </div>
+
             <div className=" rounded-md border no-scrollbar">
 
                 <Table className=''>
@@ -252,7 +258,7 @@ export const LinksTable = ({
                 <Button
                     variant={"outline"}
                     size="icon"
-                    onClick={() =>table.setPageIndex(0)}
+                    onClick={() => table.setPageIndex(0)}
                     disabled={!table.getCanPreviousPage()}
                 >
                     <ChevronsLeftIcon className='w-4 h-4' />
@@ -276,7 +282,7 @@ export const LinksTable = ({
                 <Button
                     variant={"outline"}
                     size="icon"
-                    onClick={() =>table.setPageIndex(table.getPageCount() - 1)}
+                    onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                     disabled={!table.getCanNextPage()}
                 >
                     <ChevronsRight className='w-4 h-4' />
@@ -286,7 +292,7 @@ export const LinksTable = ({
     )
 }
 
-const DeleteAlertDialog = ({ props }: { props: CellContext<LinkInfo, unknown>; }) => {
+export const DeleteAlertDialog = ({ props }: { props: CellContext<LinkInfo, unknown>; }) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>

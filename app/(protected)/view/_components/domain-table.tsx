@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { ArrowUpRightSquare, ChevronsLeftIcon, ChevronsRight, GlobeIcon, ListFilter } from 'lucide-react';
+import { ArrowUpRightSquare, ChevronsLeftIcon, ChevronsRight, GlobeIcon, ListFilter, SortDescIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useDomainSortOrder } from '@/store/sort-order';
@@ -46,7 +46,7 @@ const columns: ColumnDef<DomainInfo>[] = [
       const rootDomainName = domain.split(".")[0] === "www" ? domain.split(".")[2] : domain.split(".")[1];
       return (
         <div className='flex items-center space-x-2'>
-          <Avatar className="h-9 w-9 border-2 border-primary">
+          <Avatar className="h-9 w-9 border-2 border-primary/20">
             <AvatarImage src={`https://logo.clearbit.com/${domain}`} alt="Avatar" />
             <AvatarFallback>?</AvatarFallback>
           </Avatar>
@@ -124,18 +124,24 @@ export const DomainTable = ({
   })
   return (
     <>
-      <div className="flex items-center py-4">
-        <Input
-          type='search'
-          placeholder='Search domains...'
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          className='w-2/6 my-2'
-        />
-        <Button className='ml-2' variant={"outline"} size={'default'}>
-          <ListFilter className='w-4 h-4 mr-1'/> Filters
-        </Button>
+      <div className='flex justify-between items-center w-full'>
+        <div className="flex items-center py-4 w-3/4">
+          <Input
+            type='search'
+            placeholder='Search links...'
+            value={globalFilter}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            className='w-2/6 my-2'
+          />
 
+          <Button className='ml-2' variant={"outline_dashed"} size={'default'}>
+            <ListFilter className='w-4 h-4 mr-1' /> Filters
+          </Button>
+
+        </div>
+        <Button className='ml-2' variant={"outline"} size={'default'}>
+          <SortDescIcon className='w-4 h-4 mr-1' /> Sort
+        </Button>
       </div>
       <div className=" rounded-md border">
         <Table className=''>
@@ -182,42 +188,42 @@ export const DomainTable = ({
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-                <p className='font-semibold text-sm'>
-                Page {table.getState().pagination.pageIndex+1} of {table.getPageCount()}
-                </p>
-                <Button
-                    variant={"outline"}
-                    size="icon"
-                    onClick={() =>table.setPageIndex(0)}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    <ChevronsLeftIcon className='w-4 h-4' />
-                </Button>
-                <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    <ChevronLeftIcon className='w-4 h-4' />
-                </Button>
-                <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                >
-                    <ChevronRightIcon className='w-4 h-4' />
-                </Button>
-                <Button
-                    variant={"outline"}
-                    size="icon"
-                    onClick={() =>table.setPageIndex(table.getPageCount() - 1)}
-                    disabled={!table.getCanNextPage()}
-                >
-                    <ChevronsRight className='w-4 h-4' />
-                </Button>
-            </div>
+        <p className='font-semibold text-sm'>
+          Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+        </p>
+        <Button
+          variant={"outline"}
+          size="icon"
+          onClick={() => table.setPageIndex(0)}
+          disabled={!table.getCanPreviousPage()}
+        >
+          <ChevronsLeftIcon className='w-4 h-4' />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          <ChevronLeftIcon className='w-4 h-4' />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          <ChevronRightIcon className='w-4 h-4' />
+        </Button>
+        <Button
+          variant={"outline"}
+          size="icon"
+          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+          disabled={!table.getCanNextPage()}
+        >
+          <ChevronsRight className='w-4 h-4' />
+        </Button>
+      </div>
     </>
   )
 }

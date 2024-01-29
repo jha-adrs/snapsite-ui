@@ -135,6 +135,7 @@ model userlinkmap {
   tags         String?
   userId       String
   linkId       Int
+  isPaused     Boolean            @default(false)
   timing       userlinkmap_timing @default(WEEKLY)
   createdAt    DateTime           @default(now())
   updatedAt    DateTime           @updatedAt
