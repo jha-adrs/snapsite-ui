@@ -16,8 +16,9 @@ export const addBookmark = async (hashedUrl: string, linkDataId: number) => {
     let domain = "";
     let operationPerformed: "added" | "removed" = "added";
     try {
-        await db.$transaction(async (db) => {
-            const user = await db.user.findUnique({
+        await db.$transaction(async (tx) => {
+            
+            const user = await tx.user.findUnique({
                 where: {
                     email: session.user?.email || "",
                 },
@@ -28,7 +29,7 @@ export const addBookmark = async (hashedUrl: string, linkDataId: number) => {
             if (!user) {
                 throw new Error("User not found");
             }
-            const existingLinkData = await db.linkdata.findUnique({
+            const existingLinkData = await tx.linkdata.findUnique({
                 where: {
                     id: linkDataId,
                     hashedUrl: hashedUrl,
@@ -50,7 +51,7 @@ export const addBookmark = async (hashedUrl: string, linkDataId: number) => {
                 throw new Error("Link not found");
             }
             domain = existingLinkData.links.domains.domain;
-            const existingBookmark = await db.bookmarks.findUnique({
+            const existingBookmark = await tx.bookmarks.findUnique({
                 where: {
                     userId_linkDataId: {
                         userId: user.id,
@@ -63,7 +64,7 @@ export const addBookmark = async (hashedUrl: string, linkDataId: number) => {
                 }
             });
             if (!existingBookmark) {
-                await db.bookmarks.upsert({
+                await tx.bookmarks.upsert({
                     where: {
                         userId_linkDataId: {
                             userId: user.id,
@@ -83,7 +84,7 @@ export const addBookmark = async (hashedUrl: string, linkDataId: number) => {
             }
             else {
                 operationPerformed = "removed";
-                await db.bookmarks.update({
+                await tx.bookmarks.update({
                     where: {
                         id: existingBookmark.id,
                     },

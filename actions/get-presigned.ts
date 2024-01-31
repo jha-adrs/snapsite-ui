@@ -1,6 +1,7 @@
 "use server"
 import { config } from '@/config/config';
 import logger from '@/lib/logger';
+import { getCurrentUser } from '@/lib/user';
 import {
     GetObjectCommand,
     S3Client,
@@ -35,6 +36,10 @@ type GetKeysType = {
 
 export const getMultiplePresignedURLs = async (url: string, hashedUrl: string, timing: links_timing, keys: GetKeysType[]) => {
     try {
+        const user = await getCurrentUser();
+        if (!user) {
+            throw new Error('User not found');
+        }
         //logger.info('Getting keys', { keys, url, hashedUrl, timing });
         const presignedURLs: {
             key: string;
