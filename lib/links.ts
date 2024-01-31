@@ -1,3 +1,4 @@
+"use server";
 // Utils for handling links
 import { createHash } from "crypto";
 import logger from "./logger";

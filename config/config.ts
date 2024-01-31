@@ -12,7 +12,7 @@ const envVarsSchema = z.object({
     PORT: z.coerce.number().default(3000),
     GOOGLE_CLIENT_ID: z.string().min(1),
     GOOGLE_CLIENT_SECRET: z.string().min(1),
-    EXTERNAL_API_ENDPOINT: z.string().url().default("http://localhost:5000"),
+    EXTERNAL_API_ENDPOINT: z.string().url().optional(),
     AWS_ACCESS_KEY_ID: z.string().describe('AWS access key ID'),
     AWS_SECRET_ACCESS_KEY: z.string().describe('AWS secret access key'),
     AWS_S3_BUCKET_NAME: z.string().describe('AWS S3 bucket name'),
