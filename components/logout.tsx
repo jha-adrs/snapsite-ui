@@ -13,7 +13,7 @@ export const Logout = ({ }: LogoutProps) => {
         signOut()
     }
     return (
-        <div className='flex w-full justify-between items-center'>
+        <div className='flex w-full justify-between items-center' onClick={handleLogout}>
             <p>Logout</p>
             <LogOutIcon className='w-4 h-4' />
         </div>
