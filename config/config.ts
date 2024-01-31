@@ -17,6 +17,7 @@ const envVarsSchema = z.object({
     AWS_SECRET_ACCESS_KEY: z.string().describe('AWS secret access key'),
     AWS_S3_BUCKET_NAME: z.string().describe('AWS S3 bucket name'),
     AWS_BUCKET_REGION: z.string().default('us-east-1').describe('AWS S3 bucket region'),
+    SLACK_WEBHOOK_URL: z.string().url(),
 });
 
 const envVars = envVarsSchema.safeParse(process.env);
@@ -41,5 +42,8 @@ export const config = {
         bucketName: envVars.data.AWS_S3_BUCKET_NAME,
         region: envVars.data.AWS_BUCKET_REGION,
     },
+    slack: {
+        webhookUrl: envVars.data.SLACK_WEBHOOK_URL,
+    }
 };
 

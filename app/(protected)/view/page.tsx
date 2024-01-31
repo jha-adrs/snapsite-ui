@@ -71,7 +71,7 @@ const UserViewPage = async ({ }: UserViewPageProps) => {
 
 export default UserViewPage;
 
-export const UserViewPageSkeleton = () => {
+const UserViewPageSkeleton = () => {
     return (
         <div className="flex-1 w-full h-full p-8 pt-6 space-y-4">
             <div className="flex items-center justify-between space-y-2">
