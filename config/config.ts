@@ -13,6 +13,10 @@ const envVarsSchema = z.object({
     GOOGLE_CLIENT_ID: z.string().min(1),
     GOOGLE_CLIENT_SECRET: z.string().min(1),
     EXTERNAL_API_ENDPOINT: z.string().url().default("http://localhost:5000"),
+    AWS_ACCESS_KEY_ID: z.string().describe('AWS access key ID'),
+    AWS_SECRET_ACCESS_KEY: z.string().describe('AWS secret access key'),
+    AWS_S3_BUCKET_NAME: z.string().describe('AWS S3 bucket name'),
+    AWS_BUCKET_REGION: z.string().default('us-east-1').describe('AWS S3 bucket region'),
 });
 
 const envVars = envVarsSchema.safeParse(process.env);
@@ -31,5 +35,11 @@ export const config = {
     googleClientId: envVars.data.GOOGLE_CLIENT_ID,
     googleClientSecret: envVars.data.GOOGLE_CLIENT_SECRET,
     apiEndpoint: envVars.data.EXTERNAL_API_ENDPOINT,
+    aws: {
+        accessKeyId: envVars.data.AWS_ACCESS_KEY_ID,
+        secretAccessKey: envVars.data.AWS_SECRET_ACCESS_KEY,
+        bucketName: envVars.data.AWS_S3_BUCKET_NAME,
+        region: envVars.data.AWS_BUCKET_REGION,
+    },
 };
 

@@ -10,11 +10,7 @@ export const getLinkDataSchema = z.object({
     timeRangeEnd: z.date().optional(),
 })
 
-export const PresignedURLApiResponseSchema = z.object({
-    success: z.number(),
-    message: z.string(),
-    data: z.array(z.object({
-        key: z.string(),
-        url: z.string(),
-    })).optional(),
-})
+export const PresignedURLApiResponseSchema = z.array(z.object({
+    key: z.string(),
+    url: z.string(),
+})).optional();

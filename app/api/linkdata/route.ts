@@ -2,13 +2,14 @@
 // and the link data itself
 // Can be based daily, weekly, monthly, with take and skip for pagination
 
+import { getMultiplePresignedURLs } from "@/actions/get-presigned";
 import { config } from "@/config/config";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import logger from "@/lib/logger";
 import { getUserByEmailPublic } from "@/lib/user";
 import { PresignedURLApiResponseSchema, getLinkDataSchema } from "@/lib/validators/get-link-data";
-import { $Enums, Bookmarks, Prisma, linkdata } from "@prisma/client";
+import { $Enums, Prisma, linkdata } from "@prisma/client";
 import axios from "axios";
 import { find, get } from "lodash";
 
@@ -100,23 +101,22 @@ export async function POST(req: Request) {
             }
         })
 
-        const keysRes = await axios.post(`${config.apiEndpoint}/tracker/multiplePresignedURL`, {
-            url: link.url,
-            hashedUrl: link.hashedUrl,
-            timing: link.timing,
-            keys: requiredKeys,
-        })
+        // const keysRes = await axios.post(`${config.apiEndpoint}/tracker/multiplePresignedURL`, {
+        //     url: link.url,
+        //     hashedUrl: link.hashedUrl,
+        //     timing: link.timing,
+        //     keys: requiredKeys,
+        // })
 
-        if (!keysRes || !keysRes.data || !keysRes.data.success || !keysRes.data.data) {
-            logger.error("POST /api/links/[hashedUrl]/route error",);
-            return new Response('Something went wrong', { status: 500 });
-        }
+        // if (!keysRes || !keysRes.data || !keysRes.data.success || !keysRes.data.data) {
+        //     logger.error("POST /api/links/[hashedUrl]/route error",);
+        //     return new Response('Something went wrong', { status: 500 });
+        // }
+
+        const keysRes = await getMultiplePresignedURLs(link.url, link.hashedUrl, link.timing, requiredKeys);
+
         logger.info("POST /api/links/[hashedUrl]/route keysRes");
-        const {
-            success,
-            message,
-            data,
-        } = await PresignedURLApiResponseSchema.parseAsync(keysRes.data);
+        const data = await PresignedURLApiResponseSchema.parseAsync(keysRes);
         const finalResponse = linkData.map((linkD, index) => {
             return {
                 id: linkD.id,

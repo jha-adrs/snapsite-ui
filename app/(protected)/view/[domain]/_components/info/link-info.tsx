@@ -46,7 +46,7 @@ export const LinkInfo = ({ linkData }: LinkInfoProps) => {
     }, [linkData.hashedUrl, fetchLinkInfo])
     return (
         <>
-            {
+            { // Add full width cards, about timing, latest ss preview, 
                 (isPending || !linkInfo) ? <LinkInfoSkeleton /> : (
                     <div className="bg-background/95 p-2 ">
                         <div className="relative grid grid-cols-1 md:grid-cols-2">
