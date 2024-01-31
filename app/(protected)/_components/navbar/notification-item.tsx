@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { cn, duration } from '@/lib/utils';
-import { Notifications } from '@prisma/client';
+import { notifications } from '@prisma/client';
 import React from 'react';
 const NotificationItem = ({
     id,
@@ -10,7 +10,7 @@ const NotificationItem = ({
     readStatus,
     priority,
     createdAt,
-}: Notifications) => {
+}: notifications) => {
     return (
         <Button variant={"ghost"} className={cn("flex  flex-row w-full h-12 my-2 mr-1",
         )}>

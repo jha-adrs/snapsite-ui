@@ -1,6 +1,6 @@
 "use server";
 
-import { Notification_Priority } from "@prisma/client";
+import { notifications_priority } from "@prisma/client";
 import { getAuthSession } from "./auth";
 import { db } from "./db";
 import { getCurrentUser } from "./user";
@@ -12,7 +12,7 @@ interface NotificationProps {
     message: string;
     description?: string;
     extraData?: object;
-    priority: Notification_Priority;
+    priority: notifications_priority;
 }
 
 export const addNotification = async ({ message, description, extraData, priority }: NotificationProps) => {

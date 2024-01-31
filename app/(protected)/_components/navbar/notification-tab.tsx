@@ -15,10 +15,10 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import NotificationItem from './notification-item';
 import { Separator } from '@/components/ui/separator';
 import { useWindowSize } from 'usehooks-ts';
-import { Notification_Priority, Notifications } from '@prisma/client';
+import { notifications_priority, notifications } from '@prisma/client';
 import { cn } from '@/lib/utils';
 interface NotificationTabProps {
-    notifications?: Notifications[];
+    notifications?: notifications[];
 }
 
 export const NotificationTab = ({

@@ -15,11 +15,11 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import NotificationItem from './notification-item';
 import { Separator } from '@/components/ui/separator';
 import { useWindowSize } from 'usehooks-ts';
-import { Notification_Priority, Notifications } from '@prisma/client';
+import { notifications_priority, notifications } from '@prisma/client';
 import { cn } from '@/lib/utils';
 import { BookmarkIcon } from '@radix-ui/react-icons';
 interface NotificationTabProps {
-    notifications?: Notifications[];
+    notifications?: notifications[];
 }
 
 export const BookmarksTab = ({
@@ -53,12 +53,13 @@ export const BookmarksTab = ({
                                 <NotificationItem
                                     key={i + 3 * 5}
                                     id={i}
+                                    extraData={{}}
                                     userId="as"
                                     message={`Notification ${i}`}
                                     description={`This is a  tracking is stopped sign in again or contact support `}
                                     createdAt={new Date()}
                                     readStatus={i % 2 === 0}
-                                    priority={Notification_Priority.HIGH}
+                                    priority={notifications_priority.HIGH}
                                     updatedAt={new Date()}
                                 />
                                 <Separator className="my-2" /></>

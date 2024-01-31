@@ -33,7 +33,7 @@ model domains {
   isActive           Boolean                    @default(true)
   status             domains_status             @default(NOT_CONFIGURED)
   storeImages        Boolean                    @default(false)
-  priceElement       Json
+  priceElement       Json                       @default("{}")
   priceElementStatus domains_priceElementStatus @default(NOT_FOUND)
   createdAt          DateTime                   @default(now())
   updatedAt          DateTime                   @updatedAt
