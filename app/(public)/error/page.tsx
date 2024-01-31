@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { useEffect } from 'react'
-import ErrorSvg from "../public/error.svg"
+import ErrorSvg from "@/public/error.svg"
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 export default function Error({
