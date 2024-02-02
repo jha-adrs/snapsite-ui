@@ -12,25 +12,28 @@ import { ArrowUpRight, ArrowUpRightSquareIcon, Bell, BellIcon, GlobeIcon, Link2,
 import Link from 'next/link';
 import { ToolTipWrapper } from '@/components/tooltip-wrapper';
 import { UserLinksType } from '@/lib/links';
-import { UserCountDataType } from '@/lib/user';
+import { UserBookmarksType, UserCountDataType } from '@/lib/user';
 import { Overview } from './overview';
 import { BookmarkFilledIcon, BookmarkIcon } from '@radix-ui/react-icons';
+import { BookmarksDataTable } from './bookmarks-data-table';
 interface DashboardCardsProps {
     data: UserLinksType;
     countData: UserCountDataType;
+    bookmarks: UserBookmarksType;
 }
 export const DashboardCards = ({
     data,
-    countData
+    countData,
+    bookmarks,
 }: DashboardCardsProps) => {
-    
+
     return (
         <>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">
-                             Links
+                            Links
                         </CardTitle>
                         <ToolTipWrapper text='Viewer'>
                             <Link href={"/view"} className="hover:bg-accent rounded-md">
@@ -98,16 +101,8 @@ export const DashboardCards = ({
                     </CardContent>
                 </Card>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                <Card className="col-span-4">
-                    <CardHeader>
-                        <CardTitle>Overview</CardTitle>
-                    </CardHeader>
-                    <CardContent className="pl-2">
-                        <Overview />
-                    </CardContent>
-                </Card>
-                <Card className="col-span-4 md:col-span-3">
+            <div className="grid  gap-4 md:grid-cols-2 lg:grid-cols-8">
+                <Card className="col-span-4 md:col-span-4">
                     <CardHeader>
                         <CardTitle>Recently added </CardTitle>
                         <CardDescription>
@@ -118,7 +113,20 @@ export const DashboardCards = ({
                         <DashboardDataTable links={data} />
                     </CardContent>
                 </Card>
+                <Card className="col-span-4">
+                    <CardHeader>
+                        <CardTitle>Bookmarks</CardTitle>
+                        <CardDescription>
+                            You have bookmarked {countData.bookmarks} links
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="pl-2">
+                        {/* <Overview /> */}
+                        <BookmarksDataTable bookmarks={bookmarks} />
+                    </CardContent>
+                </Card>
+
             </div>
-            </>
+        </>
     )
 }

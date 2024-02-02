@@ -1,21 +1,19 @@
 "use client"
 import React, { Suspense } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useSelectLink } from '@/store/selected';
-import { CalendarDateRangePicker } from '@/components/date-picker';
-import { ImageCarousel } from './info/image-carousel';
-import { HistoryIcon, Loader2Icon } from 'lucide-react';
-import { TimeLineComponent } from './timeline/links-timeline-component';
-import { Separator } from '@/components/ui/separator';
+import { ArrowUpRight, HistoryIcon, Loader2Icon, QrCodeIcon } from 'lucide-react';
 import { MainTimeline, MainTimelineSkeleton } from './timeline/main-timeline';
-import { MainImagesTab } from './info/main-images-tab';
+import { MainInfoTab } from './info/main-info-tab';
 import { useMutation } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Skeleton } from '@/components/ui/skeleton';
 import { LinkDataType } from '@/app/api/linkdata/route';
 import { SelectLink } from '@/components/select-link';
+import { Button } from '@/components/ui/button';
+import { ToolTipWrapper } from '@/components/tooltip-wrapper';
+import { QRCodeDialog } from '@/components/qr-code-dialog';
+import Link from 'next/link';
 interface LinkViewerProps {
 }
 
@@ -50,23 +48,35 @@ export const LinkViewer = ({ }: LinkViewerProps) => {
                 (linkData && paramLink) ? (
                     <Tabs defaultValue="images">
                         <div className="flex items-center px-4 py-4">
+
                             <h1 className="text-2xl font-bold inline-flex items-center">
                                 Link History
                             </h1>
 
+                            <QRCodeDialog value={linkData.link.url}>
+                                <Button className="ml-1 mt-1 p-0" onClick={() => { }} variant={"ghost"} size={"icon"}
+
+                                >
+                                    <QrCodeIcon className="w-4 h-4" />
+                                </Button>
+                            </QRCodeDialog>
+
+
                             {/* <CalendarDateRangePicker className="ml-auto" /> */}
+
                             <TabsList className="ml-auto">
                                 <TabsTrigger value='images'>Info</TabsTrigger>
                                 <TabsTrigger value='timeline'>Timeline</TabsTrigger>
                             </TabsList>
                         </div>
-                        <Separator />
+
+                        {/* <Separator /> */}
                         <TabsContent value='timeline'>
                             <MainTimeline linkData={linkData} />
                         </TabsContent>
                         <TabsContent value='images'>
-                            <MainImagesTab  linkData={linkData}/>
-                    
+                            <MainInfoTab linkData={linkData} />
+
                         </TabsContent>
 
                     </Tabs>
@@ -74,10 +84,10 @@ export const LinkViewer = ({ }: LinkViewerProps) => {
             }
             {
                 !paramLink ? (
-                   <SelectLink/>
+                    <SelectLink />
                 ) : (null)
             }
-            
+
         </>
     )
 }

@@ -40,7 +40,7 @@ export const Actions = ({ linkData,linkInfo }: ActionsProps) => {
 
             <AlertDialog>
                 <AlertDialogTrigger asChild>
-                    <Button variant={"secondary"} size={"icon"}>
+                    <Button variant={"ghost"} size={"icon"}>
                         <PauseCircleIcon className='w-4 h-4' />
                     </Button>
                 </AlertDialogTrigger>
@@ -69,17 +69,9 @@ export const Actions = ({ linkData,linkInfo }: ActionsProps) => {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-            <div className="">
-                <EditLinkDialog>
-                    <Button variant="secondary" size={"default"} className="px-3 items-center shadow-none">
-                        <Pencil1Icon className="mr-2 h-4 w-4" />
-                        Edit
-                    </Button>
-                </EditLinkDialog>
-            </div>
             <AlertDialog>
                 <AlertDialogTrigger asChild>
-                    <Button variant={"secondary"} size={"icon"}>
+                    <Button variant={"ghost"} size={"icon"}>
                         <Trash2Icon className='w-4 h-4' />
                     </Button>
                 </AlertDialogTrigger>
@@ -108,7 +100,7 @@ export const Actions = ({ linkData,linkInfo }: ActionsProps) => {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-            <Button variant={"secondary"} size={"icon"}>
+            <Button variant={"ghost"} size={"icon"}>
                 <DotsVerticalIcon className='w-4 h-4' />
             </Button>
         </div>

@@ -4,7 +4,7 @@ import React from 'react';
 import { AddLinkDialog } from './_components/add-link-dialog';
 import { DashboardCards } from './_components/dashboard-cards';
 import { getUserLinks } from '@/lib/links';
-import { getUserCountData } from '@/lib/user';
+import { getUserBookmarks, getUserCountData } from '@/lib/user';
 import { DownloadIcon, UploadIcon } from '@radix-ui/react-icons';
 import { ToolTipWrapper } from '@/components/tooltip-wrapper';
 import { UploadCSVDialog } from '@/components/upload-csv-dialog';
@@ -16,6 +16,7 @@ interface DashboardLayoutProps {
 const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
     const links = await getUserLinks(5);
     const countData = await getUserCountData();
+    const userBookmarks = await getUserBookmarks(5);
     return (
         <div className="flex-1 w-full h-full p-8 pt-6 space-y-4 no-scrollbar">
             <div className="flex items-center justify-between space-y-2">
@@ -27,7 +28,7 @@ const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
                     <UploadCSVDialog />
                 </div>
             </div>
-            <DashboardCards data={links} countData={countData} />
+            <DashboardCards bookmarks={userBookmarks} data={links} countData={countData} />
             {children}
         </div>
     )

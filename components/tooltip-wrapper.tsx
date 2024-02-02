@@ -11,6 +11,7 @@ interface TootipWrapperProps {
     delay?: number;
     color?: string;
     bgColor?: string;
+    className?: string;
 }
 
 export const ToolTipWrapper = ({
@@ -21,10 +22,11 @@ export const ToolTipWrapper = ({
     delay,
     color,
     bgColor,
+    className
  }: TootipWrapperProps) => {
     return (
         <Tooltip delayDuration={delay}>
-            <TooltipTrigger asChild>
+            <TooltipTrigger className={className} asChild>
                 {children}
             </TooltipTrigger>
             <TooltipContent side={side} align={align}

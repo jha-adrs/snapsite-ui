@@ -7,6 +7,7 @@ import { Logout } from "@/components/logout";
 import { LogOutIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { getAuthSession } from "@/lib/auth";
+import Link from "next/link";
 export async function UserNav() {
   const session = await getAuthSession();
   const image = session?.user?.image || "https://utfs.io/f/20808674-1778-469c-b44b-261ee645ad21-17b5l.png";
@@ -42,6 +43,15 @@ export async function UserNav() {
             Profile
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
+
+          <Link href="/bookmarks">
+            <DropdownMenuItem>
+              Bookmarks
+              <DropdownMenuShortcut>⇧⌘B</DropdownMenuShortcut>
+
+            </DropdownMenuItem>
+          </Link>
+
           <DropdownMenuItem>
             Billing
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
@@ -53,7 +63,7 @@ export async function UserNav() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Logout/>
+          <Logout />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

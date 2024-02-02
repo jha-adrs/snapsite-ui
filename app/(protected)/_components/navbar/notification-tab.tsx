@@ -31,7 +31,7 @@ export const NotificationTab = ({
             <SheetTrigger>
                 <div className={cn(
                     'p-1.5',
-                    buttonVariants({variant: 'ghost',size: "icon"})
+                    buttonVariants({ variant: 'ghost', size: "icon" })
                 )}>
                     <BellIcon className="w-6 h-6" />
                 </div>
@@ -44,14 +44,14 @@ export const NotificationTab = ({
                     </SheetDescription>
 
                 </SheetHeader>
-                
+
                 <ScrollArea className='w-full  rounded-md h-5/6'>
                     {
                         notifications.length > 0 && notifications.map((notif, i) => (
-                            <>
+                            <div key={i}>
                                 <NotificationItem
                                     key={i}
-                                    id={i}
+                                    id={notif.id}
                                     userId="as"
                                     message={notif.message}
                                     description={notif.description}
@@ -61,25 +61,26 @@ export const NotificationTab = ({
                                     updatedAt={notif.updatedAt}
                                     extraData={notif.extraData}
                                 />
-                                <Separator className="my-2" /></>
+                                <Separator className="my-2" />
+                            </div>
                         ))
                     }
                     {
                         notifications.length === 0 && (
-                            <div className="flex flex-col w-full h-svh items-center justify-center">                                
+                            <div className="flex flex-col w-full h-svh items-center justify-center">
                                 <p className='text-sm font-semibold text-muted-foreground'>
                                     No new notifications
                                 </p>
                             </div>
                         )
-                    
+
                     }
-                    
+
                 </ScrollArea>
-                
+
                 <SheetFooter>
                     <Button variant="default"
-                    disabled={notifications.length === 0}
+                        disabled={notifications.length === 0}
                     >View all</Button>
                 </SheetFooter>
             </SheetContent>
