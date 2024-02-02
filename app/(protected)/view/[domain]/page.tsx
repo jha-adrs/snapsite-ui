@@ -1,4 +1,4 @@
-import { getUserDomainLinks, getUserDomains, getUserLinks } from '@/lib/links';
+import { getUserDomainLinks, getUserDomains } from '@/lib/links';
 import React from 'react';
 import { DomainPage } from './_components/domain-page';
 

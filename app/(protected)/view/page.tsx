@@ -9,6 +9,7 @@ import { Loader2Icon } from 'lucide-react';
 interface UserViewPageProps {
 
 }
+export const dynamic = 'force-dynamic'
 
 const UserViewPage = async ({ }: UserViewPageProps) => {
     // Get user domain and links

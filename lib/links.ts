@@ -1,10 +1,11 @@
-"use server";
+
 // Utils for handling links
 import { createHash } from "crypto";
 import logger from "./logger";
 import { getAuthSession } from "./auth";
 import { db } from "./db";
 const length = 20;
+export const dynamic = 'force-dynamic';
 export const getHash = (url: string) => {
     try {
         const urlObj = new URL(url);

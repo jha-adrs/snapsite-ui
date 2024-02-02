@@ -12,7 +12,7 @@ import { UploadCSVDialog } from '@/components/upload-csv-dialog';
 interface DashboardLayoutProps {
     children: React.ReactNode;
 }
-
+export const dynamic = 'force-dynamic'
 const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
     const links = await getUserLinks(5);
     const countData = await getUserCountData();

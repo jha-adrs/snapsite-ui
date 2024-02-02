@@ -8,21 +8,20 @@ interface HeadLineProps {
 
 }
 
-const HeadLine = ({ }: HeadLineProps) => {
-    const { width, height } = useWindowSize();
+export const HeadLine = ({ }: HeadLineProps) => {
+    const size = useWindowSize();
     useEffect(() => {
 
-    }, [width, height]);
+    }, [size]);
     return (
         <div>
             <Image
                 src={constants.IMAGE_URLS.AUTH}
                 alt="Authentication Image"
-                width={width}
-                height={height}
+                width={size.width}
+                height={size.height}
             />
         </div>
     )
 }
 
-export default HeadLine;

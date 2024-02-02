@@ -1,16 +1,16 @@
-import { Metadata } from "next"
-import Image from "next/image"
 import Link from "next/link"
 import { UserAuthForm } from "../_components/user-auth-form"
 import { ModeToggle } from "@/components/mode-toggle"
 import Logo from "../_components/logo"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import HeadLine from "../_components/headline"
+import { HeadLine } from "../_components/headline"
 
-export const metadata: Metadata = {
-    title: "Authentication",
-    description: "Authentication forms built using the components.",
-}
+export const dynamic = 'force-dynamic'
+
+// export const metadata = {
+//     title: "Authentication",
+//     description: "Authentication forms built using the components.",
+// }
 
 export default function AuthenticationPage() {
     // TODO: Fix , hide scrollbar
@@ -35,7 +35,9 @@ export default function AuthenticationPage() {
                                     Get Started
                                 </p>
                             </CardTitle>
-                            <CardDescription>Sign-In to start snapping!</CardDescription>
+                            <CardDescription>
+                                Lets get you started with your account
+                            </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <UserAuthForm />
