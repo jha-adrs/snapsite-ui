@@ -9,7 +9,8 @@ import Providers from '@/components/providers'
 import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
-
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import {Analytics} from '@vercel/analytics/react';
 const inter = Inter({ subsets: ['latin'], variable: "--font-sans", })
 export const metadata: Metadata = {
   title: 'Snap Site',
@@ -37,6 +38,7 @@ export default function RootLayout({
             <Toaster />
             <TooltipProvider>
               {children}
+              <Analytics/>
             </TooltipProvider>
           </ThemeProvider>
         </Providers>

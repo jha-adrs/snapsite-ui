@@ -38,6 +38,8 @@
     "@tanstack/react-table": "^8.11.6",
     "@types/papaparse": "^5.3.14",
     "@uiw/react-heat-map": "^2.2.1",
+    "@vercel/analytics": "^1.1.2",
+    "@vercel/speed-insights": "^1.0.9",
     "axios": "^1.6.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
