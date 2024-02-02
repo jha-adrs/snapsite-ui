@@ -55,11 +55,11 @@ export const LinkViewer = ({ }: LinkViewerProps) => {
 
                             <QRCodeDialog value={linkData.link.url}>
                                 <Button className="ml-1 mt-1 p-0" onClick={() => { }} variant={"ghost"} size={"icon"}
-
                                 >
                                     <QrCodeIcon className="w-4 h-4" />
                                 </Button>
                             </QRCodeDialog>
+                            
 
 
                             {/* <CalendarDateRangePicker className="ml-auto" /> */}
@@ -69,6 +69,7 @@ export const LinkViewer = ({ }: LinkViewerProps) => {
                                 <TabsTrigger value='timeline'>Timeline</TabsTrigger>
                             </TabsList>
                         </div>
+                        
 
                         {/* <Separator /> */}
                         <TabsContent value='timeline'>

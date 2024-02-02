@@ -19,7 +19,9 @@ export const MainInfoTab = ({ linkData }: MainInfoTabProps) => {
         <>
             {
                 selectedLink ? (
+                    
                     <div className='items-center'>
+                        
                         <LinkInfo linkData={linkData.link} />
                         
                         {/* <LinkHeatmap /> */}

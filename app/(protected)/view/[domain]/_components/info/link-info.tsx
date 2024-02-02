@@ -24,8 +24,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Actions } from './actions';
 import { Button } from '@/components/ui/button';
 import { EditLinkDialog } from '../edit-link';
-import { PriceTrackerSettingsDialog } from './price-tracker.settings-dialog';
+import { LinkSettingsDialog } from './link-settings-dialog';
 import { capitalize, slice } from 'lodash';
+import { Switch } from '@/components/ui/switch';
 interface LinkInfoProps {
     linkData: LinkDataType["link"];
 }
@@ -64,7 +65,7 @@ export const LinkInfo = ({ linkData }: LinkInfoProps) => {
                         <div className="relative grid grid-cols-1 md:grid-cols-2 items-center md:items-start gap-2">
 
                             <LinkInfoCard linkInfo={linkInfo} linkData={linkData} />
-                            <PriceTrackerInfoCard />
+                            <PriceTrackerInfoCard priceTrackerStatus={"NOT_SUPPORTED"} />
                         </div>
 
                     </div>
@@ -89,12 +90,16 @@ const LinkInfoCard = ({ linkInfo, linkData }: LinkInfoCardProps) => {
                     <p className='font-semibold text-lg'>{linkInfo.assignedName}</p>
 
                     <div className='space-x-2'>
+
                         <EditLinkDialog>
                             <Button variant={"outline"} size={"sm"}>
                                 <Pencil className='w-4 h-4 mr-1' /> Edit
 
                             </Button>
                         </EditLinkDialog>
+
+                        <LinkSettingsDialog />
+                        
                         <Button variant={"outline"} size={"icon"}>
                             <DotsVerticalIcon className='w-4 h-4' />
                         </Button>
@@ -102,7 +107,7 @@ const LinkInfoCard = ({ linkInfo, linkData }: LinkInfoCardProps) => {
                 </CardTitle>
                 <CardDescription>
                     <p className='inline-flex items-center gap-x-2'>
-                        <LinkIcon className='w-4 h-4 cursor-pointer' onClick={()=>{
+                        <LinkIcon className='w-4 h-4 cursor-pointer' onClick={() => {
                             navigator.clipboard.writeText(linkData.url);
                             toast.success('Link copied to clipboard')
                         }} /> {slice(linkData.url, 0, 50)}
@@ -146,9 +151,9 @@ const LinkInfoCard = ({ linkInfo, linkData }: LinkInfoCardProps) => {
 }
 
 interface PriceTrackerInfoCardProps {
-
+    priceTrackerStatus:  "NOT_SUPPORTED" | "ENABLED" | "DISABLED";
 }
-const PriceTrackerInfoCard = () => {
+const PriceTrackerInfoCard = ({ priceTrackerStatus }: PriceTrackerInfoCardProps) => {
     return (
         <Card className='bg-card/50'>
             <CardHeader className="flex  items-start space-y-2">
@@ -157,10 +162,18 @@ const PriceTrackerInfoCard = () => {
                         Price Tracker
                     </p>
 
-                    <div className='space-x-2'>
-                        <PriceTrackerSettingsDialog />
+                    <div className='flex items-center space-x-2'>
+                        <Button variant={
+                            priceTrackerStatus ? "outline" : "secondary"
+                        } size={"sm"}
+                        disabled={priceTrackerStatus === "NOT_SUPPORTED"}
+                        >
+                            {
+                                priceTrackerStatus === "NOT_SUPPORTED" ? "Not Supported" : priceTrackerStatus === "ENABLED" ? "Enabled" : "Disabled"
+                            }
+                        </Button>
                         <Button variant={"outline"} size={"icon"}>
-                            <DotsVerticalIcon className='w-4 h-4' />
+                            <DotsVerticalIcon className='w-3 h-3' />
                         </Button>
                     </div>
                 </CardTitle>
