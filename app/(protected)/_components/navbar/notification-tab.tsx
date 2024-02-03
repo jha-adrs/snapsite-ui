@@ -14,7 +14,7 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 import NotificationItem from './notification-item';
 import { Separator } from '@/components/ui/separator';
-import { useWindowSize } from 'usehooks-ts';
+//import { useWindowSize } from 'usehooks-ts';
 import { notifications_priority, notifications } from '@prisma/client';
 import { cn } from '@/lib/utils';
 interface NotificationTabProps {
@@ -24,7 +24,7 @@ interface NotificationTabProps {
 export const NotificationTab = ({
     notifications = [],
 }: NotificationTabProps) => {
-    const screen = useWindowSize();
+    //const screen = useWindowSize();
     return (
 
         <Sheet>

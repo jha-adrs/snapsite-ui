@@ -132,7 +132,7 @@ model userdomainmap {
 }
 
 model account {
-  id                String  @id
+  id                String  @id @default(uuid())
   userId            String
   type              String
   provider          String
@@ -204,7 +204,7 @@ model session {
 }
 
 model user {
-  id            String          @id  @default(autoincrement()) 
+  id            String          @id  @default(uuid()) 
   name          String?
   email         String          @unique(map: "User_email_key")
   emailVerified DateTime?
