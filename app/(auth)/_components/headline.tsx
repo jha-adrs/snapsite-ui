@@ -18,8 +18,8 @@ export const HeadLine = ({ }: HeadLineProps) => {
             <Image
                 src={constants.IMAGE_URLS.AUTH}
                 alt="Authentication Image"
-                width={size.width}
-                height={size.height}
+                width={size?.width || 500}
+                height={size?.height || 500}
             />
         </div>
     )
