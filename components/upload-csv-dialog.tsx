@@ -1,10 +1,11 @@
 "use client"
 import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PlusCircle, PlusCircleIcon, UploadIcon } from 'lucide-react';
+import { AlertCircle, Loader2, PlusCircle, PlusCircleIcon, UploadIcon } from 'lucide-react';
 import React, { useState, useTransition } from 'react';
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -60,15 +61,23 @@ export const UploadCSVDialog = ({ }: AddLinkDialogProps) => {
     // TODO: Add assigned names later
     const handleSubmit = async (values: z.infer<typeof uploadCSVSchema>) => {
         //e.preventDefault();
+        toast.warning("Adding multiple links, this may take a while");
         startTransition(() => {
             console.log("Submitting csv", values);
             convertCsvToJson(values.file).then((res) => {
-                if(!res || res.success === false || !res.data) {
-                    toast.error("Failed to convert CSV file");
+                if (!res || res.success === false || !res.data) {
+                    toast.error(res.message || "Failed to convert CSV file", {
+                        duration: Infinity,
+                        action: {
+                            label: "Close",
+                            onClick: () => toast.dismiss(),
+                        },
+                        dismissible: true,
+                    });
                     return;
                 }
                 addMultipleLinks(res.data).then((res) => {
-                    toast.success(`${res.success} Added, ${res.failed} Failed`);
+                    toast.success(`Added, ${res.failed} Failed`);
                 }).catch((err) => {
                     console.log("Error while adding links", err);
                     toast.error("Failed to add links");
@@ -98,9 +107,11 @@ export const UploadCSVDialog = ({ }: AddLinkDialogProps) => {
                         </DialogTitle>
                         <DialogDescription>
                             Add multiple links using a CSV file
+
                         </DialogDescription>
                     </DialogHeader>
                     {/*React hook form  */}
+
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(handleSubmit)} action="" className="space-y-8">
                             <FormField
@@ -110,6 +121,7 @@ export const UploadCSVDialog = ({ }: AddLinkDialogProps) => {
                                     <FormItem>
                                         <FormLabel>CSV File</FormLabel>
                                         <FormDescription>Upload a CSV file containing links</FormDescription>
+                                        
                                         <FormControl>
                                             <Input id='csvfile' type="file"
                                                 onChange={(e) => {
@@ -118,11 +130,14 @@ export const UploadCSVDialog = ({ }: AddLinkDialogProps) => {
                                                 {...field} />
                                         </FormControl>
                                         <FormMessage />
+                                        <div className='inline-flex items-center mr-2'>
+                                            <AlertCircle className='w-4 h-4 text-red-500' /> <p className="text-muted-foreground text-sm">You can add upto 20 links at a time</p>
+                                        </div>
                                     </FormItem>
                                 )
                                 }
                             />
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="autoAssignName"
                                 render={({ field }) => (
@@ -144,15 +159,23 @@ export const UploadCSVDialog = ({ }: AddLinkDialogProps) => {
                                         </div>
                                     </FormItem>
                                 )}
-                            />
+                            /> */}
 
 
 
-                            <DialogFooter>
-                                <Button
-                                    onClick={form.handleSubmit(handleSubmit)}
-                                    disabled={isPending}
-                                >Submit </Button>
+                            <DialogFooter >
+
+                                <DialogClose asChild>
+                                    <Button
+                                        onClick={form.handleSubmit(handleSubmit)}
+                                        disabled={isPending}
+                                    >
+                                        {
+                                            isPending ? <Loader2 className='animate-spin w-4 h-4' /> : "Add"
+
+                                        }
+                                    </Button>
+                                </DialogClose>
                             </DialogFooter>
                         </form>
                     </Form>
