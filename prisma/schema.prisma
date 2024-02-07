@@ -220,6 +220,8 @@ model user {
   session       session[]
   userdomainmap userdomainmap[]
   userlinkmap   userlinkmap[]
+  user_login_history user_login_history[]
+
 }
 
 model verificationrequest {
@@ -302,4 +304,18 @@ enum notifications_priority {
 enum user_role {
   USER
   ADMIN
+}
+
+model user_login_history {
+  id       Int      @id @default(autoincrement())
+  userId    String
+  ipAddress String?
+  loginTime DateTime @default(now())
+  logoutTime DateTime?
+  failed    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      user     @relation(fields: [userId], references: [id], map: "UserLoginHistory_userId_fkey")
+
+  @@index([userId], map: "UserLoginHistory_userId_fkey")
 }
