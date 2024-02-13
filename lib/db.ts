@@ -53,7 +53,7 @@ prisma.$on('query', (e) => {
         postSlack(`Execute Query Very Slow: ${e.query} ${e.params} ${e.duration}ms`)
     }
     else {
-        logger.verbose("Execute Query", { "Query": e.query, "Params": e.params, "Duration": `${e.duration}ms` })
+        logger.info("Execute Query", { "Query": e.query, "Params": e.params, "Duration": `${e.duration}ms` })
     }
 })
 
