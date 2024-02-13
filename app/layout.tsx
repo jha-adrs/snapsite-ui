@@ -36,6 +36,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Toaster />
+            <SpeedInsights/>
             <TooltipProvider>
               {children}
               <Analytics/>
