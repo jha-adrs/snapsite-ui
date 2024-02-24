@@ -28,8 +28,8 @@ interface DomainPageProps {
 export const DomainPage = ({
     domains,
     links,
-    defaultLayout = [300, 700],
-    defaultCollapsed = false,
+    defaultLayout = [100, 900],
+    defaultCollapsed = true,
     navCollapsedSize,
 }: DomainPageProps) => {
     const { collapsed, onCollapse, onExpand } = useSidebar((state) => state)

@@ -17,8 +17,18 @@ const logger = winston.createLogger({
         winston.format.splat(),
         winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
         winston.format.printf(
-            ({ level, message, timestamp, metadata }) =>
-                `${timestamp} ${level}: ${message} ${Object.keys(metadata).length > 0 ? JSON.stringify(metadata) : ''}`
+            ({ level, message, timestamp, metadata }) => {
+                try {
+                    let msg = `${timestamp} [${level}] : ${message} `;
+                    if (metadata) {
+                        msg = `${msg} - ${JSON.stringify(metadata)}`;
+                    }
+                    return msg;
+
+                } catch (error) {
+                    return `${timestamp} [${level}] : ${message} `;
+                }
+            }
         )
     ),
     transports: [
@@ -26,6 +36,7 @@ const logger = winston.createLogger({
             stderrLevels: ['error'],
         }),
     ],
+    exitOnError: false,
 });
 
 export default logger;
