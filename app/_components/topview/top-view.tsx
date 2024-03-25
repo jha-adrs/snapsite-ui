@@ -1,4 +1,5 @@
 import React from 'react';
+import { LampEffect } from './lamp-effect';
 
 interface TopViewProps {
 
@@ -6,8 +7,8 @@ interface TopViewProps {
 
 const TopView = ({ }: TopViewProps) => {
     return (
-        <div className='flex min-w-screen min-h-screen '>
-            <div className='bg-[#191919] flex w-screen h-svh justify-between items-end'>
+        <div className='flex  min-h-screen z-50'>
+            <div className=' flex w-screen h-svh justify-center items-center'>
                 
             </div>
             

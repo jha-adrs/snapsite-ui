@@ -21,6 +21,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         outline_dotted: "border border-input border-dotted bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         outline_dashed: "border border-input border-dashed bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+        shimmer: "inline-flex h-12 animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
       },
       size: {
         default: "h-9 px-4 py-2",

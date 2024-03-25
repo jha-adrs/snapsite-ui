@@ -25,7 +25,7 @@ const Logo = ({ className, iconClassName, bgClassName }: LogoProps) => {
                 )} />
 
             </div>
-            <div className="hidden md:flex flex-col">
+            <div className="flex flex-col">
                 <h2 className='  text-2xl font-semibold'>
                     Snapsite
                 </h2>
