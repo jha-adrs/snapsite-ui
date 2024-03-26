@@ -8,6 +8,7 @@ import { ArrowRight, ArrowUpRight, BanknoteIcon, CogIcon, Home, HomeIcon, InfoIc
 import { ModeToggle } from '@/components/mode-toggle';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
+import { ModeToggle2 } from '@/components/mode-toggle2';
 
 
 
@@ -21,11 +22,11 @@ export const MenuDrawer = ({ navItems, auth, redirectURL }: MenuDrawerProps) => 
     return (
         <Sheet>
             <SheetTrigger>
-                <Button variant={"ghost"} size={"icon"} className='flex md:hidden text-muted-foreground hover:text-white transition-colors'>
+                <Button variant={"ghost"} size={"icon"} className='flex md:hidden text-muted-foreground hover:text-foreground transition-colors'>
                     <MenuIcon className="w-6 h-6 " />
                 </Button>
             </SheetTrigger>
-            <SheetContent side={"left"} >
+            <SheetContent side={"bottom"} >
                 <SheetTitle>
                     Home Navigation
                 </SheetTitle>
@@ -46,6 +47,7 @@ export const MenuDrawer = ({ navItems, auth, redirectURL }: MenuDrawerProps) => 
                             )
                         }
                         )}
+                        <ModeToggle2/>
                 </div>
                 <Separator className='my-2 mb-6'/>
                 <div className='space-y-4 flex flex-col '>
@@ -59,9 +61,8 @@ export const MenuDrawer = ({ navItems, auth, redirectURL }: MenuDrawerProps) => 
                     <Link href={"/"} className={cn(
                         buttonVariants({ size: "sm", variant: "default" })
                     )}>
-                        Get Started <ArrowRight className="w-4 h-4" />
+                        Get Started &rarr;
                     </Link>
-
                 </div>
                 
             </SheetContent>

@@ -16,7 +16,7 @@ interface MainNavProps {
 
 const MainNav = ({ auth, redirectURL }: MainNavProps) => {
     return (
-        <nav className='relative flex flex-row top-0 w-full h-12 items-center pt-4 px-8 md:px-12 lg:px-16 justify-center'>
+        <nav className='relative flex flex-row top-0 w-full h-fit items-center py-2 px-8 md:px-12 lg:px-16 justify-center z-[100]'>
             
             <ul className="flex w-full items-center space-x-8 justify-between">
 
@@ -48,7 +48,7 @@ const MainNav = ({ auth, redirectURL }: MainNavProps) => {
                     <Link href={"/"} className={cn(
                         buttonVariants({ size: "sm", variant: "shimmer" })
                     )}>
-                        Get Started <ArrowRight className="w-4 h-4" />
+                        Get Started &rarr;
                     </Link>
 
                     <ModeToggle />

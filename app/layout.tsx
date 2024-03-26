@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import {Analytics} from '@vercel/analytics/react';
+import { Analytics } from '@vercel/analytics/react';
 const inter = Inter({ subsets: ['latin'], variable: "--font-sans", })
 export const metadata: Metadata = {
   title: 'Snap Site',
@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(
-        "min-h-screen bg-background font-sans antialiased",
+        "min-h-screen bg-background font-sans antialiased ",
         inter.variable,
       )}>
         <Providers>
@@ -36,10 +36,10 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Toaster />
-            <SpeedInsights/>
+            <SpeedInsights />
             <TooltipProvider>
               {children}
-              <Analytics/>
+              <Analytics />
             </TooltipProvider>
           </ThemeProvider>
         </Providers>
@@ -77,7 +77,10 @@ export default function RootLayout({
                 </p>
               </Link>
 
-
+              <Link href="https://storyset.com/business"className={cn(
+                buttonVariants({ variant: "link" }),
+                'text-muted-foreground'
+              )}>Business illustrations by Storyset</Link>
 
             </div>
             <div className="flex w-full p-2 gap-x-2 items-center justify-center">
