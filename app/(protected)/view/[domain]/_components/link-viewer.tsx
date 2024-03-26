@@ -43,7 +43,7 @@ export const LinkViewer = ({ }: LinkViewerProps) => {
     }, [paramLink, fetchData])
 
     return (
-        <>
+        <Suspense fallback={<LinkViewerSkeleton/>}>
             {
                 (linkData && paramLink) ? (
                     <Tabs defaultValue="images">
@@ -89,7 +89,7 @@ export const LinkViewer = ({ }: LinkViewerProps) => {
                 ) : (null)
             }
 
-        </>
+        </Suspense>
     )
 }
 

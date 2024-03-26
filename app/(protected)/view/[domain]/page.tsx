@@ -1,5 +1,5 @@
 import { getUserDomainLinks, getUserDomains } from '@/lib/links';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { DomainPage } from './_components/domain-page';
 
 interface DomainPageProps {
@@ -31,3 +31,4 @@ const MainDomainPage =async ({params}: DomainPageProps) => {
 }
 
 export default MainDomainPage;
+

@@ -1,6 +1,7 @@
 "use client"
 import { CopyCustomIcon } from '@/components/copy-icon';
-import { buttonVariants } from '@/components/ui/button';
+import { ToolTipWrapper } from '@/components/tooltip-wrapper';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { UserBookmarksType } from '@/lib/user';
 import { cn } from '@/lib/utils';
 import { DownloadIcon } from '@radix-ui/react-icons';
@@ -22,7 +23,12 @@ export const BookmarksDataTable = ({ bookmarks }: BookmarksDataTableProps) => {
                         buttonVariants({ variant: 'ghost' }),
                         "flex items-center h-12"
                     )}>
-                        <DownloadIcon className='h-4 w-4 text-muted-foreground' />
+                        <ToolTipWrapper text='Download Image' delay={750}>
+                            <Button size={"icon"} variant={"secondary"} className='p-0 transition-all opacity-50 hover:opacity-100'>
+                            <DownloadIcon className='h-4 w-4' />
+                            </Button>
+                        </ToolTipWrapper>
+
                         <Link href={`/bookmarks?id=${data.id}`} className="ml-4 space-y-1">
 
                             <p className="text-sm font-medium leading-none">

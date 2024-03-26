@@ -24,7 +24,6 @@ if (config.env === 'production') {
 } else {
     if (!global.cachedPrisma) {
         global.cachedPrisma = new PrismaClient({
-            log: options,
         });
     }
     prisma = global.cachedPrisma;
@@ -44,6 +43,7 @@ prisma.$on('error', (e) => {
     logger.error(e.message, e.target)
 })
 prisma.$on('query', (e) => {
+    
     if(!e) return;
     if (e?.duration > 1000) {
         logger.warn("Execute Query Slow", { "Query": e.query, "Params": e.params, "Duration": `${e.duration}ms` })
