@@ -1,27 +1,23 @@
-"use client";
-import { config } from '@/config/config';
-import { constants } from '@/config/constants';
+
 import Image from 'next/image';
-import React, { useEffect } from 'react';
-import { useWindowSize } from 'usehooks-ts';
+
 interface HeadLineProps {
 
 }
 
 export const HeadLine = ({ }: HeadLineProps) => {
-    const size = useWindowSize();
-    useEffect(() => {
-
-    }, [size]);
+    
     return (
-        <div>
+        <>
             <Image
-                src={constants.IMAGE_URLS.AUTH}
+                src={"/login.svg"}
                 alt="Authentication Image"
-                width={size?.width || 1500}
-                height={size?.height || 500}
+                width={ 500}
+                height={500}
+                className='object-cover w-full h-full  max-h-[500px]'
             />
-        </div>
+        </>
+        
     )
 }
 
