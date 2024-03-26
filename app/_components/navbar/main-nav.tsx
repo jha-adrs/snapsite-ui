@@ -45,7 +45,7 @@ const MainNav = ({ auth, redirectURL }: MainNavProps) => {
                             (auth) ? "Dashboard" : "Login"
                         }
                     </Link>
-                    <Link href={"/"} className={cn(
+                    <Link href={"/sign-up"} className={cn(
                         buttonVariants({ size: "sm", variant: "shimmer" })
                     )}>
                         Get Started &rarr;

@@ -1,5 +1,5 @@
 "use client"
-
+// NOT BEING USED
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
 import { toast } from "sonner";
 import { signIn } from 'next-auth/react'
+import { Separator } from "@/components/ui/separator";
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
@@ -34,13 +35,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t" />
                 </div>
-                <div className="relative flex justify-center text-xs ">
-                    <span className=" px-2 text-muted-foreground">
-                        Preferred login methods
-                    </span>
-                </div>
+                <Separator className="text-black/30" />
             </div>
-            <Button variant="outline" type="button" disabled={isLoading} onClick={handleGoogle} >
+            <Button variant="white" type="button" disabled={isLoading} onClick={handleGoogle}  >
                 {isLoading ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
@@ -48,7 +45,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 )}{" "}
                 Google
             </Button>
-            <Button variant="outline" type="button" disabled={isLoading || true} onClick={handleMicrosoft} >
+            <Button variant="white" type="button" disabled={isLoading || true} onClick={handleMicrosoft} >
                 {isLoading ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
