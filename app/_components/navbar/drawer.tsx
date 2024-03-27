@@ -1,7 +1,7 @@
 
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { LucideIcon, MenuIcon } from 'lucide-react';
+import {  AlignRightIcon, LucideIcon, MenuIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import { ArrowRight, ArrowUpRight, BanknoteIcon, CogIcon, Home, HomeIcon, InfoIcon, NewspaperIcon, User } from 'lucide-react';
@@ -23,7 +23,7 @@ export const MenuDrawer = ({ navItems, auth, redirectURL }: MenuDrawerProps) => 
         <Sheet>
             <SheetTrigger>
                 <Button variant={"ghost"} size={"icon"} className='flex md:hidden text-muted-foreground hover:text-foreground transition-colors'>
-                    <MenuIcon className="w-6 h-6 " />
+                    <AlignRightIcon className="w-6 h-6 " />
                 </Button>
             </SheetTrigger>
             <SheetContent side={"bottom"} >

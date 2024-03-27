@@ -12,6 +12,7 @@ import Logo from "../_components/logo";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
+import Link from "next/link";
 
 export default function SignupFormDemo() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -42,12 +43,12 @@ export default function SignupFormDemo() {
             <Logo className="h-12 w-12 " />
             <p className="font-semibold text-2xl hidden md:flex">Snapsite</p>
         </div>
-        <div className=" h-full max-h-[450px] mt-6 py-8 max-w-md w-full mx-auto rounded-lg md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
+        <div className=" h-full max-h-[500px] mt-6 py-8 max-w-md w-full mx-auto rounded-lg md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
             <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-                Welcome to Snapsite
+                Welcome back!
             </h2>
             <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-                Let&apos;s get you started
+                Sign in to your account
             </p>
 
             <form className="my-8" onSubmit={handleSubmit}>
@@ -60,7 +61,9 @@ export default function SignupFormDemo() {
                     <Label htmlFor="password">Password</Label>
                     <Input id="password" placeholder="••••••••" type="password" />
                 </LabelInputContainer>
-
+                <p className="text-neutral-600 text-sm max-w-sm my-4 dark:text-neutral-300 ">
+                            Don&apos; have an account? <Link href="/sign-in" className="text-gray-500 hover:underline">Sign up</Link>
+                        </p>
 
                 <button
                     className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
